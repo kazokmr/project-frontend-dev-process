@@ -1,24 +1,24 @@
 import React from "react";
+import {capitalize, Colors} from "../filter/Colors";
 
 const TodoItem = () => {
     return (
-        <li className="todo">
+        <li key={""} className="todo">
             <div>
                 <input
                     type="checkbox"
+                    checked={false}
                 />
             </div>
             <div>
                 todo
             </div>
             <div>
-                <select>
+                <select value={""}>
                     <option value=""/>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                    <option value="orange">Orange</option>
-                    <option value="purple">Purple</option>
-                    <option value="red">Red</option>
+                    {Colors.map(color =>
+                        <option key={color} value={color}>{capitalize(color)}</option>
+                    )}
                 </select>
             </div>
             <div>
