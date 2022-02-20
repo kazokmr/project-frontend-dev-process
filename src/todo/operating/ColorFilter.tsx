@@ -1,15 +1,20 @@
 import React from "react";
 import {capitalize, Colors} from "../filter/Colors";
 
-const ColorFilter = () => {
+const ColorFilter = ({curColors}: { curColors?: string[] }) => {
     return (
         <div>
             <h5>Filter by Color</h5>
             <ul>
                 {Colors.map(color =>
-                    <li>
+                    <li key={color}>
                         <label>
-                            <input type="checkbox" name={color} checked={false}/>
+                            <input
+                                type="checkbox"
+                                name={color}
+                                checked={curColors?.includes(color)}
+                                onChange={event => ""}
+                            />
                             {capitalize(color)}
                         </label>
                     </li>

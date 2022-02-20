@@ -4,7 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## What's this?
 
-フロントエンド開発手法を実践するためのサンプルアプリケーションです
+フロントエンド開発手法を実践するためのサンプル
+
+TypeScript + React + Jest + Storybook
 
 ### 実践にあたり参考にしたページ
 
