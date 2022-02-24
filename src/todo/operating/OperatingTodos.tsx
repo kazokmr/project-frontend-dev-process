@@ -1,4 +1,3 @@
-import React from "react";
 import ActionsForTodos from "./ActionsForTodos";
 import RemainingTodos from "./RemainingTodos";
 import StatusFilter from "./StatusFilter";

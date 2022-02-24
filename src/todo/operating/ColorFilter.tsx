@@ -1,4 +1,3 @@
-import React from "react";
 import {capitalize, Colors} from "../filter/Colors";
 
 const ColorFilter = ({curColors}: { curColors?: string[] }) => {

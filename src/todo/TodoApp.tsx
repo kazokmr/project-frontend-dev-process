@@ -1,4 +1,3 @@
-import React from "react";
 import "./TodoApp.css"
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
