@@ -4,11 +4,11 @@ const TodoItem = () => {
   return (
     <li key={""} className="todo">
       <div>
-        <input type="checkbox" checked={false} />
+        <input type="checkbox" checked={false} onChange={(event) => ""} />
       </div>
       <div>todo</div>
       <div>
-        <select value={""}>
+        <select value={""} onChange={(event) => ""}>
           <option value="" />
           {Colors.map((color) => (
             <option key={color} value={color}>
