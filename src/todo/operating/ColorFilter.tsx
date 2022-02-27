@@ -1,6 +1,6 @@
-import { capitalize, Colors } from "../filter/Colors";
+import { capitalize, Color, Colors } from "../filter/Colors";
 
-const ColorFilter = ({ curColors }: { curColors: string[] }) => {
+const ColorFilter = ({ curColors }: { curColors: Array<Color> }) => {
   return (
     <div>
       <h5>Filter by Color</h5>
