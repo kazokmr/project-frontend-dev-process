@@ -1,6 +1,6 @@
-import ColorFilter from "../todo/operating/ColorFilter";
+import ColorFilter from "../../../todo/operating/ColorFilter";
 import { render, screen } from "@testing-library/react";
-import { Colors } from "../todo/filter/Colors";
+import { COLOR, Colors } from "../../../todo/filter/Colors";
 import userEvent from "@testing-library/user-event";
 
 describe("カラーフィルターの初期値", () => {
@@ -12,7 +12,7 @@ describe("カラーフィルターの初期値", () => {
   });
 
   test("propsで指定された色が初期選択されること", () => {
-    render(<ColorFilter curColors={["green", "purple"]} />);
+    render(<ColorFilter curColors={[COLOR.Green, COLOR.Purple]} />);
     expect(
       screen
         .getAllByRole("checkbox", { checked: true })
