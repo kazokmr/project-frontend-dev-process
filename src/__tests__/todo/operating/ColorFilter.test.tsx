@@ -1,6 +1,6 @@
-import ColorFilter from "../todo/operating/ColorFilter";
+import ColorFilter from "../../../todo/operating/ColorFilter";
 import { render, screen } from "@testing-library/react";
-import { Colors } from "../todo/filter/Colors";
+import { Colors } from "../../../todo/filter/Colors";
 import userEvent from "@testing-library/user-event";
 
 describe("カラーフィルターの初期値", () => {

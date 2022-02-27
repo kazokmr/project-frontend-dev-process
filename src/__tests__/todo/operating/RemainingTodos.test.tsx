@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import RemainingTodos from "../todo/operating/RemainingTodos";
+import RemainingTodos from "../../../todo/operating/RemainingTodos";
 
 describe("TodoListの件数によるメッセージの違い", () => {
   test.each`
