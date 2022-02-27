@@ -7,7 +7,7 @@ const OperatingTodos = () => {
   return (
     <div className="todo-footer">
       <ActionsForTodos />
-      <RemainingTodos />
+      <RemainingTodos numOfTodo={1} />
       <StatusFilter />
       <ColorFilter curColors={[]} />
     </div>
