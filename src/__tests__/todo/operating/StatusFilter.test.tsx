@@ -3,10 +3,11 @@ import StatusFilter from "../../../todo/operating/StatusFilter";
 
 describe("ボタンの初期状態を検査する", () => {
   test.each`
-    status         | isAll    | isActive | isCompleted
-    ${"all"}       | ${true}  | ${false} | ${false}
-    ${"active"}    | ${false} | ${true}  | ${false}
-    ${"completed"} | ${false} | ${false} | ${true}
+    status                     | isAll    | isActive | isCompleted
+    ${[]}                      | ${true}  | ${false} | ${false}
+    ${["active", "completed"]} | ${true}  | ${false} | ${false}
+    ${["active"]}              | ${false} | ${true}  | ${false}
+    ${["completed"]}           | ${false} | ${false} | ${true}
   `(
     "現在の検索状況が $status なら、All: $isAll Active: $isActive Completed $isCompleted であること",
     ({ status, isAll, isActive, isCompleted }) => {
