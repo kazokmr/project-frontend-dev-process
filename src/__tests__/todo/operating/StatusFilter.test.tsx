@@ -1,13 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import StatusFilter from "../../../todo/operating/StatusFilter";
+import { TODO_STATUS } from "../../../todo/filter/TodoStatus";
+import { capitalize } from "../../../todo/filter/StringCapitalization";
 
 describe("ボタンの初期状態を検査する", () => {
   test.each`
-    status                     | isAll    | isActive | isCompleted
-    ${[]}                      | ${true}  | ${false} | ${false}
-    ${["active", "completed"]} | ${true}  | ${false} | ${false}
-    ${["active"]}              | ${false} | ${true}  | ${false}
-    ${["completed"]}           | ${false} | ${false} | ${true}
+    status                                         | isAll    | isActive | isCompleted
+    ${[]}                                          | ${true}  | ${false} | ${false}
+    ${[TODO_STATUS.ACTIVE, TODO_STATUS.COMPLETED]} | ${true}  | ${false} | ${false}
+    ${[TODO_STATUS.ACTIVE]}                        | ${false} | ${true}  | ${false}
+    ${[TODO_STATUS.COMPLETED]}                     | ${false} | ${false} | ${true}
   `(
     "現在の検索状況が $status なら、All: $isAll Active: $isActive Completed $isCompleted であること",
     ({ status, isAll, isActive, isCompleted }) => {
@@ -18,11 +20,11 @@ describe("ボタンの初期状態を検査する", () => {
         pressed: isAll,
       });
       const buttonActive = screen.getByRole("button", {
-        name: "Active",
+        name: capitalize(TODO_STATUS.ACTIVE),
         pressed: isActive,
       });
       const buttonCompleted = screen.getByRole("button", {
-        name: "Completed",
+        name: capitalize(TODO_STATUS.COMPLETED),
         pressed: isCompleted,
       });
 

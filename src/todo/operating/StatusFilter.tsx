@@ -1,4 +1,7 @@
-const StatusFilter = ({ status }: { status: Array<string> }) => {
+import { TODO_STATUS, Todo_Status } from "../filter/TodoStatus";
+import { capitalize } from "../filter/StringCapitalization";
+
+const StatusFilter = ({ status }: { status: Array<Todo_Status> }) => {
   return (
     <div>
       <h5>Filter by Status</h5>
@@ -14,17 +17,21 @@ const StatusFilter = ({ status }: { status: Array<string> }) => {
         <li>
           <button
             type="button"
-            aria-pressed={status.length === 1 && status[0] === "active"}
+            aria-pressed={
+              status.length === 1 && status[0] === TODO_STATUS.ACTIVE
+            }
           >
-            Active
+            {capitalize(TODO_STATUS.ACTIVE)}
           </button>
         </li>
         <li>
           <button
             type="button"
-            aria-pressed={status.length === 1 && status[0] === "completed"}
+            aria-pressed={
+              status.length === 1 && status[0] === TODO_STATUS.COMPLETED
+            }
           >
-            Completed
+            {capitalize(TODO_STATUS.COMPLETED)}
           </button>
         </li>
       </ul>
