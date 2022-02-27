@@ -8,7 +8,7 @@ export const COLOR = {
 } as const;
 
 // Union typeを表現する
-type Color = typeof COLOR[keyof typeof COLOR];
+export type Color = typeof COLOR[keyof typeof COLOR];
 
 export const Colors = Object.values(COLOR);
 
