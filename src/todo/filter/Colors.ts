@@ -11,6 +11,3 @@ export const COLOR = {
 export type Color = typeof COLOR[keyof typeof COLOR];
 
 export const Colors = Object.values(COLOR);
-
-export const capitalize = (color: string) =>
-  color.charAt(0).toUpperCase() + color.slice(1);
