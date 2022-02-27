@@ -1,4 +1,5 @@
-import { capitalize, Colors } from "../filter/Colors";
+import { Colors } from "../filter/Colors";
+import { capitalize } from "../filter/StringCapitalization";
 
 const TodoItem = () => {
   return (

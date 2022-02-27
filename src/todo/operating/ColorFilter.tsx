@@ -1,4 +1,5 @@
-import { capitalize, Color, Colors } from "../filter/Colors";
+import { Color, Colors } from "../filter/Colors";
+import { capitalize } from "../filter/StringCapitalization";
 
 const ColorFilter = ({ curColors }: { curColors: Array<Color> }) => {
   return (
