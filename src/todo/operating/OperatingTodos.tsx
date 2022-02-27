@@ -9,7 +9,7 @@ const OperatingTodos = () => {
       <ActionsForTodos />
       <RemainingTodos />
       <StatusFilter />
-      <ColorFilter />
+      <ColorFilter curColors={[]} />
     </div>
   );
 };

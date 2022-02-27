@@ -1,17 +1,17 @@
 import ColorFilter from "../todo/operating/ColorFilter";
 import { render, screen } from "@testing-library/react";
+import { Colors } from "../todo/filter/Colors";
+import userEvent from "@testing-library/user-event";
 
-describe("カラーフィルターの初期値をチェックする", () => {
-  test("初期選択の配列がなければ全てFalse", () => {
-    render(<ColorFilter />);
-    expect(
-      screen
-        .getAllByRole("checkbox", { checked: false })
-        .map((e) => e.getAttribute("name"))
-    ).toEqual(["green", "blue", "orange", "purple", "red"]);
+describe("カラーフィルターの初期値", () => {
+  test("何も指定されていなければ全て未選択であること", () => {
+    render(<ColorFilter curColors={[]} />);
+    expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
+      Colors.length
+    );
   });
 
-  test("propsにセットした色は初期選択されること", () => {
+  test("propsで指定された色が初期選択されること", () => {
     render(<ColorFilter curColors={["green", "purple"]} />);
     expect(
       screen
@@ -23,5 +23,22 @@ describe("カラーフィルターの初期値をチェックする", () => {
         .getAllByRole("checkbox", { checked: false })
         .map((e) => e.getAttribute("name"))
     ).toEqual(["blue", "orange", "red"]);
+  });
+});
+
+// TODO: チェック状態のテストは stateを管理するフェーズで実施
+describe.skip("checkboxの状態管理", () => {
+  test("checked=falseを選択したらchecked=trueに更新する", async () => {
+    render(<ColorFilter curColors={[]} />);
+    const checkbox = screen.getByRole("checkbox", { name: "Green" });
+    await userEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+  });
+
+  test("checked=trueを選択したらchecked=falseに更新する", async () => {
+    render(<ColorFilter curColors={["green"]} />);
+    const checkbox = screen.getByRole("checkbox", { name: "Green" });
+    await userEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
   });
 });

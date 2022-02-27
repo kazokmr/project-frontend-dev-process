@@ -1,6 +1,6 @@
 import { capitalize, Colors } from "../filter/Colors";
 
-const ColorFilter = ({ curColors }: { curColors?: string[] }) => {
+const ColorFilter = ({ curColors }: { curColors: string[] }) => {
   return (
     <div>
       <h5>Filter by Color</h5>
@@ -11,7 +11,7 @@ const ColorFilter = ({ curColors }: { curColors?: string[] }) => {
               <input
                 type="checkbox"
                 name={color}
-                checked={curColors?.includes(color)}
+                checked={curColors.includes(color)}
                 onChange={(event) => ""}
               />
               {capitalize(color)}
