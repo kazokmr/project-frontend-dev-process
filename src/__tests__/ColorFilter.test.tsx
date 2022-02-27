@@ -29,16 +29,18 @@ describe("カラーフィルターの初期値", () => {
 // TODO: チェック状態のテストは stateを管理するフェーズで実施
 describe.skip("checkboxの状態管理", () => {
   test("checked=falseを選択したらchecked=trueに更新する", async () => {
+    const user = userEvent.setup();
     render(<ColorFilter curColors={[]} />);
     const checkbox = screen.getByRole("checkbox", { name: "Green" });
-    await userEvent.click(checkbox);
+    await user.click(checkbox);
     expect(checkbox).toBeChecked();
   });
 
   test("checked=trueを選択したらchecked=falseに更新する", async () => {
+    const user = userEvent.setup();
     render(<ColorFilter curColors={["green"]} />);
     const checkbox = screen.getByRole("checkbox", { name: "Green" });
-    await userEvent.click(checkbox);
+    await user.click(checkbox);
     expect(checkbox).not.toBeChecked();
   });
 });
