@@ -1,7 +1,7 @@
 import { TODO_STATUS } from "../../../todo/filter/TodoStatus";
 import { render, screen } from "@testing-library/react";
 import TodoItem from "../../../todo/todoList/TodoItem";
-import { COLOR } from "../../../todo/filter/Colors";
+import { TODO_COLOR } from "../../../todo/filter/TodoColors";
 import { capitalize } from "../../../todo/filter/StringCapitalization";
 
 describe("初期選択状態のテスト", () => {
@@ -19,13 +19,13 @@ describe("初期選択状態のテスト", () => {
   );
 
   test.each`
-    todoColor       | displayValue
-    ${COLOR.Green}  | ${capitalize(COLOR.Green)}
-    ${COLOR.Purple} | ${capitalize(COLOR.Purple)}
-    ${COLOR.Red}    | ${capitalize(COLOR.Red)}
-    ${COLOR.Blue}   | ${capitalize(COLOR.Blue)}
-    ${COLOR.Orange} | ${capitalize(COLOR.Orange)}
-    ${undefined}    | ${""}
+    todoColor            | displayValue
+    ${TODO_COLOR.Green}  | ${capitalize(TODO_COLOR.Green)}
+    ${TODO_COLOR.Purple} | ${capitalize(TODO_COLOR.Purple)}
+    ${TODO_COLOR.Red}    | ${capitalize(TODO_COLOR.Red)}
+    ${TODO_COLOR.Blue}   | ${capitalize(TODO_COLOR.Blue)}
+    ${TODO_COLOR.Orange} | ${capitalize(TODO_COLOR.Orange)}
+    ${undefined}         | ${""}
   `(
     "TodoColorが $todoColor なら selectboxは $displayValue が選択される",
     ({ todoColor, displayValue }) => {

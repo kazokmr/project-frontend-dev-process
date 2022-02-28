@@ -1,18 +1,18 @@
 import ColorFilter from "../../../todo/operating/ColorFilter";
 import { render, screen } from "@testing-library/react";
-import { COLOR, Colors } from "../../../todo/filter/Colors";
+import { TODO_COLOR, TodoColors } from "../../../todo/filter/TodoColors";
 import userEvent from "@testing-library/user-event";
 
 describe("カラーフィルターの初期値", () => {
   test("何も指定されていなければ全て未選択であること", () => {
     render(<ColorFilter curColors={[]} />);
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      Colors.length
+      TodoColors.length
     );
   });
 
   test("propsで指定された色が初期選択されること", () => {
-    render(<ColorFilter curColors={[COLOR.Green, COLOR.Purple]} />);
+    render(<ColorFilter curColors={[TODO_COLOR.Green, TODO_COLOR.Purple]} />);
     expect(
       screen
         .getAllByRole("checkbox", { checked: true })

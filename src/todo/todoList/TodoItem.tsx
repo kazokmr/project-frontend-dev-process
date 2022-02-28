@@ -1,13 +1,13 @@
-import { Color, Colors } from "../filter/Colors";
+import { TodoColor, TodoColors } from "../filter/TodoColors";
 import { capitalize } from "../filter/StringCapitalization";
-import { TODO_STATUS, Todo_Status } from "../filter/TodoStatus";
+import { TODO_STATUS, TodoStatus } from "../filter/TodoStatus";
 
 const TodoItem = ({
   todoStatus,
   todoColor,
 }: {
-  todoStatus: Todo_Status;
-  todoColor?: Color;
+  todoStatus: TodoStatus;
+  todoColor?: TodoColor;
 }) => {
   return (
     <li key={""} className="todo">
@@ -22,7 +22,7 @@ const TodoItem = ({
       <div>
         <select value={todoColor} onChange={(event) => ""}>
           <option value="" />
-          {Colors.map((color) => (
+          {TodoColors.map((color) => (
             <option key={color} value={color}>
               {capitalize(color)}
             </option>

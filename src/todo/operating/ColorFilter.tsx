@@ -1,12 +1,12 @@
-import { Color, Colors } from "../filter/Colors";
+import { TodoColor, TodoColors } from "../filter/TodoColors";
 import { capitalize } from "../filter/StringCapitalization";
 
-const ColorFilter = ({ curColors }: { curColors: Array<Color> }) => {
+const ColorFilter = ({ curColors }: { curColors: Array<TodoColor> }) => {
   return (
     <div>
       <h5>Filter by Color</h5>
       <ul>
-        {Colors.map((color) => (
+        {TodoColors.map((color) => (
           <li key={color}>
             <label>
               <input

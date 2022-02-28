@@ -1,7 +1,7 @@
-import { TODO_STATUS, Todo_Status } from "../filter/TodoStatus";
+import { TODO_STATUS, TodoStatus } from "../filter/TodoStatus";
 import { capitalize } from "../filter/StringCapitalization";
 
-const StatusFilter = ({ status }: { status: Array<Todo_Status> }) => {
+const StatusFilter = ({ status }: { status: Array<TodoStatus> }) => {
   return (
     <div>
       <h5>Filter by Status</h5>
