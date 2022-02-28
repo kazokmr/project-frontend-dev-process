@@ -1,15 +1,26 @@
-import { Colors } from "../filter/Colors";
+import { Color, Colors } from "../filter/Colors";
 import { capitalize } from "../filter/StringCapitalization";
+import { TODO_STATUS, Todo_Status } from "../filter/TodoStatus";
 
-const TodoItem = () => {
+const TodoItem = ({
+  todoStatus,
+  todoColor,
+}: {
+  todoStatus: Todo_Status;
+  todoColor?: Color;
+}) => {
   return (
     <li key={""} className="todo">
       <div>
-        <input type="checkbox" checked={false} onChange={(event) => ""} />
+        <input
+          type="checkbox"
+          checked={todoStatus === TODO_STATUS.COMPLETED}
+          onChange={(event) => ""}
+        />
       </div>
       <div>todo</div>
       <div>
-        <select value={""} onChange={(event) => ""}>
+        <select value={todoColor} onChange={(event) => ""}>
           <option value="" />
           {Colors.map((color) => (
             <option key={color} value={color}>
