@@ -6,7 +6,11 @@ const TodoList = () => {
   return (
     <div>
       <ul>
-        <TodoItem todoStatus={TODO_STATUS.ACTIVE} todoColor={TODO_COLOR.Red} />
+        <TodoItem
+          todoText={"DEMO"}
+          todoStatus={TODO_STATUS.ACTIVE}
+          todoColor={TODO_COLOR.Red}
+        />
       </ul>
     </div>
   );

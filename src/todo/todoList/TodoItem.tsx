@@ -3,23 +3,25 @@ import { capitalize } from "../filter/StringCapitalization";
 import { TODO_STATUS, TodoStatus } from "../filter/TodoStatus";
 
 const TodoItem = ({
+  todoText,
   todoStatus,
   todoColor,
 }: {
+  todoText: string;
   todoStatus: TodoStatus;
   todoColor?: TodoColor;
 }) => {
   return (
-    <li key={""} className="todo">
-      <div>
+    <li key={""}>
+      <span>
         <input
           type="checkbox"
           checked={todoStatus === TODO_STATUS.COMPLETED}
           onChange={(event) => ""}
         />
-      </div>
-      <div>todo</div>
-      <div>
+      </span>
+      <span data-testid={"todo-text"}>{todoText}</span>
+      <span>
         <select value={todoColor} onChange={(event) => ""}>
           <option value="" />
           {TodoColors.map((color) => (
@@ -28,8 +30,12 @@ const TodoItem = ({
             </option>
           ))}
         </select>
-      </div>
-      <div>X</div>
+      </span>
+      <span>
+        <button type={"button"} onClick={(event) => ""}>
+          X
+        </button>
+      </span>
     </li>
   );
 };

@@ -12,7 +12,7 @@ describe("初期選択状態のテスト", () => {
   `(
     "TodoStatusが $todoStatus なら checkedは $isChecked になる",
     ({ todoStatus, isChecked }) => {
-      render(<TodoItem todoStatus={todoStatus} />);
+      render(<TodoItem todoText={"Test TodoStatus"} todoStatus={todoStatus} />);
       const checkbox = screen.getByRole("checkbox", { checked: isChecked });
       expect(checkbox).toBeInTheDocument();
     }
@@ -27,13 +27,33 @@ describe("初期選択状態のテスト", () => {
     ${TODO_COLOR.Orange} | ${capitalize(TODO_COLOR.Orange)}
     ${undefined}         | ${""}
   `(
-    "TodoColorが $todoColor なら selectboxは $displayValue が選択される",
+    "TodoColorが $todoColor なら SelectBoxは $displayValue が選択される",
     ({ todoColor, displayValue }) => {
       render(
-        <TodoItem todoStatus={TODO_STATUS.ACTIVE} todoColor={todoColor} />
+        <TodoItem
+          todoText={"Test SelectBox"}
+          todoStatus={TODO_STATUS.ACTIVE}
+          todoColor={todoColor}
+        />
       );
       const selectBox = screen.getByRole("option", { selected: true });
       expect(selectBox.textContent).toBe(displayValue);
     }
   );
+});
+
+describe("Todoの表示", () => {
+  test.each`
+    text
+    ${"ABC"}
+    ${"テスト"}
+    ${"漢字試験"}
+    ${""}
+    ${" "}
+    ${"　"}
+  `("TodoText $text が表示される", ({ text }) => {
+    render(<TodoItem todoText={text} todoStatus={TODO_STATUS.ACTIVE} />);
+    const textBox = screen.getByTestId("todo-text");
+    expect(textBox.textContent).toBe(text);
+  });
 });

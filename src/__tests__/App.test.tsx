@@ -7,7 +7,7 @@ test("Todoアプリ画面を表示する", () => {
   // やることの追加フォームの表示
   expect(screen.getByPlaceholderText(/やることを/)).toBeInTheDocument();
   // やることリストの表示
-  expect(screen.getByText("todo")).toBeInTheDocument();
+  expect(screen.getByTestId("todo-text")).toBeInTheDocument();
   // やることリストの操作エリアの表示
   const operationTitles = [
     "Actions",
