@@ -1,5 +1,5 @@
-import { TodoColor, TodoColors } from "../filter/TodoColors";
-import { capitalize } from "../filter/StringCapitalization";
+import { TodoColor, TodoColors } from "../model/filter/TodoColors";
+import { capitalize } from "../model/filter/StringCapitalization";
 
 const ColorFilter = ({ curColors }: { curColors: Array<TodoColor> }) => {
   return (

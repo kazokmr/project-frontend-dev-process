@@ -1,8 +1,8 @@
-import { TODO_STATUS } from "../../../todo/filter/TodoStatus";
+import { TODO_STATUS } from "../../../todo/model/filter/TodoStatus";
 import { render, screen } from "@testing-library/react";
 import TodoItem from "../../../todo/todoList/TodoItem";
-import { TODO_COLOR } from "../../../todo/filter/TodoColors";
-import { capitalize } from "../../../todo/filter/StringCapitalization";
+import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
+import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("初期選択状態のテスト", () => {
   test.each`
@@ -12,7 +12,7 @@ describe("初期選択状態のテスト", () => {
   `(
     "TodoStatusが $todoStatus なら checkedは $isChecked になる",
     ({ todoStatus, isChecked }) => {
-      render(<TodoItem todoText={"Test TodoStatus"} todoStatus={todoStatus} />);
+      render(<TodoItem text={"Test TodoStatus"} status={todoStatus} />);
       const checkbox = screen.getByRole("checkbox", { checked: isChecked });
       expect(checkbox).toBeInTheDocument();
     }
@@ -31,18 +31,16 @@ describe("初期選択状態のテスト", () => {
     ({ todoColor, displayValue }) => {
       render(
         <TodoItem
-          todoText={"Test SelectBox"}
-          todoStatus={TODO_STATUS.ACTIVE}
-          todoColor={todoColor}
+          text={"Test SelectBox"}
+          status={TODO_STATUS.ACTIVE}
+          color={todoColor}
         />
       );
       const selectBox = screen.getByRole("option", { selected: true });
       expect(selectBox.textContent).toBe(displayValue);
     }
   );
-});
 
-describe("Todoの表示", () => {
   test.each`
     text
     ${"ABC"}
@@ -52,7 +50,7 @@ describe("Todoの表示", () => {
     ${" "}
     ${"　"}
   `("TodoText $text が表示される", ({ text }) => {
-    render(<TodoItem todoText={text} todoStatus={TODO_STATUS.ACTIVE} />);
+    render(<TodoItem text={text} status={TODO_STATUS.ACTIVE} />);
     const textBox = screen.getByTestId("todo-text");
     expect(textBox.textContent).toBe(text);
   });

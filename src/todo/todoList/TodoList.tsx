@@ -1,15 +1,15 @@
 import TodoItem from "./TodoItem";
-import { TODO_STATUS } from "../filter/TodoStatus";
-import { TODO_COLOR } from "../filter/TodoColors";
+import { TODO_STATUS } from "../model/filter/TodoStatus";
+import { TODO_COLOR } from "../model/filter/TodoColors";
 
 const TodoList = () => {
   return (
     <div>
       <ul>
         <TodoItem
-          todoText={"DEMO"}
-          todoStatus={TODO_STATUS.ACTIVE}
-          todoColor={TODO_COLOR.Red}
+          text={"DEMO"}
+          status={TODO_STATUS.ACTIVE}
+          color={TODO_COLOR.Red}
         />
       </ul>
     </div>

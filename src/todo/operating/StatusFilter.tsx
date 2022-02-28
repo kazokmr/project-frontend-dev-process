@@ -1,5 +1,5 @@
-import { TODO_STATUS, TodoStatus } from "../filter/TodoStatus";
-import { capitalize } from "../filter/StringCapitalization";
+import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
+import { capitalize } from "../model/filter/StringCapitalization";
 
 const StatusFilter = ({ status }: { status: Array<TodoStatus> }) => {
   return (

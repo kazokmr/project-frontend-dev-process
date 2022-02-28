@@ -1,34 +1,29 @@
-import { TodoColor, TodoColors } from "../filter/TodoColors";
-import { capitalize } from "../filter/StringCapitalization";
-import { TODO_STATUS, TodoStatus } from "../filter/TodoStatus";
+import { TodoColors } from "../model/filter/TodoColors";
+import { TODO_STATUS } from "../model/filter/TodoStatus";
+import { capitalize } from "../model/filter/StringCapitalization";
+import { Todo } from "../model/todo/Todo";
 
-const TodoItem = ({
-  todoText,
-  todoStatus,
-  todoColor,
-}: {
-  todoText: string;
-  todoStatus: TodoStatus;
-  todoColor?: TodoColor;
-}) => {
+const TodoItem = (todo: Todo) => {
+  const optionalColors = TodoColors.map((color) => (
+    <option key={color} value={color}>
+      {capitalize(color)}
+    </option>
+  ));
+
   return (
     <li key={""}>
       <span>
         <input
           type="checkbox"
-          checked={todoStatus === TODO_STATUS.COMPLETED}
+          checked={todo.status === TODO_STATUS.COMPLETED}
           onChange={(event) => ""}
         />
       </span>
-      <span data-testid={"todo-text"}>{todoText}</span>
+      <span data-testid={"todo-text"}>{todo.text}</span>
       <span>
-        <select value={todoColor} onChange={(event) => ""}>
+        <select value={todo.color} onChange={(event) => ""}>
           <option value="" />
-          {TodoColors.map((color) => (
-            <option key={color} value={color}>
-              {capitalize(color)}
-            </option>
-          ))}
+          {optionalColors}
         </select>
       </span>
       <span>
