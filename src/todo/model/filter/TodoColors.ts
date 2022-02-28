@@ -1,5 +1,5 @@
 // Enumの代わりにconstアサーション(as const)でCOLORオブジェクトをreadonlyにする
-export const COLOR = {
+export const TODO_COLOR = {
   Green: "green",
   Blue: "blue",
   Orange: "orange",
@@ -8,6 +8,6 @@ export const COLOR = {
 } as const;
 
 // Union typeを表現する
-export type Color = typeof COLOR[keyof typeof COLOR];
+export type TodoColor = typeof TODO_COLOR[keyof typeof TODO_COLOR];
 
-export const Colors = Object.values(COLOR);
+export const TodoColors = Object.values(TODO_COLOR);

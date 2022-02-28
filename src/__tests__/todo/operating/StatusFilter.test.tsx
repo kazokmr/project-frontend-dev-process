@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import StatusFilter from "../../../todo/operating/StatusFilter";
-import { TODO_STATUS } from "../../../todo/filter/TodoStatus";
-import { capitalize } from "../../../todo/filter/StringCapitalization";
+import { TODO_STATUS } from "../../../todo/model/filter/TodoStatus";
+import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("ボタンの初期状態を検査する", () => {
   test.each`
