@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
-import { TODO_STATUS } from "../../../todo/model/filter/TodoStatus";
 
 describe("Todoの件数による表示テスト", () => {
   const expectTexts: string[] = [
@@ -17,7 +16,6 @@ describe("Todoの件数による表示テスト", () => {
       {
         id: "dummy",
         text: text.text,
-        status: TODO_STATUS.ACTIVE,
       },
     ];
     render(<TodoList todos={todos} />);
@@ -31,12 +29,10 @@ describe("Todoの件数による表示テスト", () => {
       {
         id: "dummy-1",
         text: expectTexts[0],
-        status: TODO_STATUS.ACTIVE,
       },
       {
         id: "dummy-2",
         text: expectTexts[1],
-        status: TODO_STATUS.ACTIVE,
       },
     ];
     render(<TodoList todos={todos} />);

@@ -1,7 +1,7 @@
 import { TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
 
-const ColorFilter = ({ curColors }: { curColors: Array<TodoColor> }) => {
+const ColorFilter = ({ curColors }: { curColors?: Array<TodoColor> }) => {
   return (
     <div>
       <h5>Filter by Color</h5>
@@ -12,7 +12,7 @@ const ColorFilter = ({ curColors }: { curColors: Array<TodoColor> }) => {
               <input
                 type="checkbox"
                 name={color}
-                checked={curColors.includes(color)}
+                checked={curColors ? curColors.includes(color) : false}
                 onChange={(event) => ""}
               />
               {capitalize(color)}

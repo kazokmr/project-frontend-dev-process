@@ -5,18 +5,18 @@ import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("ボタンの初期状態を検査する", () => {
   test.each`
-    status                                         | isAll    | isActive | isCompleted
-    ${[]}                                          | ${true}  | ${false} | ${false}
-    ${[TODO_STATUS.ACTIVE, TODO_STATUS.COMPLETED]} | ${true}  | ${false} | ${false}
-    ${[TODO_STATUS.ACTIVE]}                        | ${false} | ${true}  | ${false}
-    ${[TODO_STATUS.COMPLETED]}                     | ${false} | ${false} | ${true}
+    status                   | isAll    | isActive | isCompleted
+    ${TODO_STATUS.ALL}       | ${true}  | ${false} | ${false}
+    ${TODO_STATUS.ACTIVE}    | ${false} | ${true}  | ${false}
+    ${TODO_STATUS.COMPLETED} | ${false} | ${false} | ${true}
+    ${undefined}             | ${true}  | ${false} | ${false}
   `(
-    "現在の検索状況が $status なら、All: $isAll Active: $isActive Completed $isCompleted であること",
+    "現在の検索状況が $curStatus なら、All: $isAll Active: $isActive Completed $isCompleted であること",
     ({ status, isAll, isActive, isCompleted }) => {
-      render(<StatusFilter status={status} />);
+      render(<StatusFilter curStatus={status} />);
 
       const buttonAll = screen.getByRole("button", {
-        name: "All",
+        name: capitalize(TODO_STATUS.ALL),
         pressed: isAll,
       });
       const buttonActive = screen.getByRole("button", {

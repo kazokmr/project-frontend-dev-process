@@ -24,6 +24,13 @@ describe("カラーフィルターの初期値", () => {
         .map((e) => e.getAttribute("name"))
     ).toEqual(["blue", "orange", "red"]);
   });
+
+  test("パラメータが渡されない場合は全て未選択であること", () => {
+    render(<ColorFilter curColors={undefined} />);
+    expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
+      TodoColors.length
+    );
+  });
 });
 
 // TODO: チェック状態のテストは stateを管理するフェーズで実施

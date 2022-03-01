@@ -1,5 +1,4 @@
 import { TodoColors } from "../model/filter/TodoColors";
-import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { capitalize } from "../model/filter/StringCapitalization";
 import { Todo } from "../model/todo/Todo";
 
@@ -15,7 +14,7 @@ const TodoItem = (todo: Todo) => {
       <span>
         <input
           type="checkbox"
-          checked={todo.status === TODO_STATUS.COMPLETED}
+          checked={todo.isCompleted}
           onChange={(event) => ""}
         />
       </span>

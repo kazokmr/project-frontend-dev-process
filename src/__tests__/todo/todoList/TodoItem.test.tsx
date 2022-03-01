@@ -1,4 +1,3 @@
-import { TODO_STATUS } from "../../../todo/model/filter/TodoStatus";
 import { render, screen } from "@testing-library/react";
 import TodoItem from "../../../todo/todoList/TodoItem";
 import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
@@ -6,17 +5,20 @@ import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("初期選択状態のテスト", () => {
   test.each`
-    todoStatus               | isChecked
-    ${TODO_STATUS.ACTIVE}    | ${false}
-    ${TODO_STATUS.COMPLETED} | ${true}
-  `(
-    "TodoStatusが $todoStatus なら checkedは $isChecked になる",
-    ({ todoStatus, isChecked }) => {
-      render(<TodoItem text={"Test TodoStatus"} status={todoStatus} />);
-      const checkbox = screen.getByRole("checkbox", { checked: isChecked });
-      expect(checkbox).toBeInTheDocument();
-    }
-  );
+    isCompleted
+    ${false}
+    ${true}
+  `("Todoのcompletedが $isCompleted であること", ({ isCompleted }) => {
+    render(
+      <TodoItem
+        id={"dummy-id"}
+        text={"Test whether todo is checked or not"}
+        isCompleted={isCompleted}
+      />
+    );
+    const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
+    expect(checkbox).toBeInTheDocument();
+  });
 
   test.each`
     todoColor            | displayValue
@@ -30,11 +32,7 @@ describe("初期選択状態のテスト", () => {
     "TodoColorが $todoColor なら SelectBoxは $displayValue が選択される",
     ({ todoColor, displayValue }) => {
       render(
-        <TodoItem
-          text={"Test SelectBox"}
-          status={TODO_STATUS.ACTIVE}
-          color={todoColor}
-        />
+        <TodoItem id={"dummy-id"} text={"Test SelectBox"} color={todoColor} />
       );
       const selectBox = screen.getByRole("option", { selected: true });
       expect(selectBox.textContent).toBe(displayValue);
@@ -50,7 +48,7 @@ describe("初期選択状態のテスト", () => {
     ${" "}
     ${"　"}
   `("TodoText $text が表示される", ({ text }) => {
-    render(<TodoItem text={text} status={TODO_STATUS.ACTIVE} />);
+    render(<TodoItem id={"dummy-id"} text={text} />);
     const textBox = screen.getByTestId("todo-text");
     expect(textBox.textContent).toBe(text);
   });
