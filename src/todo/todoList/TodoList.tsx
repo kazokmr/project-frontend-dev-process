@@ -1,18 +1,19 @@
 import TodoItem from "./TodoItem";
-import { TODO_STATUS } from "../model/filter/TodoStatus";
-import { TODO_COLOR } from "../model/filter/TodoColors";
+import { Todo } from "../model/todo/Todo";
 
-const TodoList = () => {
+const TodoList = ({ todos }: { todos: Array<Todo> }) => {
   return (
-    <div>
-      <ul>
+    <ul data-testid={"todo-list"}>
+      {todos.map((todo) => (
         <TodoItem
-          text={"DEMO"}
-          status={TODO_STATUS.ACTIVE}
-          color={TODO_COLOR.Red}
+          key={todo.id}
+          id={todo.id}
+          text={todo.text}
+          status={todo.status}
+          color={todo.color}
         />
-      </ul>
-    </div>
+      ))}
+    </ul>
   );
 };
 

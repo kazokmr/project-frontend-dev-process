@@ -3,9 +3,9 @@ import TodoApp from "./todo/TodoApp";
 
 function App() {
   return (
-    <div className="App">
+    <main className="App">
       <TodoApp />
-    </div>
+    </main>
   );
 }
 

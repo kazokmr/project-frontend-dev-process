@@ -11,7 +11,7 @@ const TodoItem = (todo: Todo) => {
   ));
 
   return (
-    <li key={""}>
+    <li key={todo.id}>
       <span>
         <input
           type="checkbox"

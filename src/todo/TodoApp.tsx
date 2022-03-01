@@ -7,7 +7,7 @@ const TodoApp = () => {
   return (
     <div className="todo-container">
       <NewTodo />
-      <TodoList />
+      <TodoList todos={[]} />
       <OperatingTodos />
     </div>
   );
