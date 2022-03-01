@@ -5,11 +5,10 @@ import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("ボタンの初期状態を検査する", () => {
   test.each`
-    status                                         | isAll    | isActive | isCompleted
-    ${[]}                                          | ${true}  | ${false} | ${false}
-    ${[TODO_STATUS.ACTIVE, TODO_STATUS.COMPLETED]} | ${true}  | ${false} | ${false}
-    ${[TODO_STATUS.ACTIVE]}                        | ${false} | ${true}  | ${false}
-    ${[TODO_STATUS.COMPLETED]}                     | ${false} | ${false} | ${true}
+    status                   | isAll    | isActive | isCompleted
+    ${undefined}             | ${true}  | ${false} | ${false}
+    ${TODO_STATUS.ACTIVE}    | ${false} | ${true}  | ${false}
+    ${TODO_STATUS.COMPLETED} | ${false} | ${false} | ${true}
   `(
     "現在の検索状況が $status なら、All: $isAll Active: $isActive Completed $isCompleted であること",
     ({ status, isAll, isActive, isCompleted }) => {
