@@ -9,7 +9,7 @@ const TodoList = ({ todos }: { todos: Array<Todo> }) => {
           key={todo.id}
           id={todo.id}
           text={todo.text}
-          status={todo.status}
+          isCompleted={todo.isCompleted}
           color={todo.color}
         />
       ))}
