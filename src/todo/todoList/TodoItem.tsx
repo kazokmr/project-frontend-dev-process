@@ -18,7 +18,7 @@ const TodoItem = (todo: Todo) => {
           onChange={(event) => ""}
         />
       </span>
-      <span data-testid={"todo-text"}>{todo.text}</span>
+      <span aria-label={"content-todo"}>{todo.text}</span>
       <span>
         <select value={todo.color} onChange={(event) => ""}>
           <option value="" />

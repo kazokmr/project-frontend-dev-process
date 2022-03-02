@@ -19,7 +19,7 @@ describe("Todoの件数による表示テスト", () => {
       },
     ];
     render(<TodoList todos={todos} />);
-    const todoTexts = screen.getAllByTestId("todo-text");
+    const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(1);
     expect(todoTexts[0].textContent).toBe(text.text);
   });
@@ -36,7 +36,7 @@ describe("Todoの件数による表示テスト", () => {
       },
     ];
     render(<TodoList todos={todos} />);
-    const todoTexts = screen.getAllByTestId("todo-text");
+    const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(2);
     todoTexts.forEach((todoText, index) => {
       expect(todoText.textContent).toBe(expectTexts[index]);
@@ -45,7 +45,7 @@ describe("Todoの件数による表示テスト", () => {
 
   test("Todoが0件ならリストは表示されない", () => {
     render(<TodoList todos={[]} />);
-    const todoTexts = screen.queryByTestId("todo-text");
-    expect(todoTexts).toBeNull();
+    const todoTexts = screen.queryAllByLabelText("content-todo");
+    expect(todoTexts).toHaveLength(0);
   });
 });
