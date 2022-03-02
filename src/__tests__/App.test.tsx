@@ -5,9 +5,11 @@ import App from "../App";
 test("Todoアプリ画面を表示する", () => {
   render(<App />);
   // やることの追加フォームの表示
-  expect(screen.getByPlaceholderText(/やることを/)).toBeInTheDocument();
+  expect(
+    screen.getByRole("textbox", { name: "input-todo" })
+  ).toBeInTheDocument();
   // やることリストの表示
-  expect(screen.getByTestId("todo-list")).toBeInTheDocument();
+  expect(screen.getByRole("list", { name: "list-todo" })).toBeInTheDocument();
   // やることリストの操作エリアの表示
   const operationTitles = [
     "Actions",

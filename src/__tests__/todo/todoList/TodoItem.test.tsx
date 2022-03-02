@@ -49,7 +49,8 @@ describe("初期選択状態のテスト", () => {
     ${"　"}
   `("TodoText $text が表示される", ({ text }) => {
     render(<TodoItem id={"dummy-id"} text={text} />);
-    const textBox = screen.getByTestId("todo-text");
+    // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
+    const textBox = screen.getByLabelText("content-todo");
     expect(textBox.textContent).toBe(text);
   });
 });

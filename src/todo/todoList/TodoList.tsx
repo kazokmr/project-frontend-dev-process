@@ -3,7 +3,7 @@ import { Todo } from "../model/todo/Todo";
 
 const TodoList = ({ todos }: { todos: Array<Todo> }) => {
   return (
-    <ul data-testid={"todo-list"}>
+    <ul aria-label={"list-todo"}>
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
