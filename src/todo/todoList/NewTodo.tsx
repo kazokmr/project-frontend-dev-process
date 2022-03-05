@@ -1,10 +1,17 @@
-import { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 
-const NewTodo = () => {
+const NewTodo = ({ createTodo }: { createTodo: (text: string) => void }) => {
   const [textValue, setTextValue] = useState("");
 
-  const textOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextValue(e.target.value);
+  };
+
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      createTodo(textValue);
+      setTextValue("");
+    }
   };
 
   return (
@@ -13,7 +20,8 @@ const NewTodo = () => {
       aria-label={"input-todo"}
       placeholder={"やることを入力してください"}
       value={textValue}
-      onChange={textOnChange}
+      onChange={handleOnChange}
+      onKeyDown={handleOnKeyDown}
     />
   );
 };
