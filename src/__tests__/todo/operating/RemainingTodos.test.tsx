@@ -9,7 +9,7 @@ describe("TodoListの件数によるメッセージの違い", () => {
     ${0}      | ${"0 remain left"}
   `(
     "TodoListが $numOfTodo なら' $message 'と出力する",
-    ({ numOfTodo, message }) => {
+    ({ numOfTodo, message }: { numOfTodo: number; message: string }) => {
       render(<RemainingTodos numOfTodo={numOfTodo} />);
       expect(screen.getByText(message)).toBeInTheDocument();
     }

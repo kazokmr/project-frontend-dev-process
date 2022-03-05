@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import TodoItem from "../../../todo/todoList/TodoItem";
-import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
+import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("初期選択状態のテスト", () => {
@@ -8,17 +8,20 @@ describe("初期選択状態のテスト", () => {
     isCompleted
     ${false}
     ${true}
-  `("Todoのcompletedが $isCompleted であること", ({ isCompleted }) => {
-    render(
-      <TodoItem
-        id={"dummy-id"}
-        text={"Test whether todo is checked or not"}
-        isCompleted={isCompleted}
-      />
-    );
-    const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
-    expect(checkbox).toBeInTheDocument();
-  });
+  `(
+    "Todoのcompletedが $isCompleted であること",
+    ({ isCompleted }: { isCompleted: boolean }) => {
+      render(
+        <TodoItem
+          id={"dummy-id"}
+          text={"Test whether todo is checked or not"}
+          isCompleted={isCompleted}
+        />
+      );
+      const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
+      expect(checkbox).toBeInTheDocument();
+    }
+  );
 
   test.each`
     todoColor            | displayValue
@@ -30,7 +33,13 @@ describe("初期選択状態のテスト", () => {
     ${undefined}         | ${""}
   `(
     "TodoColorが $todoColor なら SelectBoxは $displayValue が選択される",
-    ({ todoColor, displayValue }) => {
+    ({
+      todoColor,
+      displayValue,
+    }: {
+      todoColor: TodoColor;
+      displayValue: string;
+    }) => {
       render(
         <TodoItem id={"dummy-id"} text={"Test SelectBox"} color={todoColor} />
       );
@@ -47,7 +56,7 @@ describe("初期選択状態のテスト", () => {
     ${""}
     ${" "}
     ${"　"}
-  `("TodoText $text が表示される", ({ text }) => {
+  `("TodoText $text が表示される", ({ text }: { text: string }) => {
     render(<TodoItem id={"dummy-id"} text={text} />);
     // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
     const textBox = screen.getByLabelText("content-todo");

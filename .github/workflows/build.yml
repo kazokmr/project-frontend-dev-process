@@ -30,4 +30,4 @@ jobs:
         run: yarn eslint
 
       - name: Run Jest
-        run: yarn test
+        run: yarn test --collectCoverage

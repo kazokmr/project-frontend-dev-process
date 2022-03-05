@@ -11,17 +11,17 @@ describe("Todoの件数による表示テスト", () => {
     text
     ${expectTexts[0]}
     ${expectTexts[1]}
-  `("Todoが１件で $text を表示すること", (text) => {
+  `("Todoが１件で $text を表示すること", ({ text }: { text: string }) => {
     const todos: Array<Todo> = [
       {
         id: "dummy",
-        text: text.text,
+        text: text,
       },
     ];
     render(<TodoList todos={todos} />);
     const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(1);
-    expect(todoTexts[0].textContent).toBe(text.text);
+    expect(todoTexts[0].textContent).toBe(text);
   });
 
   test("Todoが2件の場合の表示", () => {
