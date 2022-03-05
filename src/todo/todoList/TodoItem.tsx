@@ -14,19 +14,28 @@ const TodoItem = (todo: Todo) => {
       <span>
         <input
           type="checkbox"
+          aria-label={"todo-isCompleted"}
           checked={todo.isCompleted}
           onChange={(event) => ""}
         />
       </span>
       <span aria-label={"content-todo"}>{todo.text}</span>
       <span>
-        <select value={todo.color} onChange={(event) => ""}>
+        <select
+          aria-label={"select-todo-color"}
+          value={todo.color}
+          onChange={(event) => ""}
+        >
           <option value="" />
           {optionalColors}
         </select>
       </span>
       <span>
-        <button type={"button"} onClick={(event) => ""}>
+        <button
+          aria-label={"delete-todo"}
+          type={"button"}
+          onClick={(event) => ""}
+        >
           X
         </button>
       </span>
