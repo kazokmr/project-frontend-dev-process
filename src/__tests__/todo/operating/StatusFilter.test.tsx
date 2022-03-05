@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import StatusFilter from "../../../todo/operating/StatusFilter";
-import { TODO_STATUS } from "../../../todo/model/filter/TodoStatus";
+import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 describe("ボタンの初期状態を検査する", () => {
@@ -12,7 +12,17 @@ describe("ボタンの初期状態を検査する", () => {
     ${undefined}             | ${true}  | ${false} | ${false}
   `(
     "現在の検索状況が $curStatus なら、All: $isAll Active: $isActive Completed $isCompleted であること",
-    ({ status, isAll, isActive, isCompleted }) => {
+    ({
+      status,
+      isAll,
+      isActive,
+      isCompleted,
+    }: {
+      status: TodoStatus;
+      isAll: boolean;
+      isActive: boolean;
+      isCompleted: boolean;
+    }) => {
       render(<StatusFilter curStatus={status} />);
 
       const buttonAll = screen.getByRole("button", {
