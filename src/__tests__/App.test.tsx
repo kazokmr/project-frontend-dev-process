@@ -46,7 +46,6 @@ describe("新しいTodo追加したらTodoリストに表示される", () => {
         // Then: 入力したTodoがリストに表示されること
         const checkBoxes = await screen.findAllByRole("checkbox", {
           name: "todo-isCompleted",
-          checked: false,
         });
         const todoTexts = await screen.findAllByLabelText("content-todo");
         const colorListBoxes = await screen.findAllByRole("combobox", {
@@ -69,5 +68,43 @@ describe("新しいTodo追加したらTodoリストに表示される", () => {
       }
     );
   });
-  describe("TodoリストにTodoがある状態で新しいTodoを追加する", () => {});
+  describe("TodoリストにTodoがある状態で新しいTodoを追加する", () => {
+    test("新しいTodoはリストの最後に追加されること", async () => {
+      // Given: Todoを１つ作成しておく
+      render(<TodoApp />);
+      const user = userEvent.setup();
+      const todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
+
+      await user.click(todoTextBox);
+      await user.keyboard("A first Todo");
+      await user.keyboard("[Enter>]");
+
+      // When: ２つ目のTodoを作成する
+      await user.click(todoTextBox);
+      await user.keyboard("A second Todo");
+      await user.keyboard("[Enter>]");
+
+      const checkBoxes = await screen.findAllByRole("checkbox", {
+        name: "todo-isCompleted",
+      });
+      const todoTexts = await screen.findAllByLabelText("content-todo");
+      const colorListBoxes = await screen.findAllByRole("combobox", {
+        name: "select-todo-color",
+      });
+      const deleteButtons = await screen.findAllByRole("button", {
+        name: "delete-todo",
+      });
+
+      expect(checkBoxes).toHaveLength(2);
+      expect(checkBoxes[1]).toBeInTheDocument();
+      expect(checkBoxes[1].ariaChecked).toBeFalsy();
+      expect(todoTexts).toHaveLength(2);
+      expect(todoTexts[1].textContent).toBe("A second Todo");
+      expect(colorListBoxes).toHaveLength(2);
+      expect(colorListBoxes[1]).toBeInTheDocument();
+      expect(colorListBoxes[1]).toHaveValue("");
+      expect(deleteButtons).toHaveLength(2);
+      expect(deleteButtons[1]).toBeInTheDocument();
+    });
+  });
 });
