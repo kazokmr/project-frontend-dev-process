@@ -6,7 +6,7 @@ const TodoList = ({
   updateComplete,
 }: {
   todos: Array<Todo>;
-  updateComplete: (id: string, isCompeted: boolean) => void;
+  updateComplete: (id: string) => void;
 }) => {
   return (
     <ul aria-label={"list-todo"}>

@@ -11,10 +11,10 @@ const TodoApp = () => {
     const newTodo = createTodo(text);
     setTodos([...todos, newTodo]);
   };
-  const updateComplete = (id: string, isCompleted: boolean) => {
+  const updateComplete = (id: string) => {
     setTodos(
       todos.map((todo) =>
-        todo.id !== id ? todo : { ...todo, isCompleted: isCompleted }
+        todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted }
       )
     );
   };

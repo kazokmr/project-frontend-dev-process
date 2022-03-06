@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import NewTodo from "../../../todo/todoList/NewTodo";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup";
 
-const addTodo = jest.fn() as jest.Mock;
+const addTodo: jest.Mock = jest.fn();
 
 test.each`
   text
