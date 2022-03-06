@@ -7,7 +7,7 @@ const TodoItem = ({
   updateComplete,
 }: {
   todo: Todo;
-  updateComplete: (id: string, isCompleted: boolean) => void;
+  updateComplete: (id: string) => void;
 }) => {
   const optionalColors = TodoColors.map((color) => (
     <option key={color} value={color}>
@@ -22,7 +22,7 @@ const TodoItem = ({
           type="checkbox"
           aria-label={"todo-isCompleted"}
           checked={todo.isCompleted}
-          onChange={(event) => updateComplete(todo.id, event.target.checked)}
+          onChange={() => updateComplete(todo.id)}
         />
       </span>
       <span aria-label={"content-todo"}>{todo.text}</span>

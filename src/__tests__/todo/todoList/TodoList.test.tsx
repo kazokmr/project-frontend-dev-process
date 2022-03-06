@@ -62,7 +62,6 @@ describe("Todoの状況を更新する", () => {
     "完了状況が $isCompleted のTodoをクリックすると $willBeCompleted を呼び出すこと",
     async ({
       isCompleted,
-      willBeCompleted,
     }: {
       isCompleted: boolean;
       willBeCompleted: boolean;
@@ -88,7 +87,6 @@ describe("Todoの状況を更新する", () => {
       // Then: Todoの完了状況が更新されること
       expect(updateComplete).toHaveBeenCalledTimes(1);
       expect(updateComplete.mock.calls[0][0]).toBe(id);
-      expect(updateComplete.mock.calls[0][1]).toBe(willBeCompleted);
     }
   );
 });

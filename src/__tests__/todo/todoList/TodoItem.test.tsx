@@ -94,7 +94,6 @@ describe("Todoの完了状況が操作できること", () => {
     "Todoの完了状況が $isCompleted で チェックボックスをクリックすると $willBeCompletedAfterClick",
     async ({
       isCompleted,
-      willBeCompletedAfterClick,
     }: {
       isCompleted: boolean;
       willBeCompletedAfterClick: boolean;
@@ -122,7 +121,6 @@ describe("Todoの完了状況が操作できること", () => {
       // Then: Todoを完了状況を更新する
       expect(updateComplete).toHaveBeenCalledTimes(1);
       expect(updateComplete.mock.calls[0][0]).toBe(id);
-      expect(updateComplete.mock.calls[0][1]).toBe(willBeCompletedAfterClick);
     }
   );
 });
