@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import TodoApp from "../../todo/TodoApp";
+import { UserEvent } from "@testing-library/user-event/dist/types/setup";
 
 describe("新しいTodo追加したらTodoリストに表示される", () => {
   describe("TextBox上でエンターキーを押す", () => {
@@ -91,25 +92,69 @@ describe("Todoの操作", () => {
   describe("Todoの完了が操作できること", () => {
     test("未完了のTodoを完了にできること", async () => {
       // Given: TodoアプリをレンダリングしてTodoを２つ作成する
-      render(<TodoApp />);
-      const user = userEvent.setup();
-      const todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
-      await user.click(todoTextBox);
-      await user.keyboard("A first Todo");
-      await user.keyboard("[Enter]");
-      await user.keyboard("A second Todo");
-      await user.keyboard("[Enter]");
-
-      const checkBoxes = await screen.findAllByRole("checkbox", {
-        name: "todo-isCompleted",
-      });
+      const page = await TodoListPage.build(2);
 
       // When: ２番目のTodoを完了にする
-      await user.click(checkBoxes[1]);
+      await page.clickCompleteTodoByIndex(2);
 
       // Then: ２番目だけ完了になっていること
-      expect(checkBoxes[0]).not.toBeChecked();
-      expect(checkBoxes[1]).toBeChecked();
+      expect(await page.findCompletedOfTodoByIndex(1)).not.toBeChecked();
+      expect(await page.findCompletedOfTodoByIndex(2)).toBeChecked();
+    });
+
+    test("完了済みにしたTodoを未完了に戻せること", async () => {
+      // Given: TodoアプリをレンダリングしてTodoを２つ作成する
+      const page = await TodoListPage.build(2);
+
+      // When: 2番目のTodoの完了状況を2回更新する
+      await page.clickCompleteTodoByIndex(2);
+      expect(await page.findCompletedOfTodoByIndex(2)).toBeChecked();
+      await page.clickCompleteTodoByIndex(2);
+
+      // Then: ２番目が未完了に戻っていること
+      expect(await page.findCompletedOfTodoByIndex(2)).not.toBeChecked();
     });
   });
 });
+
+class TodoListPage {
+  private readonly user: UserEvent;
+  private readonly todoTextBox: HTMLElement;
+
+  private constructor() {
+    render(<TodoApp />);
+    this.user = userEvent.setup();
+    this.todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
+  }
+
+  // 初期Todoを設定するために非同期処理が必要だったので staticメソッドでインスタンスを生成するようにする
+  static build = async (initNumberOfTodos: number): Promise<TodoListPage> => {
+    const page = new TodoListPage();
+    await page.setInitialTodo(initNumberOfTodos);
+    return page;
+  };
+
+  private setInitialTodo = async (numberOfTodos: number) => {
+    for (let number = 0; number < numberOfTodos; number++) {
+      await this.inputNewTodo(`これは ${number + 1} のTodoです`);
+    }
+  };
+
+  inputNewTodo = async (inputText: string): Promise<void> => {
+    await this.user.click(this.todoTextBox);
+    await this.user.keyboard(inputText);
+    await this.user.keyboard("[Enter]");
+  };
+
+  findCompletedOfTodoByIndex = async (index: number): Promise<HTMLElement> => {
+    const array: Array<HTMLElement> = await screen.findAllByRole("checkbox", {
+      name: "todo-isCompleted",
+    });
+    return array[index - 1];
+  };
+
+  clickCompleteTodoByIndex = async (index: number): Promise<void> => {
+    const checkComplete = await this.findCompletedOfTodoByIndex(index);
+    await this.user.click(checkComplete);
+  };
+}
