@@ -1,7 +1,4 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import TodoApp from "../../todo/TodoApp";
-import { UserEvent } from "@testing-library/user-event/dist/types/setup";
+import { TodoListPage } from "../pageObjects/todo/TodoListPage";
 
 describe("新しいTodo追加したらTodoリストに表示される", () => {
   describe("TextBox上でエンターキーを押す", () => {
@@ -13,77 +10,32 @@ describe("新しいTodo追加したらTodoリストに表示される", () => {
       "入力され $todoContent がTodoリストに表示されること",
       async ({ todoContent }: { todoContent: string }) => {
         // Given: コンポーネントをレンダリングする
-        render(<TodoApp />);
-        const user = userEvent.setup();
-        const todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
+        const page = await TodoListPage.build(0);
 
         // When: TextBoxにTodoを入力してEnterキーを押す
-        await user.click(todoTextBox);
-        await user.keyboard(todoContent);
-        await user.keyboard("[Enter]");
+        await page.inputNewTodo(todoContent);
 
         // Then: 入力したTodoがリストに表示されること
-        const checkBoxes = await screen.findAllByRole("checkbox", {
-          name: "todo-isCompleted",
-        });
-        const todoTexts = await screen.findAllByLabelText("content-todo");
-        const colorListBoxes = await screen.findAllByRole("combobox", {
-          name: "select-todo-color",
-        });
-        const deleteButtons = await screen.findAllByRole("button", {
-          name: "delete-todo",
-        });
-
-        // checkBoxはActive状態で表示する
-        expect(checkBoxes[0]).toBeInTheDocument();
-        expect(checkBoxes[0]).not.toBeChecked();
-        // 入力したTodoを表示する
-        expect(todoTexts[0].textContent).toBe(todoContent);
-        // Color選択ボックスは未選択状態で表示する
-        expect(colorListBoxes[0]).toBeInTheDocument();
-        expect(colorListBoxes[0]).toHaveValue("");
-        // 削除ボタンを表示する
-        expect(deleteButtons[0]).toBeInTheDocument();
+        expect(await page.numOfTodos()).toBe(1);
+        expect(await page.isCompletedTodoByRow(1)).toBe(false);
+        expect(await page.getContentTodoByRow(1)).toBe(todoContent);
+        expect(await page.getColorOfTodoByRow(1)).toBe("");
       }
     );
   });
   describe("TodoリストにTodoがある状態で新しいTodoを追加する", () => {
     test("新しいTodoはリストの最後に追加されること", async () => {
       // Given: Todoを１つ作成しておく
-      render(<TodoApp />);
-      const user = userEvent.setup();
-      const todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
-
-      await user.click(todoTextBox);
-      await user.keyboard("A first Todo");
-      await user.keyboard("[Enter]");
+      const page = await TodoListPage.build(1);
 
       // When: ２つ目のTodoを作成する
-      await user.click(todoTextBox);
-      await user.keyboard("A second Todo");
-      await user.keyboard("[Enter]");
+      await page.inputNewTodo("A second Todo");
 
-      const checkBoxes = await screen.findAllByRole("checkbox", {
-        name: "todo-isCompleted",
-      });
-      const todoTexts = await screen.findAllByLabelText("content-todo");
-      const colorListBoxes = await screen.findAllByRole("combobox", {
-        name: "select-todo-color",
-      });
-      const deleteButtons = await screen.findAllByRole("button", {
-        name: "delete-todo",
-      });
-
-      expect(checkBoxes).toHaveLength(2);
-      expect(checkBoxes[1]).toBeInTheDocument();
-      expect(checkBoxes[1]).not.toBeChecked();
-      expect(todoTexts).toHaveLength(2);
-      expect(todoTexts[1].textContent).toBe("A second Todo");
-      expect(colorListBoxes).toHaveLength(2);
-      expect(colorListBoxes[1]).toBeInTheDocument();
-      expect(colorListBoxes[1]).toHaveValue("");
-      expect(deleteButtons).toHaveLength(2);
-      expect(deleteButtons[1]).toBeInTheDocument();
+      // Then: 追加したTodoが２番目に表示されること
+      expect(await page.numOfTodos()).toBe(2);
+      expect(await page.isCompletedTodoByRow(2)).toBe(false);
+      expect(await page.getContentTodoByRow(2)).toBe("A second Todo");
+      expect(await page.getColorOfTodoByRow(2)).toBe("");
     });
   });
 });
@@ -95,11 +47,11 @@ describe("Todoの操作", () => {
       const page = await TodoListPage.build(2);
 
       // When: ２番目のTodoを完了にする
-      await page.clickCompleteTodoByIndex(2);
+      await page.clickCompleteTodoByRow(2);
 
       // Then: ２番目だけ完了になっていること
-      expect(await page.findCompletedOfTodoByIndex(1)).not.toBeChecked();
-      expect(await page.findCompletedOfTodoByIndex(2)).toBeChecked();
+      expect(await page.isCompletedTodoByRow(1)).toBe(false);
+      expect(await page.isCompletedTodoByRow(2)).toBe(true);
     });
 
     test("完了済みにしたTodoを未完了に戻せること", async () => {
@@ -107,54 +59,12 @@ describe("Todoの操作", () => {
       const page = await TodoListPage.build(2);
 
       // When: 2番目のTodoの完了状況を2回更新する
-      await page.clickCompleteTodoByIndex(2);
-      expect(await page.findCompletedOfTodoByIndex(2)).toBeChecked();
-      await page.clickCompleteTodoByIndex(2);
+      await page.clickCompleteTodoByRow(2);
+      expect(await page.isCompletedTodoByRow(2)).toBe(true);
+      await page.clickCompleteTodoByRow(2);
 
       // Then: ２番目が未完了に戻っていること
-      expect(await page.findCompletedOfTodoByIndex(2)).not.toBeChecked();
+      expect(await page.isCompletedTodoByRow(2)).toBe(false);
     });
   });
 });
-
-class TodoListPage {
-  private readonly user: UserEvent;
-  private readonly todoTextBox: HTMLElement;
-
-  private constructor() {
-    render(<TodoApp />);
-    this.user = userEvent.setup();
-    this.todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
-  }
-
-  // 初期Todoを設定するために非同期処理が必要だったので staticメソッドでインスタンスを生成するようにする
-  static build = async (initNumberOfTodos: number): Promise<TodoListPage> => {
-    const page = new TodoListPage();
-    await page.setInitialTodo(initNumberOfTodos);
-    return page;
-  };
-
-  private setInitialTodo = async (numberOfTodos: number) => {
-    for (let number = 0; number < numberOfTodos; number++) {
-      await this.inputNewTodo(`これは ${number + 1} のTodoです`);
-    }
-  };
-
-  inputNewTodo = async (inputText: string): Promise<void> => {
-    await this.user.click(this.todoTextBox);
-    await this.user.keyboard(inputText);
-    await this.user.keyboard("[Enter]");
-  };
-
-  findCompletedOfTodoByIndex = async (index: number): Promise<HTMLElement> => {
-    const array: Array<HTMLElement> = await screen.findAllByRole("checkbox", {
-      name: "todo-isCompleted",
-    });
-    return array[index - 1];
-  };
-
-  clickCompleteTodoByIndex = async (index: number): Promise<void> => {
-    const checkComplete = await this.findCompletedOfTodoByIndex(index);
-    await this.user.click(checkComplete);
-  };
-}
