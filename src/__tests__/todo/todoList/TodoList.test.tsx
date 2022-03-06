@@ -1,6 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
+import userEvent from "@testing-library/user-event";
+
+const updateComplete: jest.Mock = jest.fn();
 
 describe("Todoの件数による表示テスト", () => {
   const expectTexts: string[] = [
@@ -18,7 +21,7 @@ describe("Todoの件数による表示テスト", () => {
         text: text,
       },
     ];
-    render(<TodoList todos={todos} />);
+    render(<TodoList todos={todos} updateComplete={updateComplete} />);
     const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(1);
     expect(todoTexts[0].textContent).toBe(text);
@@ -35,7 +38,7 @@ describe("Todoの件数による表示テスト", () => {
         text: expectTexts[1],
       },
     ];
-    render(<TodoList todos={todos} />);
+    render(<TodoList todos={todos} updateComplete={updateComplete} />);
     const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(2);
     todoTexts.forEach((todoText, index) => {
@@ -44,8 +47,48 @@ describe("Todoの件数による表示テスト", () => {
   });
 
   test("Todoが0件ならリストは表示されない", () => {
-    render(<TodoList todos={[]} />);
+    render(<TodoList todos={[]} updateComplete={updateComplete} />);
     const todoTexts = screen.queryAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(0);
   });
+});
+
+describe("Todoの状況を更新する", () => {
+  test.each`
+    isCompleted | willBeCompleted
+    ${false}    | ${true}
+    ${true}     | ${false}
+  `(
+    "完了状況が $isCompleted のTodoをクリックすると $willBeCompleted を呼び出すこと",
+    async ({
+      isCompleted,
+      willBeCompleted,
+    }: {
+      isCompleted: boolean;
+      willBeCompleted: boolean;
+    }) => {
+      // Given: Todoを１つ用意して表示する
+      const id: string = "dummy-id";
+      const todos: Todo[] = [
+        {
+          id,
+          text: "完了チェックのテスト",
+          isCompleted,
+        },
+      ];
+      render(<TodoList todos={todos} updateComplete={updateComplete} />);
+      const user = userEvent.setup();
+      const checkBox = screen.getAllByRole("checkbox", {
+        name: "todo-isCompleted",
+      })[0];
+
+      // When:Todoの完了状況を更新する
+      await user.click(checkBox);
+
+      // Then: Todoの完了状況が更新されること
+      expect(updateComplete).toHaveBeenCalledTimes(1);
+      expect(updateComplete.mock.calls[0][0]).toBe(id);
+      expect(updateComplete.mock.calls[0][1]).toBe(willBeCompleted);
+    }
+  );
 });

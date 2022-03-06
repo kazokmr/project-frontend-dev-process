@@ -1,17 +1,17 @@
 import TodoItem from "./TodoItem";
 import { Todo } from "../model/todo/Todo";
 
-const TodoList = ({ todos }: { todos: Array<Todo> }) => {
+const TodoList = ({
+  todos,
+  updateComplete,
+}: {
+  todos: Array<Todo>;
+  updateComplete: (id: string, isCompeted: boolean) => void;
+}) => {
   return (
     <ul aria-label={"list-todo"}>
       {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          id={todo.id}
-          text={todo.text}
-          isCompleted={todo.isCompleted}
-          color={todo.color}
-        />
+        <TodoItem key={todo.id} todo={todo} updateComplete={updateComplete} />
       ))}
     </ul>
   );

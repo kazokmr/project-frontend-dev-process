@@ -11,11 +11,18 @@ const TodoApp = () => {
     const newTodo = createTodo(text);
     setTodos([...todos, newTodo]);
   };
+  const updateComplete = (id: string, isCompleted: boolean) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id !== id ? todo : { ...todo, isCompleted: isCompleted }
+      )
+    );
+  };
 
   return (
     <div className="todo-container">
       <NewTodo addTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} updateComplete={updateComplete} />
       <OperatingTodos />
     </div>
   );

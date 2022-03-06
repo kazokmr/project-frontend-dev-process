@@ -2,7 +2,13 @@ import { TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
 import { Todo } from "../model/todo/Todo";
 
-const TodoItem = (todo: Todo) => {
+const TodoItem = ({
+  todo,
+  updateComplete,
+}: {
+  todo: Todo;
+  updateComplete: (id: string, isCompleted: boolean) => void;
+}) => {
   const optionalColors = TodoColors.map((color) => (
     <option key={color} value={color}>
       {capitalize(color)}
@@ -16,7 +22,7 @@ const TodoItem = (todo: Todo) => {
           type="checkbox"
           aria-label={"todo-isCompleted"}
           checked={todo.isCompleted}
-          onChange={(event) => ""}
+          onChange={(event) => updateComplete(todo.id, event.target.checked)}
         />
       </span>
       <span aria-label={"content-todo"}>{todo.text}</span>
