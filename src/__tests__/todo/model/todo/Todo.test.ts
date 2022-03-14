@@ -1,4 +1,5 @@
 import { createTodo, Todo } from "../../../../todo/model/todo/Todo";
+import { TODO_COLOR } from "../../../../todo/model/filter/TodoColors";
 
 describe("Todoの作成テスト", () => {
   test("TodoTextを渡すとIDにULIDをセットしてTodoオブジェクトを作成する", () => {
@@ -7,7 +8,7 @@ describe("Todoの作成テスト", () => {
     expect(todo.id).toMatch(/^[0-9A-Z]{26}$/);
     expect(todo.text).toBe(newText);
     expect(todo.isCompleted).toBeFalsy();
-    expect(todo.color).toBeUndefined();
+    expect(todo.color).toBe(TODO_COLOR.None);
   });
 
   test("IDは重複しないこと", () => {

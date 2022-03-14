@@ -1,5 +1,6 @@
 // Enumの代わりにconstアサーション(as const)でCOLORオブジェクトをreadonlyにする
 export const TODO_COLOR = {
+  None: "",
   Green: "green",
   Blue: "blue",
   Orange: "orange",

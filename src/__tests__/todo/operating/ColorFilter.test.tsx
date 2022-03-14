@@ -22,7 +22,7 @@ describe("カラーフィルターの初期値", () => {
       screen
         .getAllByRole("checkbox", { checked: false })
         .map((e) => e.getAttribute("name"))
-    ).toEqual(["blue", "orange", "red"]);
+    ).toEqual(["", "blue", "orange", "red"]);
   });
 
   test("パラメータが渡されない場合は全て未選択であること", () => {

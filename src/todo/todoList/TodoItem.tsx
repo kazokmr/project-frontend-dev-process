@@ -32,7 +32,6 @@ const TodoItem = ({
           value={todo.color}
           onChange={(event) => ""}
         >
-          <option value="" />
           {optionalColors}
         </select>
       </span>
