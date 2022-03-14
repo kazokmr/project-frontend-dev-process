@@ -20,6 +20,7 @@ describe("初期選択状態のテスト", () => {
             id: "dummy-id",
             text: "Test whether todo is checked or not",
             isCompleted: isCompleted,
+            color: TODO_COLOR.None,
           }}
           updateComplete={updateComplete}
         />
@@ -31,6 +32,7 @@ describe("初期選択状態のテスト", () => {
 
   test.each`
     todoColor            | displayValue
+    ${TODO_COLOR.None}   | ${capitalize(TODO_COLOR.None)}
     ${TODO_COLOR.Green}  | ${capitalize(TODO_COLOR.Green)}
     ${TODO_COLOR.Purple} | ${capitalize(TODO_COLOR.Purple)}
     ${TODO_COLOR.Red}    | ${capitalize(TODO_COLOR.Red)}
@@ -51,6 +53,7 @@ describe("初期選択状態のテスト", () => {
           todo={{
             id: "dummy-id",
             text: "Test SelectBox",
+            isCompleted: false,
             color: todoColor,
           }}
           updateComplete={updateComplete}
@@ -75,6 +78,8 @@ describe("初期選択状態のテスト", () => {
         todo={{
           id: "dummy-id",
           text: text,
+          isCompleted: false,
+          color: TODO_COLOR.None,
         }}
         updateComplete={updateComplete}
       />
@@ -106,6 +111,7 @@ describe("Todoの完了状況が操作できること", () => {
             id: id,
             text: "update isChecked",
             isCompleted: isCompleted,
+            color: TODO_COLOR.None,
           }}
           updateComplete={updateComplete}
         />

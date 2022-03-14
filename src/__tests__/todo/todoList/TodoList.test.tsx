@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
 import userEvent from "@testing-library/user-event";
+import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
 
 const updateComplete: jest.Mock = jest.fn();
 
@@ -19,6 +20,8 @@ describe("Todoの件数による表示テスト", () => {
       {
         id: "dummy",
         text: text,
+        isCompleted: false,
+        color: TODO_COLOR.None,
       },
     ];
     render(<TodoList todos={todos} updateComplete={updateComplete} />);
@@ -32,10 +35,14 @@ describe("Todoの件数による表示テスト", () => {
       {
         id: "dummy-1",
         text: expectTexts[0],
+        isCompleted: false,
+        color: TODO_COLOR.None,
       },
       {
         id: "dummy-2",
         text: expectTexts[1],
+        isCompleted: false,
+        color: TODO_COLOR.None,
       },
     ];
     render(<TodoList todos={todos} updateComplete={updateComplete} />);
@@ -73,6 +80,7 @@ describe("Todoの状況を更新する", () => {
           id,
           text: "完了チェックのテスト",
           isCompleted,
+          color: TODO_COLOR.None,
         },
       ];
       render(<TodoList todos={todos} updateComplete={updateComplete} />);
