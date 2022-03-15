@@ -2,6 +2,7 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup";
 import { render, screen } from "@testing-library/react";
 import TodoApp from "../../../todo/TodoApp";
 import userEvent from "@testing-library/user-event";
+import { TodoColor } from "../../../todo/model/filter/TodoColors";
 
 export class TodoListPage {
   private readonly user: UserEvent;
@@ -38,21 +39,29 @@ export class TodoListPage {
     await this.user.click(checkComplete);
   };
 
+  selectColorLabelByRow = async (
+    numberOfRow: number,
+    color: TodoColor
+  ): Promise<void> => {
+    const colorLabel = await this.findColorOfTodoByIndex(numberOfRow - 1);
+    await this.user.selectOptions(colorLabel, color);
+  };
+
   isCompletedTodoByRow = (numberOfRow: number): Promise<boolean | null> => {
     return this.findCompletedOfTodoByIndex(numberOfRow - 1).then(
-      (value) => value.checked
+      (checkbox) => checkbox.checked
     );
   };
 
   getContentTodoByRow = (numberOfRow: number): Promise<string | null> => {
     return this.findContentOfTodoByIndex(numberOfRow - 1).then(
-      (value) => value.textContent
+      (text) => text.textContent
     );
   };
 
   getColorOfTodoByRow = (numberOfRow: number): Promise<string | null> => {
     return this.findColorOfTodoByIndex(numberOfRow - 1).then(
-      (value) => value.value
+      (select) => select.value
     );
   };
 

@@ -3,8 +3,10 @@ import TodoItem from "../../../todo/todoList/TodoItem";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import userEvent from "@testing-library/user-event";
+import { Todo } from "../../../todo/model/todo/Todo";
 
-const updateComplete: jest.Mock = jest.fn();
+const onChangeCompleteHandler: jest.Mock = jest.fn();
+const onChangeColorHandler: jest.Mock = jest.fn();
 
 describe("初期選択状態のテスト", () => {
   test.each`
@@ -22,7 +24,8 @@ describe("初期選択状態のテスト", () => {
             isCompleted: isCompleted,
             color: TODO_COLOR.None,
           }}
-          updateComplete={updateComplete}
+          onChangeCompleteHandler={onChangeCompleteHandler}
+          onChangeColorHandler={onChangeColorHandler}
         />
       );
       const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
@@ -56,7 +59,8 @@ describe("初期選択状態のテスト", () => {
             isCompleted: false,
             color: todoColor,
           }}
-          updateComplete={updateComplete}
+          onChangeCompleteHandler={onChangeCompleteHandler}
+          onChangeColorHandler={onChangeColorHandler}
         />
       );
       const selectBox = screen.getByRole("option", { selected: true });
@@ -81,7 +85,8 @@ describe("初期選択状態のテスト", () => {
           isCompleted: false,
           color: TODO_COLOR.None,
         }}
-        updateComplete={updateComplete}
+        onChangeCompleteHandler={onChangeCompleteHandler}
+        onChangeColorHandler={onChangeColorHandler}
       />
     );
     // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
@@ -92,17 +97,12 @@ describe("初期選択状態のテスト", () => {
 
 describe("Todoの完了状況が操作できること", () => {
   test.each`
-    isCompleted | willBeCompletedAfterClick
-    ${false}    | ${true}
-    ${true}     | ${false}
+    isCompleted
+    ${false}
+    ${true}
   `(
-    "Todoの完了状況が $isCompleted で チェックボックスをクリックすると $willBeCompletedAfterClick",
-    async ({
-      isCompleted,
-    }: {
-      isCompleted: boolean;
-      willBeCompletedAfterClick: boolean;
-    }) => {
+    "Todoの完了状況が $isCompleted で チェックボックスをクリックするとonChangeCompleteHandler関数を呼ぶ",
+    async ({ isCompleted }: { isCompleted: boolean }) => {
       // Given: Todoをレンダリング
       const id = "dummy-id";
       render(
@@ -113,7 +113,8 @@ describe("Todoの完了状況が操作できること", () => {
             isCompleted: isCompleted,
             color: TODO_COLOR.None,
           }}
-          updateComplete={updateComplete}
+          onChangeCompleteHandler={onChangeCompleteHandler}
+          onChangeColorHandler={onChangeColorHandler}
         />
       );
 
@@ -125,8 +126,46 @@ describe("Todoの完了状況が操作できること", () => {
       await user.click(completeCheckbox);
 
       // Then: Todoを完了状況を更新する
-      expect(updateComplete).toHaveBeenCalledTimes(1);
-      expect(updateComplete.mock.calls[0][0]).toBe(id);
+      expect(onChangeCompleteHandler).toHaveBeenCalledTimes(1);
+      expect(onChangeCompleteHandler.mock.calls[0][0]).toBe(id);
+    }
+  );
+
+  test.each`
+    changingColor
+    ${TODO_COLOR.None}
+    ${TODO_COLOR.Blue}
+    ${TODO_COLOR.Red}
+    ${TODO_COLOR.Orange}
+    ${TODO_COLOR.Purple}
+    ${TODO_COLOR.Green}
+  `(
+    "Colorタグを $changingColor に変更したら onChangeColorHandler関数を呼ぶこと",
+    async ({ changingColor }: { changingColor: TodoColor }) => {
+      // Given: TodoListコンポーネントをレンダリングする
+      const id: string = "dummy-id";
+      const todo: Todo = {
+        id,
+        text: "Colorタグの変更",
+        isCompleted: false,
+        color: TODO_COLOR.None,
+      };
+      render(
+        <TodoItem
+          todo={todo}
+          onChangeCompleteHandler={onChangeCompleteHandler}
+          onChangeColorHandler={onChangeColorHandler}
+        />
+      );
+      const user = userEvent.setup();
+      const selectBox = screen.getByLabelText("select-todo-color");
+
+      // When: Colorタグを変更する
+      await user.selectOptions(selectBox, changingColor);
+
+      // Then: TodoのIDと変更するColorを渡して関数を1回呼び出すこと
+      expect(onChangeColorHandler).toHaveBeenCalledTimes(1);
+      expect(onChangeColorHandler.mock.calls[0]).toEqual([id, changingColor]);
     }
   );
 });

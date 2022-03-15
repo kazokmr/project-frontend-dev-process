@@ -1,4 +1,5 @@
 import { TodoListPage } from "../pageObjects/todo/TodoListPage";
+import { TODO_COLOR } from "../../todo/model/filter/TodoColors";
 
 describe("新しいTodo追加したらTodoリストに表示される", () => {
   describe("TextBox上でエンターキーを押す", () => {
@@ -65,6 +66,30 @@ describe("Todoの操作", () => {
 
       // Then: ２番目が未完了に戻っていること
       expect(await page.isCompletedTodoByRow(2)).toBe(false);
+    });
+  });
+
+  describe("TodoのColorタグが操作できること", () => {
+    test("TodoのColorタグを 未選択 から blue に変更できる", async () => {
+      // Given: TodoアプリをレンダリングしてTodoを２つ作成する
+      const page = await TodoListPage.build(2);
+
+      // When:１番目のTodoのラベルを青にする
+      await page.selectColorLabelByRow(1, TODO_COLOR.Blue);
+
+      // Then: １番目のColorラベルが指定した色に変わっていること
+      expect(await page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Blue);
+    });
+
+    test.skip("TodoのColorラベルをredからblueに変更できる", async () => {
+      // Given: TodoアプリをレンダリングしてTodoを２つ作成する
+      const page = await TodoListPage.build(1);
+
+      // When:１番目のTodoのラベルを青にする
+      await page.selectColorLabelByRow(1, TODO_COLOR.Blue);
+
+      // Then: １番目のColorラベルが指定した色に変わっていること
+      expect(await page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Blue);
     });
   });
 });

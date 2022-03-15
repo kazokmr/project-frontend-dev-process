@@ -1,17 +1,25 @@
 import TodoItem from "./TodoItem";
 import { Todo } from "../model/todo/Todo";
+import { TodoColor } from "../model/filter/TodoColors";
 
 const TodoList = ({
   todos,
-  updateComplete,
+  onChangeCompleteHandler,
+  onChangeColorHandler,
 }: {
   todos: Array<Todo>;
-  updateComplete: (id: string) => void;
+  onChangeCompleteHandler: (id: string) => void;
+  onChangeColorHandler: (id: string, changingColor: TodoColor) => void;
 }) => {
   return (
     <ul aria-label={"list-todo"}>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} updateComplete={updateComplete} />
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onChangeCompleteHandler={onChangeCompleteHandler}
+          onChangeColorHandler={onChangeColorHandler}
+        />
       ))}
     </ul>
   );
