@@ -1,4 +1,4 @@
-import { TodoColor, TodoColors } from "../model/filter/TodoColors";
+import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
 
 const ColorFilter = ({ curColors }: { curColors?: Array<TodoColor> }) => {
@@ -6,19 +6,21 @@ const ColorFilter = ({ curColors }: { curColors?: Array<TodoColor> }) => {
     <div>
       <h5>Filter by Color</h5>
       <ul>
-        {TodoColors.map((color) => (
-          <li key={color}>
-            <label>
-              <input
-                type="checkbox"
-                name={color}
-                checked={curColors ? curColors.includes(color) : false}
-                onChange={(event) => ""}
-              />
-              {capitalize(color)}
-            </label>
-          </li>
-        ))}
+        {TodoColors.filter((color) => color !== TODO_COLOR.None).map(
+          (color) => (
+            <li key={color}>
+              <label>
+                <input
+                  type="checkbox"
+                  name={color}
+                  checked={curColors ? curColors.includes(color) : false}
+                  onChange={(event) => ""}
+                />
+                {capitalize(color)}
+              </label>
+            </li>
+          )
+        )}
       </ul>
     </div>
   );
