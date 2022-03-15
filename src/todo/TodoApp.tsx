@@ -22,9 +22,11 @@ const TodoApp = () => {
     );
   };
 
-  const updateColor = (id: string, color: TodoColor) => {
+  const updateColor = (id: string, changingColor: TodoColor) => {
     setTodos(
-      todos.map((todo: Todo) => (todo.id !== id ? todo : { ...todo, color }))
+      todos.map((todo: Todo) =>
+        todo.id !== id ? todo : { ...todo, color: changingColor }
+      )
     );
   };
 
