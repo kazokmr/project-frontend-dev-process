@@ -4,10 +4,27 @@ import { TODO_COLOR, TodoColors } from "../../../todo/model/filter/TodoColors";
 import userEvent from "@testing-library/user-event";
 
 describe("カラーフィルターの初期値", () => {
-  test("何も指定されていなければ全て未選択であること", () => {
+  test("Noneを除く全ての色が表示され選択できること", () => {
+    // Given: コンポーネントをレンダリングする
+    render(<ColorFilter curColors={[]} />);
+
+    // When: フィルタ要素のname配列を取得する
+    const filterNames = screen
+      .getAllByRole("checkbox")
+      .map((e) => e.getAttribute("name"));
+
+    // Then: Noneを除く全ての色が取得できること
+    expect(filterNames).not.toContain(TODO_COLOR.None);
+    // 同じ条件でソートして配列が一致することを確認する
+    expect(filterNames.sort()).toEqual(
+      TodoColors.filter((color) => color !== TODO_COLOR.None).sort()
+    );
+  });
+
+  test("Noneを除く全てが未選択であること", () => {
     render(<ColorFilter curColors={[]} />);
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      TodoColors.length
+      TodoColors.length - 1
     );
   });
 
@@ -22,13 +39,13 @@ describe("カラーフィルターの初期値", () => {
       screen
         .getAllByRole("checkbox", { checked: false })
         .map((e) => e.getAttribute("name"))
-    ).toEqual(["", "blue", "orange", "red"]);
+    ).toEqual(["blue", "orange", "red"]);
   });
 
-  test("パラメータが渡されない場合は全て未選択であること", () => {
+  test("パラメータが渡されない場合はNoneを除く全てがｊｊ未選択であること", () => {
     render(<ColorFilter curColors={undefined} />);
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      TodoColors.length
+      TodoColors.length - 1
     );
   });
 });
