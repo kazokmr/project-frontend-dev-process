@@ -32,19 +32,24 @@ export class TodoListPage {
     return data.childElementCount;
   };
 
-  clickCompleteTodoByRow = async (numberOfRow: number): Promise<void> => {
+  completeTodoByRow = async (numberOfRow: number): Promise<void> => {
     const checkComplete = await this.findCompletedOfTodoByIndex(
       numberOfRow - 1
     );
     await this.user.click(checkComplete);
   };
 
-  selectColorLabelByRow = async (
+  changeColorTagByRow = async (
     numberOfRow: number,
     color: TodoColor
   ): Promise<void> => {
     const colorLabel = await this.findColorOfTodoByIndex(numberOfRow - 1);
     await this.user.selectOptions(colorLabel, color);
+  };
+
+  deleteTodoByRow = async (numberOfRow: number): Promise<void> => {
+    const deleteTodo = await this.findDeleteOfTodoByIndex(numberOfRow - 1);
+    await this.user.click(deleteTodo);
   };
 
   isCompletedTodoByRow = (numberOfRow: number): Promise<boolean | null> => {
