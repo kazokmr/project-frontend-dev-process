@@ -6,10 +6,12 @@ const TodoItem = ({
   todo,
   onChangeCompleteHandler,
   onChangeColorHandler,
+  onClickDeleteHandler,
 }: {
   todo: Todo;
   onChangeCompleteHandler: (id: string) => void;
   onChangeColorHandler: (id: string, changingColor: TodoColor) => void;
+  onClickDeleteHandler: (id: string) => void;
 }) => {
   const optionalColors = TodoColors.map((color) => (
     <option key={color} value={color}>
@@ -43,7 +45,7 @@ const TodoItem = ({
         <button
           aria-label={"delete-todo"}
           type={"button"}
-          onClick={(event) => ""}
+          onClick={() => onClickDeleteHandler(todo.id)}
         >
           X
         </button>
