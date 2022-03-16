@@ -5,9 +5,9 @@ import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import userEvent from "@testing-library/user-event";
 import { Todo } from "../../../todo/model/todo/Todo";
 
-const onChangeCompleteHandler: jest.Mock = jest.fn();
-const onChangeColorHandler: jest.Mock = jest.fn();
-const onClickDeleteHandler: jest.Mock = jest.fn();
+const onChangeComplete: jest.Mock = jest.fn();
+const onChangeColor: jest.Mock = jest.fn();
+const onClickDelete: jest.Mock = jest.fn();
 
 describe("初期選択状態のテスト", () => {
   test.each`
@@ -25,9 +25,9 @@ describe("初期選択状態のテスト", () => {
             isCompleted: isCompleted,
             color: TODO_COLOR.None,
           }}
-          onChangeCompleteHandler={onChangeCompleteHandler}
-          onChangeColorHandler={onChangeColorHandler}
-          onClickDeleteHandler={onClickDeleteHandler}
+          onChangeComplete={onChangeComplete}
+          onChangeColor={onChangeColor}
+          onClickDelete={onClickDelete}
         />
       );
       const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
@@ -61,9 +61,9 @@ describe("初期選択状態のテスト", () => {
             isCompleted: false,
             color: todoColor,
           }}
-          onChangeCompleteHandler={onChangeCompleteHandler}
-          onChangeColorHandler={onChangeColorHandler}
-          onClickDeleteHandler={onClickDeleteHandler}
+          onChangeComplete={onChangeComplete}
+          onChangeColor={onChangeColor}
+          onClickDelete={onClickDelete}
         />
       );
       const selectBox = screen.getByRole("option", { selected: true });
@@ -88,9 +88,9 @@ describe("初期選択状態のテスト", () => {
           isCompleted: false,
           color: TODO_COLOR.None,
         }}
-        onChangeCompleteHandler={onChangeCompleteHandler}
-        onChangeColorHandler={onChangeColorHandler}
-        onClickDeleteHandler={onClickDeleteHandler}
+        onChangeComplete={onChangeComplete}
+        onChangeColor={onChangeColor}
+        onClickDelete={onClickDelete}
       />
     );
     // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
@@ -99,110 +99,112 @@ describe("初期選択状態のテスト", () => {
   });
 });
 
-describe("Todoの完了状況の変更イベントのテスト", () => {
-  test.each`
-    isCompleted
-    ${false}
-    ${true}
-  `(
-    "Todoの完了状況が $isCompleted で チェックボックスをクリックするとonChangeCompleteHandler関数を呼ぶ",
-    async ({ isCompleted }: { isCompleted: boolean }) => {
-      // Given: Todoをレンダリング
+describe("Todoのイベントハンドラのテスト", () => {
+  describe("Todoの完了状況の変更イベントのテスト", () => {
+    test.each`
+      isCompleted
+      ${false}
+      ${true}
+    `(
+      "Todoの完了状況が $isCompleted で チェックボックスをクリックするとonChangeCompleteHandler関数を呼ぶ",
+      async ({ isCompleted }: { isCompleted: boolean }) => {
+        // Given: Todoをレンダリング
+        const id = "dummy-id";
+        render(
+          <TodoItem
+            todo={{
+              id: id,
+              text: "update isChecked",
+              isCompleted: isCompleted,
+              color: TODO_COLOR.None,
+            }}
+            onChangeComplete={onChangeComplete}
+            onChangeColor={onChangeColor}
+            onClickDelete={onClickDelete}
+          />
+        );
+
+        // When: Todoの完了状況を変更する
+        const user = userEvent.setup();
+        const completeCheckbox = screen.getByRole("checkbox", {
+          name: "todo-isCompleted",
+        });
+        await user.click(completeCheckbox);
+
+        // Then: Todoを完了状況を更新する
+        expect(onChangeComplete.mock.calls[0][0]).toBe(id);
+        expect(onChangeComplete).toHaveBeenCalledTimes(1);
+      }
+    );
+  });
+  describe("TodoのColorタグの変更イベントのテスト", () => {
+    test.each`
+      changingColor
+      ${TODO_COLOR.None}
+      ${TODO_COLOR.Blue}
+      ${TODO_COLOR.Red}
+      ${TODO_COLOR.Orange}
+      ${TODO_COLOR.Purple}
+      ${TODO_COLOR.Green}
+    `(
+      "Colorタグを $changingColor に変更したら onChangeColorHandler関数を呼ぶこと",
+      async ({ changingColor }: { changingColor: TodoColor }) => {
+        // Given: Todoコンポーネントをレンダリングする
+        const id: string = "dummy-id";
+        const todo: Todo = {
+          id,
+          text: "Colorタグの変更",
+          isCompleted: false,
+          color: TODO_COLOR.None,
+        };
+        render(
+          <TodoItem
+            todo={todo}
+            onChangeComplete={onChangeComplete}
+            onChangeColor={onChangeColor}
+            onClickDelete={onClickDelete}
+          />
+        );
+
+        // When: Colorタグを変更する
+        const user = userEvent.setup();
+        const selectBox = screen.getByLabelText("select-todo-color");
+        await user.selectOptions(selectBox, changingColor);
+
+        // Then: TodoのIDと変更するColorを渡して関数を1回呼び出すこと
+        expect(onChangeColor.mock.calls[0]).toEqual([id, changingColor]);
+        expect(onChangeColor).toHaveBeenCalledTimes(1);
+      }
+    );
+  });
+
+  describe("Todoの削除イベントのテスト", () => {
+    test("削除ボタンを押すと onClickDeleteHandler関数を実行すること", async () => {
+      // Given: Todoコンポーネントを出力する
       const id = "dummy-id";
-      render(
-        <TodoItem
-          todo={{
-            id: id,
-            text: "update isChecked",
-            isCompleted: isCompleted,
-            color: TODO_COLOR.None,
-          }}
-          onChangeCompleteHandler={onChangeCompleteHandler}
-          onChangeColorHandler={onChangeColorHandler}
-          onClickDeleteHandler={onClickDeleteHandler}
-        />
-      );
-
-      // When: Todoの完了状況を変更する
-      const user = userEvent.setup();
-      const completeCheckbox = screen.getByRole("checkbox", {
-        name: "todo-isCompleted",
-      });
-      await user.click(completeCheckbox);
-
-      // Then: Todoを完了状況を更新する
-      expect(onChangeCompleteHandler.mock.calls[0][0]).toBe(id);
-      expect(onChangeCompleteHandler).toHaveBeenCalledTimes(1);
-    }
-  );
-});
-describe("TodoのColorタグの変更イベントのテスト", () => {
-  test.each`
-    changingColor
-    ${TODO_COLOR.None}
-    ${TODO_COLOR.Blue}
-    ${TODO_COLOR.Red}
-    ${TODO_COLOR.Orange}
-    ${TODO_COLOR.Purple}
-    ${TODO_COLOR.Green}
-  `(
-    "Colorタグを $changingColor に変更したら onChangeColorHandler関数を呼ぶこと",
-    async ({ changingColor }: { changingColor: TodoColor }) => {
-      // Given: Todoコンポーネントをレンダリングする
-      const id: string = "dummy-id";
       const todo: Todo = {
         id,
-        text: "Colorタグの変更",
+        text: "削除ボタンの操作イベントをテストする",
         isCompleted: false,
         color: TODO_COLOR.None,
       };
       render(
         <TodoItem
           todo={todo}
-          onChangeCompleteHandler={onChangeCompleteHandler}
-          onChangeColorHandler={onChangeColorHandler}
-          onClickDeleteHandler={onClickDeleteHandler}
+          onChangeComplete={onChangeComplete}
+          onChangeColor={onChangeColor}
+          onClickDelete={onClickDelete}
         />
       );
 
-      // When: Colorタグを変更する
+      // When: Todoの削除ボタンを押す
       const user = userEvent.setup();
-      const selectBox = screen.getByLabelText("select-todo-color");
-      await user.selectOptions(selectBox, changingColor);
+      const deleteButton = screen.getByRole("button", { name: "delete-todo" });
+      await user.click(deleteButton);
 
-      // Then: TodoのIDと変更するColorを渡して関数を1回呼び出すこと
-      expect(onChangeColorHandler.mock.calls[0]).toEqual([id, changingColor]);
-      expect(onChangeColorHandler).toHaveBeenCalledTimes(1);
-    }
-  );
-});
-
-describe("Todoの削除イベントのテスト", () => {
-  test("削除ボタンを押すと onClickDeleteHandler関数を実行すること", async () => {
-    // Given: Todoコンポーネントを出力する
-    const id = "dummy-id";
-    const todo: Todo = {
-      id,
-      text: "削除ボタンの操作イベントをテストする",
-      isCompleted: false,
-      color: TODO_COLOR.None,
-    };
-    render(
-      <TodoItem
-        todo={todo}
-        onChangeCompleteHandler={onChangeCompleteHandler}
-        onChangeColorHandler={onChangeColorHandler}
-        onClickDeleteHandler={onClickDeleteHandler}
-      />
-    );
-
-    // When: Todoの削除ボタンを押す
-    const user = userEvent.setup();
-    const deleteButton = screen.getByRole("button", { name: "delete-todo" });
-    await user.click(deleteButton);
-
-    // Then: TodoのIdを渡して関数を1回呼び出すこと
-    expect(onClickDeleteHandler.mock.calls[0][0]).toBe(id);
-    expect(onClickDeleteHandler).toHaveBeenCalledTimes(1);
+      // Then: TodoのIdを渡して関数を1回呼び出すこと
+      expect(onClickDelete.mock.calls[0][0]).toBe(id);
+      expect(onClickDelete).toHaveBeenCalledTimes(1);
+    });
   });
 });
