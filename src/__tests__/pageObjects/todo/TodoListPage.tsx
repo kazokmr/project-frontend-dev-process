@@ -6,35 +6,34 @@ import { TodoColor } from "../../../todo/model/filter/TodoColors";
 
 export class TodoListPage {
   private readonly user: UserEvent;
-  private readonly todoTextBox: HTMLElement;
 
   private constructor() {
     render(<TodoApp />);
     this.user = userEvent.setup();
-    this.todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
   }
 
   // 初期Todoを設定するために非同期処理が必要だったので staticメソッドでインスタンスを生成するようにする
-  static build = async (
+  static print = async (
     initNumberOfTodos: number = 0
   ): Promise<TodoListPage> => {
     const page = new TodoListPage();
-    await page.setInitialTodo(initNumberOfTodos);
+    await page.initializeTodo(initNumberOfTodos);
     return page;
   };
 
-  inputNewTodo = async (inputText: string): Promise<void> => {
-    await this.user.click(this.todoTextBox);
+  writeTodo = async (inputText: string): Promise<void> => {
+    const todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
+    await this.user.click(todoTextBox);
     await this.user.keyboard(inputText);
     await this.user.keyboard("[Enter]");
   };
 
-  completeTodoByRow = async (numberOfRow: number): Promise<void> => {
+  completeTodo = async (numberOfRow: number): Promise<void> => {
     const checkComplete = this.getCompletedOfTodoByIndex(numberOfRow - 1);
     await this.user.click(checkComplete);
   };
 
-  changeColorTagByRow = async (
+  changeColor = async (
     numberOfRow: number,
     color: TodoColor
   ): Promise<void> => {
@@ -42,12 +41,12 @@ export class TodoListPage {
     await this.user.selectOptions(colorLabel, color);
   };
 
-  deleteTodoByRow = async (numberOfRow: number): Promise<void> => {
+  deleteTodo = async (numberOfRow: number): Promise<void> => {
     const deleteTodo = this.getDeleteOfTodoByIndex(numberOfRow - 1);
     await this.user.click(deleteTodo);
   };
 
-  numOfTodos = (): number => {
+  countTodos = (): number => {
     const data = screen.queryByLabelText("list-todo");
     return data ? data.childElementCount : 0;
   };
@@ -61,9 +60,9 @@ export class TodoListPage {
   getColorOfTodoByRow = (numberOfRow: number): string =>
     this.getColorOfTodoByIndex(numberOfRow - 1).value;
 
-  private setInitialTodo = async (numberOfTodos: number) => {
+  private initializeTodo = async (numberOfTodos: number) => {
     for (let number = 0; number < numberOfTodos; number++) {
-      await this.inputNewTodo(`これは ${number + 1} のTodoです`);
+      await this.writeTodo(`これは ${number + 1} のTodoです`);
     }
   };
 
