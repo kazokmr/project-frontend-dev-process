@@ -30,13 +30,18 @@ const TodoApp = () => {
     );
   };
 
+  const deleteTodo = (id: string) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div className="todo-container">
       <NewTodo addTodo={addTodo} />
       <TodoList
         todos={todos}
-        onChangeCompleteHandler={updateComplete}
-        onChangeColorHandler={updateColor}
+        onChangeComplete={updateComplete}
+        onChangeColor={updateColor}
+        onClickDelete={deleteTodo}
       />
       <OperatingTodos />
     </div>
