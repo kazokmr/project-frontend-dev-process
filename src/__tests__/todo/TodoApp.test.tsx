@@ -3,75 +3,76 @@ import { TODO_COLOR, TodoColor } from "../../todo/model/filter/TodoColors";
 import { Todo } from "../../todo/model/todo/Todo";
 import { cleanup } from "@testing-library/react";
 
-describe("新しいTodo追加したらTodoリストに表示される", () => {
-  describe("TextBox上でエンターキーを押す", () => {
-    test.each`
-      todoContent
-      ${"This is a new Todo!"}
-      ${"これは新しいTodoです！！"}
-    `(
-      "入力した $todoContent がTodoリストに表示されること",
-      async ({ todoContent }: { todoContent: string }) => {
-        // Given: コンポーネントをレンダリングする
-        const page = await TodoListPage.build(0);
+describe("TodoリストにTodoを追加するテスト", () => {
+  test.each`
+    todoContent
+    ${"This is a new Todo!"}
+    ${"これは新しいTodoです！！"}
+  `(
+    "空のTodoリストに「$todoContent」が追加できること",
+    async ({ todoContent }: { todoContent: string }) => {
+      // Given: コンポーネントを出力する
+      const page = await TodoListPage.print(0);
+      expect(page.countTodos()).toBe(0);
 
-        // When: TextBoxにTodoを入力してEnterキーを押す
-        await page.inputNewTodo(todoContent);
+      // When: Todoを書く
+      await page.writeTodo(todoContent);
 
-        // Then: 入力したTodoがリストに表示されること
-        expect(page.numOfTodos()).toBe(1);
-        expect(page.isCompletedTodoByRow(1)).toBe(false);
-        expect(page.getContentTodoByRow(1)).toBe(todoContent);
-        expect(page.getColorOfTodoByRow(1)).toBe("");
-      }
-    );
-  });
-  describe("TodoリストにTodoがある状態で新しいTodoを追加する", () => {
-    test("新しいTodoはリストの最後に追加されること", async () => {
-      // Given: Todoを１つ作成しておく
-      const page = await TodoListPage.build(1);
+      // Then: Todoがリストに追加される
+      expect(page.countTodos()).toBe(1);
+      expect(page.isCompletedTodoByRow(1)).toBe(false);
+      expect(page.getContentTodoByRow(1)).toBe(todoContent);
+      expect(page.getColorOfTodoByRow(1)).toBe("");
+    }
+  );
+  test("既存のTodoリストの最後に追加されること", async () => {
+    // Given: コンポーネントを出力しTodoを１つ追加する
+    const page = await TodoListPage.print(1);
+    expect(page.countTodos()).toBe(1);
 
-      // When: ２つ目のTodoを作成する
-      await page.inputNewTodo("A second Todo");
+    // When: Todoを書く
+    await page.writeTodo("A second Todo");
 
-      // Then: 追加したTodoが２番目に表示されること
-      expect(page.numOfTodos()).toBe(2);
-      expect(page.isCompletedTodoByRow(2)).toBe(false);
-      expect(page.getContentTodoByRow(2)).toBe("A second Todo");
-      expect(page.getColorOfTodoByRow(2)).toBe("");
-    });
+    // Then: Todoリストの最後に追加する
+    expect(page.countTodos()).toBe(2);
+    expect(page.isCompletedTodoByRow(2)).toBe(false);
+    expect(page.getContentTodoByRow(2)).toBe("A second Todo");
+    expect(page.getColorOfTodoByRow(2)).toBe("");
   });
 });
 
-describe("Todoの操作", () => {
-  describe("Todoの完了が操作できること", () => {
+describe("Todoリストの操作テスト", () => {
+  describe("Todoの完了操作テスト", () => {
     test("未完了のTodoを完了にできること", async () => {
-      // Given: TodoアプリをレンダリングしてTodoを２つ作成する
-      const page = await TodoListPage.build(2);
+      // Given: コンポーネントを出力しTodoを２つ追加する
+      const page = await TodoListPage.print(2);
+      expect(page.countTodos()).toBe(2);
 
       // When: ２番目のTodoを完了にする
-      await page.completeTodoByRow(2);
+      await page.completeTodo(2);
 
-      // Then: ２番目だけ完了になっていること
+      // Then: ２番目だけが完了になっていること
       expect(page.isCompletedTodoByRow(1)).toBe(false);
       expect(page.isCompletedTodoByRow(2)).toBe(true);
     });
 
-    test("完了済みにしたTodoを未完了に戻せること", async () => {
-      // Given: TodoアプリをレンダリングしてTodoを２つ作成する
-      const page = await TodoListPage.build(2);
-
-      // When: 2番目のTodoの完了状況を2回更新する
-      await page.completeTodoByRow(2);
+    test("完了済みのTodoを未完了に戻せること", async () => {
+      // Given: コンポーネントを出力しTodoを２つ追加する
+      const page = await TodoListPage.print(2);
+      expect(page.countTodos()).toBe(2);
+      // ２番目のTodoを完了にする
+      await page.completeTodo(2);
       expect(page.isCompletedTodoByRow(2)).toBe(true);
-      await page.completeTodoByRow(2);
 
-      // Then: ２番目が未完了に戻っていること
+      // When: ２番目のTodoの完了操作を行う
+      await page.completeTodo(2);
+
+      // Then: ２番目が未完了に戻る
       expect(page.isCompletedTodoByRow(2)).toBe(false);
     });
   });
 
-  describe("TodoのColorタグが操作できること", () => {
+  describe("TodoのColorタグの操作テスト", () => {
     test.each`
       changingColor
       ${TODO_COLOR.None}
@@ -81,29 +82,29 @@ describe("Todoの操作", () => {
       ${TODO_COLOR.Purple}
       ${TODO_COLOR.Red}
     `(
-      "TodoのColorタグを 未選択 から $changingColor に変更できる",
+      "TodoのColorタグを未選択から$changingColorに変更できる",
       async ({ changingColor }: { changingColor: TodoColor }) => {
-        // Given: TodoアプリをレンダリングしてTodoを２つ作成する
-        const page = await TodoListPage.build(2);
+        // Given: コンポーネントを出力しTodoを１つ追加する
+        const page = await TodoListPage.print(1);
+        expect(page.countTodos()).toBe(1);
 
-        // When:１番目のTodoのタグを変更する
-        await page.changeColorTagByRow(1, changingColor);
+        // When:TodoのColorタグを変更する
+        await page.changeColor(1, changingColor);
 
-        // Then: １番目のColorタグが指定した色に変わっていること
+        // Then: Colorタグが指定した色に変わる
         expect(page.getColorOfTodoByRow(1)).toBe(changingColor);
-        // 2番目のタグは変わらないこと
-        expect(page.getColorOfTodoByRow(2)).toBe(TODO_COLOR.None);
       }
     );
 
     test("選択したTodoのタグだけが変わること", async () => {
-      // Given: TodoアプリをレンダリングしてTodoを3つ作成する
-      const page = await TodoListPage.build(3);
+      // Given: コンポーネントを出力しTodoを３つ追加する
+      const page = await TodoListPage.print(3);
+      expect(page.countTodos()).toBe(3);
 
-      // When: ２つ目のTodoのタグだけ更新する
-      await page.changeColorTagByRow(2, TODO_COLOR.Red);
+      // When: ２つ目のTodoのタグを更新する
+      await page.changeColor(2, TODO_COLOR.Red);
 
-      // Then: ２番目のタグだけ変わり他のタグは変わらないこと
+      // Then: ２番目のTodoのタグが変わり他のTodoのタグは変わらないこと
       expect(page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.None);
       expect(page.getColorOfTodoByRow(2)).toBe(TODO_COLOR.Red);
       expect(page.getColorOfTodoByRow(3)).toBe(TODO_COLOR.None);
@@ -118,7 +119,7 @@ describe("Todoの操作", () => {
       ${TODO_COLOR.Green} | ${TODO_COLOR.Purple}
       ${TODO_COLOR.Green} | ${TODO_COLOR.Red}
     `(
-      "TodoのColorタグを一度 $beforeColor にした後に $afterColor に変更できること",
+      "TodoのColorタグを$beforeColorから$afterColorに変更できること",
       async ({
         beforeColor,
         afterColor,
@@ -126,34 +127,34 @@ describe("Todoの操作", () => {
         beforeColor: TodoColor;
         afterColor: TodoColor;
       }) => {
-        // Given: TodoアプリをレンダリングしてTodoを1つ作成する
-        const page = await TodoListPage.build(1);
-        // Todoのタグを一度変更しておく
-        await page.changeColorTagByRow(1, beforeColor);
+        // Given: コンポーネントを出力しTodoを１つ追加する
+        const page = await TodoListPage.print(1);
+        expect(page.countTodos()).toBe(1);
+        // Todoのタグを変更する
+        await page.changeColor(1, beforeColor);
 
-        // When:Todoのタグを変更する
-        await page.changeColorTagByRow(1, afterColor);
+        // When:Todoのタグを再度変更する
+        await page.changeColor(1, afterColor);
 
-        // Then: Todoのタグが最後に更新したタグに変わっていること
+        // Then: Todoのタグが最後に更新したタグに変わる
         expect(page.getColorOfTodoByRow(1)).toBe(afterColor);
       }
     );
   });
-  describe("Todoが削除できる", () => {
-    test("削除ボタンを押すとTodoがリストから削除されること", async () => {
-      // Given: Todoアプリを表示してTodoを１つ作成する
-      const page = await TodoListPage.build(1);
-      // Todoリストが１件表示されていることを確認する
-      expect(page.numOfTodos()).toBe(1);
+  describe("Todoの削除テスト", () => {
+    test("Todoがリストから削除されること", async () => {
+      // Given: コンポーネントを出力しTodoを１つ追加する
+      const page = await TodoListPage.print(1);
+      expect(page.countTodos()).toBe(1);
 
-      // When: 追加したTodoを削除する
-      await page.deleteTodoByRow(1);
+      // When: Todoを削除する
+      await page.deleteTodo(1);
 
-      // Then: Todoリストが０件になること
-      expect(page.numOfTodos()).toBe(0);
+      // Then: Todoリストの件数が０件になる
+      expect(page.countTodos()).toBe(0);
     });
   });
-  describe("指定した行のTodoが削除できる", () => {
+  describe("指定した行のTodoが削除できること", () => {
     const todos: Todo[] = [
       {
         id: "test-1",
@@ -176,14 +177,15 @@ describe("Todoの操作", () => {
     ];
     let page: TodoListPage;
     beforeEach(async () => {
-      page = await TodoListPage.build();
-      await page.inputNewTodo(todos[0].text);
-      await page.inputNewTodo(todos[1].text);
-      await page.inputNewTodo(todos[2].text);
-      await page.changeColorTagByRow(1, todos[0].color);
-      await page.completeTodoByRow(2);
-      await page.changeColorTagByRow(2, todos[1].color);
-      await page.changeColorTagByRow(3, todos[2].color);
+      // コンポーネントを出力しTodoを３つ用意し初期状態に更新する
+      page = await TodoListPage.print();
+      await page.writeTodo(todos[0].text);
+      await page.writeTodo(todos[1].text);
+      await page.writeTodo(todos[2].text);
+      await page.changeColor(1, todos[0].color);
+      await page.completeTodo(2);
+      await page.changeColor(2, todos[1].color);
+      await page.changeColor(3, todos[2].color);
     });
 
     afterEach(() => {
@@ -196,7 +198,7 @@ describe("Todoの操作", () => {
       ${2}     | ${1}           | ${3}
       ${3}     | ${1}           | ${2}
     `(
-      "$numOfDel 列目を削除したら、$willBeFirstRow 列目が1列目、 $willBeSecondRow 列目が２列目になること",
+      "$numOfDel列目を削除したら、$willBeFirstRow列目が1列目、 $willBeSecondRow列目が２列目になること",
       async ({
         numOfDel,
         willBeFirstRow,
@@ -206,16 +208,16 @@ describe("Todoの操作", () => {
         willBeFirstRow: number;
         willBeSecondRow: number;
       }) => {
-        // Given: Todoが３件表示されていることを確認
-        expect(page.numOfTodos()).toBe(3);
+        // Given: Todoが３件表示されている
+        expect(page.countTodos()).toBe(3);
 
-        // When: Todoを削除する
-        await page.deleteTodoByRow(numOfDel);
+        // When: 指定列のTodoを削除する
+        await page.deleteTodo(numOfDel);
 
-        // Then: Todoが２つになり、２番目が１番目、３番目が２番目に繰り上がること
+        // Then: 削除していない２件のTodoが残り、削除したTodoより後のTodoが繰り上がる
         const firstIdx = willBeFirstRow - 1;
         const secondIdx = willBeSecondRow - 1;
-        expect(page.numOfTodos()).toBe(2);
+        expect(page.countTodos()).toBe(2);
         expect(page.getContentTodoByRow(1)).toBe(todos[firstIdx].text);
         expect(page.isCompletedTodoByRow(1)).toBe(todos[firstIdx].isCompleted);
         expect(page.getColorOfTodoByRow(1)).toBe(todos[firstIdx].color);
