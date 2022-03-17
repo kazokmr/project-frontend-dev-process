@@ -1,15 +1,16 @@
-import TodoItem from "./TodoItem";
+import TodoItem, { TodoItemEventHandlers } from "./TodoItem";
 import { Todo } from "../model/todo/Todo";
-import { TodoColor } from "../model/filter/TodoColors";
+import { FC } from "react";
 
-const TodoList = ({
+type TodoListProp = {
+  todos: Todo[];
+} & TodoItemEventHandlers;
+
+const TodoList: FC<TodoListProp> = ({
   todos,
-  onChangeCompleteHandler,
-  onChangeColorHandler,
-}: {
-  todos: Array<Todo>;
-  onChangeCompleteHandler: (id: string) => void;
-  onChangeColorHandler: (id: string, changingColor: TodoColor) => void;
+  onChangeComplete,
+  onChangeColor,
+  onClickDelete,
 }) => {
   return (
     <ul aria-label={"list-todo"}>
@@ -17,8 +18,9 @@ const TodoList = ({
         <TodoItem
           key={todo.id}
           todo={todo}
-          onChangeCompleteHandler={onChangeCompleteHandler}
-          onChangeColorHandler={onChangeColorHandler}
+          onChangeComplete={onChangeComplete}
+          onChangeColor={onChangeColor}
+          onClickDelete={onClickDelete}
         />
       ))}
     </ul>

@@ -15,7 +15,9 @@ export class TodoListPage {
   }
 
   // 初期Todoを設定するために非同期処理が必要だったので staticメソッドでインスタンスを生成するようにする
-  static build = async (initNumberOfTodos: number): Promise<TodoListPage> => {
+  static build = async (
+    initNumberOfTodos: number = 0
+  ): Promise<TodoListPage> => {
     const page = new TodoListPage();
     await page.setInitialTodo(initNumberOfTodos);
     return page;
@@ -27,43 +29,37 @@ export class TodoListPage {
     await this.user.keyboard("[Enter]");
   };
 
-  numOfTodos = async (): Promise<number> => {
-    const data = await screen.findByLabelText("list-todo");
-    return data.childElementCount;
-  };
-
-  clickCompleteTodoByRow = async (numberOfRow: number): Promise<void> => {
-    const checkComplete = await this.findCompletedOfTodoByIndex(
-      numberOfRow - 1
-    );
+  completeTodoByRow = async (numberOfRow: number): Promise<void> => {
+    const checkComplete = this.getCompletedOfTodoByIndex(numberOfRow - 1);
     await this.user.click(checkComplete);
   };
 
-  selectColorLabelByRow = async (
+  changeColorTagByRow = async (
     numberOfRow: number,
     color: TodoColor
   ): Promise<void> => {
-    const colorLabel = await this.findColorOfTodoByIndex(numberOfRow - 1);
+    const colorLabel = this.getColorOfTodoByIndex(numberOfRow - 1);
     await this.user.selectOptions(colorLabel, color);
   };
 
-  isCompletedTodoByRow = (numberOfRow: number): Promise<boolean | null> => {
-    return this.findCompletedOfTodoByIndex(numberOfRow - 1).then(
-      (checkbox) => checkbox.checked
-    );
+  deleteTodoByRow = async (numberOfRow: number): Promise<void> => {
+    const deleteTodo = this.getDeleteOfTodoByIndex(numberOfRow - 1);
+    await this.user.click(deleteTodo);
   };
 
-  getContentTodoByRow = (numberOfRow: number): Promise<string | null> => {
-    return this.findContentOfTodoByIndex(numberOfRow - 1).then(
-      (text) => text.textContent
-    );
+  numOfTodos = (): number => {
+    const data = screen.queryByLabelText("list-todo");
+    return data ? data.childElementCount : 0;
   };
 
-  getColorOfTodoByRow = (numberOfRow: number): Promise<string | null> => {
-    return this.findColorOfTodoByIndex(numberOfRow - 1).then(
-      (select) => select.value
-    );
-  };
+  isCompletedTodoByRow = (numberOfRow: number): boolean =>
+    this.getCompletedOfTodoByIndex(numberOfRow - 1).checked;
+
+  getContentTodoByRow = (numberOfRow: number): string | null =>
+    this.getContentOfTodoByIndex(numberOfRow - 1).textContent;
+
+  getColorOfTodoByRow = (numberOfRow: number): string =>
+    this.getColorOfTodoByIndex(numberOfRow - 1).value;
 
   private setInitialTodo = async (numberOfTodos: number) => {
     for (let number = 0; number < numberOfTodos; number++) {
@@ -71,42 +67,32 @@ export class TodoListPage {
     }
   };
 
-  private findCompletedOfTodoByIndex = async (
-    index: number
-  ): Promise<HTMLInputElement> => {
-    const completedArray: Array<HTMLInputElement> = await screen.findAllByRole(
+  private getCompletedOfTodoByIndex = (index: number): HTMLInputElement => {
+    const completedArray: Array<HTMLInputElement> = screen.getAllByRole(
       "checkbox",
       { name: "todo-isCompleted" }
     );
     return completedArray[index];
   };
 
-  private findContentOfTodoByIndex = async (
-    index: number
-  ): Promise<HTMLInputElement> => {
-    const contents: Array<HTMLInputElement> = await screen.findAllByLabelText(
-      "content-todo"
-    );
+  private getContentOfTodoByIndex = (index: number): HTMLInputElement => {
+    const contents: Array<HTMLInputElement> =
+      screen.getAllByLabelText("content-todo");
     return contents[index];
   };
 
-  private findColorOfTodoByIndex = async (
-    index: number
-  ): Promise<HTMLSelectElement> => {
-    const colorListBoxes: Array<HTMLSelectElement> = await screen.findAllByRole(
+  private getColorOfTodoByIndex = (index: number): HTMLSelectElement => {
+    const colorListBoxes: Array<HTMLSelectElement> = screen.getAllByRole(
       "combobox",
       { name: "select-todo-color" }
     );
     return colorListBoxes[index];
   };
 
-  private findDeleteOfTodoByIndex = async (
-    index: number
-  ): Promise<HTMLButtonElement> => {
-    const buttons: Array<HTMLButtonElement> = await screen.findAllByRole(
-      "button",
-      { name: "delete-todo" }
-    );
+  private getDeleteOfTodoByIndex = (index: number): HTMLButtonElement => {
+    const buttons: Array<HTMLButtonElement> = screen.getAllByRole("button", {
+      name: "delete-todo",
+    });
     return buttons[index];
   };
 }
