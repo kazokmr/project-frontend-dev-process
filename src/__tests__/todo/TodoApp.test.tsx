@@ -227,4 +227,107 @@ describe("Todoリストの操作テスト", () => {
       }
     );
   });
+  describe("Todoの未完了件数の表示テスト", () => {
+    test.each`
+      numOfTodos
+      ${1}
+      ${2}
+      ${0}
+    `(
+      "全てのTodoが未完了の場合、$numOfTodos item(s) remain と表示すること",
+      async ({ numOfTodos }: { numOfTodos: number }) => {
+        // When: コンポーネントを出力しTodoを追加する
+        const page: TodoListPage = await TodoListPage.print(numOfTodos);
+
+        // Then: 未完了のTodo件数が表示される
+        expect(page.countTodos()).toBe(numOfTodos);
+        expect(await page.isContentRemainingTodos(numOfTodos)).toBeTruthy();
+      }
+    );
+
+    test.each`
+      initialCount
+      ${0}
+      ${1}
+      ${2}
+    `(
+      "Todoを追加するとRemaining Todos が$initialCountから１件増えること",
+      async ({ initialCount }: { initialCount: number }) => {
+        // Given: コンポーネントを出力しTodoを追加する
+        const page: TodoListPage = await TodoListPage.print(initialCount);
+        expect(page.countTodos()).toBe(initialCount);
+        expect(await page.isContentRemainingTodos(initialCount)).toBeTruthy();
+
+        // When: Todoを追加する
+        await page.writeTodo("Remaining Todos が１件増えることを確認する");
+
+        // Then: 未完了のTodo件数が表示される
+        const countAfter = ++initialCount;
+        expect(page.countTodos()).toBe(countAfter);
+        expect(await page.isContentRemainingTodos(countAfter)).toBeTruthy();
+      }
+    );
+
+    test.each`
+      initialCount
+      ${3}
+      ${2}
+      ${1}
+    `(
+      "Todoを削除するとRemaining Todos が$initialCountから１件減ること",
+      async ({ initialCount }: { initialCount: number }) => {
+        // Given: コンポーネントを出力しTodoを追加する
+        const page: TodoListPage = await TodoListPage.print(initialCount);
+        expect(page.countTodos()).toBe(initialCount);
+        expect(await page.isContentRemainingTodos(initialCount)).toBeTruthy();
+
+        // When: １番目のTodoを削除する
+        await page.deleteTodo(1);
+
+        // Then: 未完了のTodo件数が表示される
+        const countAfter = --initialCount;
+        expect(page.countTodos()).toBe(countAfter);
+        expect(await page.isContentRemainingTodos(countAfter)).toBeTruthy();
+      }
+    );
+
+    describe("完了したTodoはRemaining Todosの表示件数に含まれない", () => {
+      test("Todoを完了するとRemaining Todosの表示件数から除かれること", async () => {
+        // Given: コンポーネントを出力しTodoを追加する
+        const initialCount = 3;
+        const page: TodoListPage = await TodoListPage.print(initialCount);
+        expect(page.countTodos()).toBe(initialCount);
+        expect(await page.isContentRemainingTodos(initialCount)).toBeTruthy();
+
+        // When: １番目のTodoを完了済みにする
+        await page.completeTodo(1);
+
+        // Then: Remaining Todoの表示件数はTodoリストの件数から１件少なくなる
+        expect(page.countTodos()).toBe(initialCount);
+        expect(
+          await page.isContentRemainingTodos(initialCount - 1)
+        ).toBeTruthy();
+      });
+
+      test("Todoを未完了に戻すとRemaining Todosの表示件数に含まれること", async () => {
+        // Given: コンポーネントを出力しTodoを追加する
+        const initCount = 3;
+        const page: TodoListPage = await TodoListPage.print(initCount);
+        expect(page.countTodos()).toBe(initCount);
+        // ２件のTodoを完了済みにしRemaining Todosの表示件数を２件減らす
+        await page.completeTodo(1);
+        await page.completeTodo(2);
+        expect(await page.isContentRemainingTodos(initCount - 2)).toBeTruthy();
+
+        // When: １番目のTodoを未完了に戻す
+        await page.completeTodo(1);
+
+        // Then: Remaining Todoの表示件数は１件増えること
+        expect(page.countTodos()).toBe(initCount);
+        expect(await page.isContentRemainingTodos(initCount - 1)).toBeTruthy();
+      });
+    });
+
+    describe.skip("Colorフィルターに合わせてRemaining Todosの表示件数も変わること", () => {});
+  });
 });

@@ -3,7 +3,7 @@ const RemainingTodos = ({ numOfTodo }: { numOfTodo: number }) => {
     <div>
       <h5>Remaining Todos</h5>
       <div aria-label={"remaining-todos"}>
-        {`${numOfTodo} remain${numOfTodo > 1 ? "s" : ""} left`}
+        {`${numOfTodo} item${numOfTodo > 1 ? "s" : ""} left`}
       </div>
     </div>
   );

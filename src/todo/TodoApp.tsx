@@ -34,6 +34,8 @@ const TodoApp = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const remainingTodos = () => todos.filter((todo) => !todo.isCompleted);
+
   return (
     <div className="todo-container">
       <NewTodo addTodo={addTodo} />
@@ -43,7 +45,7 @@ const TodoApp = () => {
         onChangeColor={updateColor}
         onClickDelete={deleteTodo}
       />
-      <OperatingTodos />
+      <OperatingTodos numberOfTodos={remainingTodos().length} />
     </div>
   );
 };
