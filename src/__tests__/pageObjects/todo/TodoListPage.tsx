@@ -60,6 +60,14 @@ export class TodoListPage {
   getColorOfTodoByRow = (numberOfRow: number): string =>
     this.getColorOfTodoByIndex(numberOfRow - 1).value;
 
+  isContentRemainingTodos = async (
+    numOfUnCompleted: number
+  ): Promise<boolean> => {
+    const suffix = numOfUnCompleted > 1 ? "s" : "";
+    const contentText = `${numOfUnCompleted} item${suffix} left`;
+    return (await screen.findByText(contentText)) !== null;
+  };
+
   private initializeTodo = async (numberOfTodos: number) => {
     for (let number = 0; number < numberOfTodos; number++) {
       await this.writeTodo(`これは ${number + 1} のTodoです`);

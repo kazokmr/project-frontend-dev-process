@@ -227,4 +227,22 @@ describe("Todoリストの操作テスト", () => {
       }
     );
   });
+  describe("Todoの未完了件数の表示テスト", () => {
+    test.each`
+      numOfTodos
+      ${1}
+      ${2}
+      ${0}
+    `(
+      "全てのTodoが未完了の場合、$numOfTodos item(s) remain と表示すること",
+      async ({ numOfTodos }: { numOfTodos: number }) => {
+        // When: コンポーネントを出力しTodoを追加する
+        const page: TodoListPage = await TodoListPage.print(numOfTodos);
+
+        // Then: 未完了のTodo件数が表示される
+        expect(page.countTodos()).toBe(numOfTodos);
+        expect(await page.isContentRemainingTodos(numOfTodos)).toBeTruthy();
+      }
+    );
+  });
 });

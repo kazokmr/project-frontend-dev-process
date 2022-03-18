@@ -43,7 +43,7 @@ const TodoApp = () => {
         onChangeColor={updateColor}
         onClickDelete={deleteTodo}
       />
-      <OperatingTodos />
+      <OperatingTodos numberOfTodos={todos.length} />
     </div>
   );
 };
