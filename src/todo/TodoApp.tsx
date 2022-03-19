@@ -3,11 +3,16 @@ import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
 import { createTodo, Todo } from "./model/todo/Todo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TodoColor } from "./model/filter/TodoColors";
 
 const TodoApp = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
+
+  const fetchTodo = async () => {
+    const res = await fetch("/todos");
+    return (await res.json()) as Todo[];
+  };
 
   const addTodo = (text: string) => {
     const newTodo = createTodo(text);
@@ -35,6 +40,12 @@ const TodoApp = () => {
   };
 
   const remainingTodos = () => todos.filter((todo) => !todo.isCompleted);
+
+  useEffect(() => {
+    fetchTodo()
+      .then((todos) => setTodos(todos))
+      .catch((error) => console.error(error.message));
+  }, []);
 
   return (
     <div className="todo-container">
