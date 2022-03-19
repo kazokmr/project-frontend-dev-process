@@ -9,9 +9,9 @@ import { TodoColor } from "./model/filter/TodoColors";
 const TodoApp = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
 
-  const fetchTodo = async () => {
+  const fetchTodo = async (): Promise<Todo[]> => {
     const res = await fetch("/todos");
-    return (await res.json()) as Todo[];
+    return await res.json();
   };
 
   const addTodo = (text: string) => {

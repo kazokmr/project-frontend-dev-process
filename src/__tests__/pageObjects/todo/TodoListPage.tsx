@@ -3,6 +3,10 @@ import { render, screen } from "@testing-library/react";
 import TodoApp from "../../../todo/TodoApp";
 import userEvent from "@testing-library/user-event";
 import { TodoColor } from "../../../todo/model/filter/TodoColors";
+import { server } from "../../../mocks/server";
+import { Todo } from "../../../todo/model/todo/Todo";
+import { rest } from "msw";
+import { createMockedTodos } from "../../../mocks/handlers";
 
 export class TodoListPage {
   private readonly user: UserEvent;
@@ -12,13 +16,39 @@ export class TodoListPage {
     this.user = userEvent.setup();
   }
 
-  // 初期Todoを設定するために非同期処理が必要だったので staticメソッドでインスタンスを生成するようにする
-  static print = async (
-    initNumberOfTodos: number = 0
+  // コンストラクタを複数設定できないのでStaticイニシャライザを使う
+  static printWithRandomTodos = async (
+    numOfTodos: number
   ): Promise<TodoListPage> => {
+    const initTodos = createMockedTodos(numOfTodos);
+    fetchInitialTodos(initTodos);
     const page = new TodoListPage();
-    await page.initializeTodo(initNumberOfTodos);
+    await page.waitPrintTodos(numOfTodos);
     return page;
+  };
+
+  static printWithDefaultTodos = async (
+    numOfTodos: number
+  ): Promise<TodoListPage> => {
+    const initTodos = createMockedTodos(numOfTodos, true, true);
+    fetchInitialTodos(initTodos);
+    const page = new TodoListPage();
+    await page.waitPrintTodos(numOfTodos);
+    return page;
+  };
+
+  static printByTodos = async (initTodos: Todo[]): Promise<TodoListPage> => {
+    fetchInitialTodos(initTodos);
+    const page = new TodoListPage();
+    await page.waitPrintTodos(initTodos.length);
+    return page;
+  };
+
+  waitPrintTodos = async (numOfTodos: number) => {
+    if (numOfTodos === 0) return;
+    expect(await screen.findAllByLabelText("content-todo")).toHaveLength(
+      numOfTodos
+    );
   };
 
   writeTodo = async (inputText: string): Promise<void> => {
@@ -47,7 +77,7 @@ export class TodoListPage {
   };
 
   countTodos = (): number => {
-    const data = screen.queryByLabelText("list-todo");
+    const data = screen.getByLabelText("list-todo");
     return data ? data.childElementCount : 0;
   };
 
@@ -66,12 +96,6 @@ export class TodoListPage {
     const suffix = numOfUnCompleted > 1 ? "s" : "";
     const contentText = `${numOfUnCompleted} item${suffix} left`;
     return (await screen.findByText(contentText)) !== null;
-  };
-
-  private initializeTodo = async (numberOfTodos: number) => {
-    for (let number = 0; number < numberOfTodos; number++) {
-      await this.writeTodo(`これは ${number + 1} のTodoです`);
-    }
   };
 
   private getCompletedOfTodoByIndex = (index: number): HTMLInputElement => {
@@ -103,3 +127,11 @@ export class TodoListPage {
     return buttons[index];
   };
 }
+
+const fetchInitialTodos = (todos: Todo[]) => {
+  server.use(
+    rest.get("/todos", (req, res, ctx) => {
+      return res.once(ctx.json(todos));
+    })
+  );
+};
