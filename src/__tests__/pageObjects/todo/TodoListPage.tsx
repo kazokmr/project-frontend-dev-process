@@ -7,6 +7,7 @@ import { server } from "../../../mocks/server";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { rest } from "msw";
 import { createMockedTodos } from "../../../mocks/handlers";
+import { TodoStatus } from "../../../todo/model/filter/TodoStatus";
 
 export class TodoListPage {
   private readonly user: UserEvent;
@@ -76,6 +77,11 @@ export class TodoListPage {
     await this.user.click(deleteTodo);
   };
 
+  extractTodosByStatus = async (status: TodoStatus) => {
+    const activeFilter = this.getStatusFilter(status);
+    await this.user.click(activeFilter);
+  };
+
   countTodos = (): number => {
     const data = screen.getByLabelText("list-todo");
     return data ? data.childElementCount : 0;
@@ -97,6 +103,15 @@ export class TodoListPage {
     const contentText = `${numOfUnCompleted} item${suffix} left`;
     return (await screen.findByText(contentText)) !== null;
   };
+
+  isSelectedStatus = async (
+    status: TodoStatus,
+    isPressed: boolean
+  ): Promise<boolean> =>
+    (await screen.findByRole("button", {
+      name: new RegExp("^" + status + "$", "i"),
+      pressed: isPressed,
+    })) !== null;
 
   private getCompletedOfTodoByIndex = (index: number): HTMLInputElement => {
     const completedArray: Array<HTMLInputElement> = screen.getAllByRole(
@@ -125,6 +140,12 @@ export class TodoListPage {
       name: "delete-todo",
     });
     return buttons[index];
+  };
+
+  private getStatusFilter = (todoStatus: TodoStatus) => {
+    return screen.getByRole("button", {
+      name: new RegExp("^" + todoStatus + "$", "i"),
+    });
   };
 }
 
