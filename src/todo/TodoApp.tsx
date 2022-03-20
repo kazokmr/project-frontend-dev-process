@@ -14,17 +14,14 @@ const TodoApp = () => {
   const fetchTodo = (): Promise<Todo[]> =>
     fetch("/todos").then((res) => res.json());
 
-  const selectTodo = () =>
-    todos.filter((todo) => {
-      switch (status) {
-        case "active":
-          return !todo.isCompleted;
-        case "completed":
-          return todo.isCompleted;
-        default:
-          return true;
-      }
-    });
+  const selectTodo = () => {
+    return todos.filter(
+      (todo) =>
+        status === TODO_STATUS.ALL ||
+        (status === TODO_STATUS.ACTIVE && !todo.isCompleted) ||
+        (status === TODO_STATUS.COMPLETED && todo.isCompleted)
+    );
+  };
 
   const addTodo = (text: string) => {
     const newTodo = createTodo(text);
