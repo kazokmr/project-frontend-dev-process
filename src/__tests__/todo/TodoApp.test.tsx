@@ -2,6 +2,7 @@ import { TodoListPage } from "../pageObjects/todo/TodoListPage";
 import { TODO_COLOR, TodoColor } from "../../todo/model/filter/TodoColors";
 import { Todo } from "../../todo/model/todo/Todo";
 import { cleanup } from "@testing-library/react";
+import { TODO_STATUS, TodoStatus } from "../../todo/model/filter/TodoStatus";
 
 describe("TodoリストにTodoを追加するテスト", () => {
   test.each`
@@ -362,6 +363,205 @@ describe("Todoリストの操作テスト", () => {
       });
     });
 
+    describe.skip("Statusフィルターに合わせてRemaining Todosの表示件数も変わること", () => {});
     describe.skip("Colorフィルターに合わせてRemaining Todosの表示件数も変わること", () => {});
+  });
+  describe("StatusフィルタによるTodoリストの表示テスト", () => {
+    const todos: Todo[] = [
+      {
+        id: "1",
+        text: "これは完了済みのTodo１です",
+        isCompleted: true,
+        color: TODO_COLOR.None,
+      },
+      {
+        id: "2",
+        text: "これは未完了のTodo２です",
+        isCompleted: false,
+        color: TODO_COLOR.None,
+      },
+      {
+        id: "3",
+        text: "これは完了済みのTodo３です",
+        isCompleted: true,
+        color: TODO_COLOR.None,
+      },
+      {
+        id: "4",
+        text: "これは未完了のTodo４です",
+        isCompleted: false,
+        color: TODO_COLOR.None,
+      },
+    ];
+
+    test.each`
+      clickedStatus            | isAllPressed | isActivePressed | isCompletedPressed
+      ${TODO_STATUS.ALL}       | ${true}      | ${false}        | ${false}
+      ${TODO_STATUS.ACTIVE}    | ${false}     | ${true}         | ${false}
+      ${TODO_STATUS.COMPLETED} | ${false}     | ${false}        | ${true}
+    `(
+      "$clickedStatusが選択状況になっていること",
+      async ({
+        clickedStatus,
+        isAllPressed,
+        isActivePressed,
+        isCompletedPressed,
+      }: {
+        clickedStatus: TodoStatus;
+        isAllPressed: boolean;
+        isActivePressed: boolean;
+        isCompletedPressed: boolean;
+      }) => {
+        // Given: コンポーネントを表示する
+        const page = await TodoListPage.printWithDefaultTodos(0);
+
+        // When:
+        await page.extractTodosByStatus(clickedStatus);
+
+        // Then: 選択したフィルタに対応するボタンだけが押された状態となること
+        expect(
+          await page.isSelectedStatus(TODO_STATUS.ALL, isAllPressed)
+        ).toBeTruthy();
+        expect(
+          await page.isSelectedStatus(TODO_STATUS.ACTIVE, isActivePressed)
+        ).toBeTruthy();
+        expect(
+          await page.isSelectedStatus(TODO_STATUS.COMPLETED, isCompletedPressed)
+        ).toBeTruthy();
+      }
+    );
+
+    test("Allボタンを押したら全てのTodoがリストに表示されること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+
+      // When: 全てのTodoを表示する
+      await page.extractTodosByStatus(TODO_STATUS.ALL);
+
+      // Then: 未完了も完了済みも全てのTodoを表示する
+      expect(page.countTodos()).toBe(4);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[0].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[0].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[1].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(3)).toBe(todos[2].isCompleted);
+      expect(page.getContentTodoByRow(3)).toBe(todos[2].text);
+      expect(page.isCompletedTodoByRow(4)).toBe(todos[3].isCompleted);
+      expect(page.getContentTodoByRow(4)).toBe(todos[3].text);
+    });
+
+    test("Activeボタンを押したら未完了のTodoだけがリストに表示されること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+
+      // When: 未完了のTodoを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.ACTIVE);
+
+      // Then: 未完了のTodoだけが表示される
+      expect(page.countTodos()).toBe(2);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[1].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[3].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[3].text);
+    });
+
+    test("Completedボタンを押したら完了済みのTodoだけがリストに表示されること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+
+      // When: 完了済みのTodoを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.COMPLETED);
+
+      // Then: 完了済みのTodoだけが表示される
+      expect(page.countTodos()).toBe(2);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[0].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[0].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[2].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[2].text);
+    });
+
+    test("未完了のみを抽出した後に全てのTodoを抽出できること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      // 未完了を抽出する
+      await page.extractTodosByStatus(TODO_STATUS.ACTIVE);
+      expect(page.countTodos()).toBe(2);
+
+      // When: 全てのTodoを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.ALL);
+
+      // Then: 未完了も完了済みも全てのTodoを表示する
+      expect(page.countTodos()).toBe(4);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[0].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[0].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[1].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(3)).toBe(todos[2].isCompleted);
+      expect(page.getContentTodoByRow(3)).toBe(todos[2].text);
+      expect(page.isCompletedTodoByRow(4)).toBe(todos[3].isCompleted);
+      expect(page.getContentTodoByRow(4)).toBe(todos[3].text);
+    });
+
+    test("完了済みを抽出した後に全てのTodoを抽出できること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      // 完了済みを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.COMPLETED);
+      expect(page.countTodos()).toBe(2);
+
+      // When: 全てのTodoを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.ALL);
+
+      // Then: 未完了も完了済みも全てのTodoを表示する
+      expect(page.countTodos()).toBe(4);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[0].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[0].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[1].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(3)).toBe(todos[2].isCompleted);
+      expect(page.getContentTodoByRow(3)).toBe(todos[2].text);
+      expect(page.isCompletedTodoByRow(4)).toBe(todos[3].isCompleted);
+      expect(page.getContentTodoByRow(4)).toBe(todos[3].text);
+    });
+
+    test("未完了のみを抽出した後に完了済みだけを抽出できること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      // 未完了を抽出する
+      await page.extractTodosByStatus(TODO_STATUS.ACTIVE);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[1].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[3].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[3].text);
+
+      // When: 完了済みのTodoを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.COMPLETED);
+
+      // Then: 完了済みのTodoだけを表示する
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[0].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[0].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[2].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[2].text);
+    });
+
+    test("完了済みのみを抽出した後に未完了だけを抽出できること", async () => {
+      // Given: コンポーネントを出力しTodoを４件（内２件が完了済み）を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      // 完了済みを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.COMPLETED);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[0].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[0].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[2].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[2].text);
+
+      // When: 未完了のTodoを抽出する
+      await page.extractTodosByStatus(TODO_STATUS.ACTIVE);
+
+      // Then: 未完了のTodoだけを表示する
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[1].isCompleted);
+      expect(page.getContentTodoByRow(1)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[3].isCompleted);
+      expect(page.getContentTodoByRow(2)).toBe(todos[3].text);
+    });
   });
 });
