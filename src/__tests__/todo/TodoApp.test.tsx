@@ -563,7 +563,7 @@ describe("Todoリストの操作テスト", () => {
     const todos: Todo[] = [
       {
         id: "1",
-        text: "色味選択のTodoです",
+        text: "色未選択のTodoです",
         isCompleted: true,
         color: TODO_COLOR.None,
       },
@@ -655,8 +655,74 @@ describe("Todoリストの操作テスト", () => {
       expect(page.isCompletedTodoByRow(1)).toBe(todos[2].isCompleted);
     });
   });
-  describe.skip("フィルタの複合テスト", () => {
-    test("完了済みのBlueのTodoだけを表示する", async () => {});
-    test("未完了のOrangeのTodoだけを表示する", async () => {});
+  describe("フィルタの複合テスト", () => {
+    const todos: Todo[] = [
+      {
+        id: "1",
+        text: "色未選択の完了済みTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.None,
+      },
+      {
+        id: "2",
+        text: "Greenタグの未完了Todoです",
+        isCompleted: false,
+        color: TODO_COLOR.Green,
+      },
+      {
+        id: "3",
+        text: "Orangeタグの未完了Todoです",
+        isCompleted: false,
+        color: TODO_COLOR.Orange,
+      },
+      {
+        id: "4",
+        text: "Blueタグの完了済みTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.Blue,
+      },
+      {
+        id: "5",
+        text: "Orangeタグの完了済みTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.Orange,
+      },
+      {
+        id: "6",
+        text: "Blueタグの未完了Todoです",
+        isCompleted: false,
+        color: TODO_COLOR.Blue,
+      },
+    ];
+    test("完了済みのBlueのTodoだけを表示する", async () => {
+      // Given: コンポーネントを出力しTodoを6件を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      expect(page.countTodos()).toBe(6);
+
+      // When: Statusフィルタを完了済みにし、ColorフィルタからBlueとGreenを選択する
+      await page.extractTodosByStatus(TODO_STATUS.COMPLETED);
+      await page.extractTodosByColors([TODO_COLOR.Blue, TODO_COLOR.Green]);
+
+      // Then: Blueタグの完了済みTodoだけが抽出される
+      expect(page.countTodos()).toBe(1);
+      expect(page.getContentTodoByRow(1)).toBe(todos[3].text);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[3].isCompleted);
+      expect(page.getColorOfTodoByRow(1)).toBe(todos[3].color);
+    });
+    test("未完了のOrangeのTodoだけを表示する", async () => {
+      // Given: コンポーネントを出力しTodoを6件を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      expect(page.countTodos()).toBe(6);
+
+      // When: ColorフィルタからOrangeを選択し、Statusフィルタを未完了にする
+      await page.extractTodosByColors([TODO_COLOR.Orange]);
+      await page.extractTodosByStatus(TODO_STATUS.ACTIVE);
+
+      // Then: Orangeタグの未完了Todoだけが抽出される
+      expect(page.countTodos()).toBe(1);
+      expect(page.getContentTodoByRow(1)).toBe(todos[2].text);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[2].isCompleted);
+      expect(page.getColorOfTodoByRow(1)).toBe(todos[2].color);
+    });
   });
 });
