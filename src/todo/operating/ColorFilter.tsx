@@ -1,7 +1,13 @@
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
+import { FC } from "react";
 
-const ColorFilter = ({ curColors }: { curColors?: Array<TodoColor> }) => {
+interface ColorFilterProps {
+  curColors: TodoColor[];
+  onChangeColor: (color: TodoColor, isSelected: boolean) => void;
+}
+
+const ColorFilter: FC<ColorFilterProps> = ({ curColors, onChangeColor }) => {
   return (
     <div>
       <h5>Filter by Color</h5>
@@ -14,7 +20,9 @@ const ColorFilter = ({ curColors }: { curColors?: Array<TodoColor> }) => {
                   type="checkbox"
                   name={color}
                   checked={curColors ? curColors.includes(color) : false}
-                  onChange={(event) => ""}
+                  onChange={(event) =>
+                    onChangeColor(color, event.target.checked)
+                  }
                 />
                 {capitalize(color)}
               </label>

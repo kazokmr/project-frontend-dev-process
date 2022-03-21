@@ -8,6 +8,7 @@ import { Todo } from "../../../todo/model/todo/Todo";
 import { rest } from "msw";
 import { createMockedTodos } from "../../../mocks/handlers";
 import { TodoStatus } from "../../../todo/model/filter/TodoStatus";
+import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
 export class TodoListPage {
   private readonly user: UserEvent;
@@ -82,6 +83,16 @@ export class TodoListPage {
     await this.user.click(activeFilter);
   };
 
+  extractTodosByColors = async (colors: TodoColor[]) => {
+    for (let color of colors) {
+      const colorFilter = this.getColorFilter(color);
+      await this.user.click(colorFilter);
+    }
+  };
+
+  unExtractTodosByColors = async (colors: TodoColor[]) =>
+    this.extractTodosByColors(colors);
+
   countTodos = (): number => {
     const data = screen.getByLabelText("list-todo");
     return data ? data.childElementCount : 0;
@@ -145,6 +156,12 @@ export class TodoListPage {
   private getStatusFilter = (todoStatus: TodoStatus) => {
     return screen.getByRole("button", {
       name: new RegExp("^" + todoStatus + "$", "i"),
+    });
+  };
+
+  private getColorFilter = (color: TodoColor) => {
+    return screen.getByRole("checkbox", {
+      name: capitalize(color),
     });
   };
 }

@@ -10,17 +10,20 @@ import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
 const TodoApp = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [status, setStatus] = useState<TodoStatus>(TODO_STATUS.ALL);
+  const [colors, setColors] = useState<TodoColor[]>([]);
 
   const fetchTodo = (): Promise<Todo[]> =>
     fetch("/todos").then((res) => res.json());
 
   const selectTodo = () => {
-    return todos.filter(
-      (todo) =>
-        status === TODO_STATUS.ALL ||
-        (status === TODO_STATUS.ACTIVE && !todo.isCompleted) ||
-        (status === TODO_STATUS.COMPLETED && todo.isCompleted)
-    );
+    return todos
+      .filter(
+        (todo) =>
+          status === TODO_STATUS.ALL ||
+          (status === TODO_STATUS.ACTIVE && !todo.isCompleted) ||
+          (status === TODO_STATUS.COMPLETED && todo.isCompleted)
+      )
+      .filter((todo) => colors.length === 0 || colors.includes(todo.color));
   };
 
   const addTodo = (text: string) => {
@@ -44,13 +47,21 @@ const TodoApp = () => {
     );
   };
 
-  const deleteTodo = (id: string) => {
+  const deleteTodo = (id: string) =>
     setTodos(todos.filter((todo) => todo.id !== id));
-  };
 
   const remainingTodos = () => todos.filter((todo) => !todo.isCompleted);
 
   const filterByStatus = (status: TodoStatus) => setStatus(status);
+
+  const filterByColors = (color: TodoColor, isSelected: boolean) => {
+    if (isSelected && !colors.includes(color)) {
+      setColors([...colors, color]);
+    }
+    if (!isSelected && colors.includes(color)) {
+      setColors(colors.filter((selColor) => selColor !== color));
+    }
+  };
 
   useEffect(() => {
     fetchTodo()
@@ -71,6 +82,8 @@ const TodoApp = () => {
         numberOfTodos={remainingTodos().length}
         curStatus={status}
         onClickStatus={filterByStatus}
+        curColors={colors}
+        onChangeColor={filterByColors}
       />
     </div>
   );
