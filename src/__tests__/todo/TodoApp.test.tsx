@@ -725,4 +725,53 @@ describe("Todoリストの操作テスト", () => {
       expect(page.getColorOfTodoByRow(1)).toBe(todos[2].color);
     });
   });
+  describe("Todoの一括操作のテスト", () => {
+    const todos: Todo[] = [
+      {
+        id: "1",
+        text: "色未選択の完了済みTodoです",
+        isCompleted: false,
+        color: TODO_COLOR.None,
+      },
+      {
+        id: "2",
+        text: "Greenタグの未完了Todoです",
+        isCompleted: false,
+        color: TODO_COLOR.Green,
+      },
+      {
+        id: "3",
+        text: "Orangeタグの未完了Todoです",
+        isCompleted: false,
+        color: TODO_COLOR.Orange,
+      },
+      {
+        id: "4",
+        text: "Blueタグの完了済みTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.Blue,
+      },
+      {
+        id: "5",
+        text: "Orangeタグの完了済みTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.Orange,
+      },
+    ];
+    test("全てのTodoを完了済みにできること", async () => {
+      // Given: コンポーネントを出力しTodoを５件表示する
+      const page = await TodoListPage.printByTodos(todos);
+      expect(page.countTodos()).toBe(5);
+
+      // When: Mark All Completed を実施する
+      await page.markAllCompleted();
+
+      // Then: Todoが全て完了済みになり、未完了のTodoが０件となる
+      expect(page.countTodos()).toBe(5);
+      for (let row = 1; row <= 5; row++) {
+        expect(page.isCompletedTodoByRow(row)).toBeTruthy();
+      }
+      expect(await page.isContentRemainingTodos(0)).toBeTruthy();
+    });
+  });
 });

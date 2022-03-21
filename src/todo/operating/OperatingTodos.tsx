@@ -12,18 +12,20 @@ interface OperatingTodosProps {
   onClickStatus: (status: TodoStatus) => void;
   curColors: TodoColor[];
   onChangeColor: (color: TodoColor, isSelected: boolean) => void;
+  onClickMarkAllCompleted: () => void;
 }
 
 const OperatingTodos: FC<OperatingTodosProps> = ({
-  numberOfTodos,
-  curStatus,
-  onClickStatus,
-  curColors,
-  onChangeColor,
-}) => {
+                                                   numberOfTodos,
+                                                   curStatus,
+                                                   onClickStatus,
+                                                   curColors,
+                                                   onChangeColor,
+                                                   onClickMarkAllCompleted
+                                                 }) => {
   return (
     <div className="todo-footer">
-      <ActionsForTodos />
+      <ActionsForTodos onClickMarkAllCompleted={onClickMarkAllCompleted} />
       <RemainingTodos numOfTodo={numberOfTodos} />
       <StatusFilter curStatus={curStatus} onClickStatus={onClickStatus} />
       <ColorFilter curColors={curColors} onChangeColor={onChangeColor} />
