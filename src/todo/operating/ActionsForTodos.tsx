@@ -1,7 +1,9 @@
 const ActionsForTodos = ({
   onClickMarkAllCompleted,
+  onClickClearCompleted,
 }: {
   onClickMarkAllCompleted: () => void;
+  onClickClearCompleted: () => void;
 }) => {
   return (
     <div>
@@ -13,7 +15,9 @@ const ActionsForTodos = ({
           </button>
         </li>
         <li>
-          <button type="button">Clear Completed</button>
+          <button type="button" onClick={() => onClickClearCompleted()}>
+            Clear Completed
+          </button>
         </li>
       </ul>
     </div>
