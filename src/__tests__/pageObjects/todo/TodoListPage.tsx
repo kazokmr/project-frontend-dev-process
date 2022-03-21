@@ -96,6 +96,9 @@ export class TodoListPage {
   markAllCompleted = async () =>
     this.user.click(screen.getByRole("button", { name: "Mark All Completed" }));
 
+  clearCompleted = async () =>
+    this.user.click(screen.getByRole("button", { name: "Clear Completed" }));
+
   countTodos = (): number => {
     const data = screen.getByLabelText("list-todo");
     return data ? data.childElementCount : 0;

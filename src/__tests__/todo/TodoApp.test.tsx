@@ -773,5 +773,20 @@ describe("Todoリストの操作テスト", () => {
       }
       expect(await page.isContentRemainingTodos(0)).toBeTruthy();
     });
+    test("全ての完了済みのTodoをまとめたリストから削除できること", async () => {
+      // Given: コンポーネントを出力しTodoを５件表示する
+      const page = await TodoListPage.printByTodos(todos);
+      expect(page.countTodos()).toBe(5);
+
+      // When: Clear Completedを押す
+      await page.clearCompleted();
+
+      // Then: 未完了のTodoの３件だけがリストに残る
+      expect(page.countTodos()).toBe(3);
+      for (let row = 1; row <= 3; row++) {
+        expect(page.isCompletedTodoByRow(row)).toBeFalsy();
+      }
+      expect(await page.isContentRemainingTodos(3)).toBeTruthy();
+    });
   });
 });
