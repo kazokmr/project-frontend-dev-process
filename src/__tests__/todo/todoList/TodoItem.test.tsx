@@ -114,7 +114,7 @@ describe("Todoのイベントハンドラのテスト", () => {
           <TodoItem
             todo={{
               id: id,
-              text: "update isChecked",
+              text: "update isSelected",
               isCompleted: isCompleted,
               color: TODO_COLOR.None,
             }}

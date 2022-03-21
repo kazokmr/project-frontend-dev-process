@@ -4,24 +4,29 @@ import StatusFilter from "./StatusFilter";
 import ColorFilter from "./ColorFilter";
 import { FC } from "react";
 import { TodoStatus } from "../model/filter/TodoStatus";
+import { TodoColor } from "../model/filter/TodoColors";
 
 interface OperatingTodosProps {
   numberOfTodos: number;
   curStatus: TodoStatus;
   onClickStatus: (status: TodoStatus) => void;
+  curColors: TodoColor[];
+  onChangeColor: (color: TodoColor, isSelected: boolean) => void;
 }
 
 const OperatingTodos: FC<OperatingTodosProps> = ({
   numberOfTodos,
   curStatus,
   onClickStatus,
+  curColors,
+  onChangeColor,
 }) => {
   return (
     <div className="todo-footer">
       <ActionsForTodos />
       <RemainingTodos numOfTodo={numberOfTodos} />
       <StatusFilter curStatus={curStatus} onClickStatus={onClickStatus} />
-      <ColorFilter curColors={undefined} />
+      <ColorFilter curColors={curColors} onChangeColor={onChangeColor} />
     </div>
   );
 };

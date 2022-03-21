@@ -39,7 +39,6 @@ describe("TodoリストにTodoを追加するテスト", () => {
     expect(page.getColorOfTodoByRow(2)).toBe("");
   });
 });
-
 describe("Todoリストの操作テスト", () => {
   describe("Todoの完了操作テスト", () => {
     test("未完了のTodoを完了にできること", async () => {
@@ -91,7 +90,6 @@ describe("Todoリストの操作テスト", () => {
       expect(page.isCompletedTodoByRow(2)).toBe(false);
     });
   });
-
   describe("TodoのColorタグの操作テスト", () => {
     test.each`
       changingColor
@@ -362,9 +360,6 @@ describe("Todoリストの操作テスト", () => {
         expect(await page.isContentRemainingTodos(initCount - 1)).toBeTruthy();
       });
     });
-
-    describe.skip("Statusフィルターに合わせてRemaining Todosの表示件数も変わること", () => {});
-    describe.skip("Colorフィルターに合わせてRemaining Todosの表示件数も変わること", () => {});
   });
   describe("StatusフィルタによるTodoリストの表示テスト", () => {
     const todos: Todo[] = [
@@ -563,5 +558,105 @@ describe("Todoリストの操作テスト", () => {
       expect(page.isCompletedTodoByRow(2)).toBe(todos[3].isCompleted);
       expect(page.getContentTodoByRow(2)).toBe(todos[3].text);
     });
+  });
+  describe("Colorフィルタで表示するTodoを抽出する", () => {
+    const todos: Todo[] = [
+      {
+        id: "1",
+        text: "色味選択のTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.None,
+      },
+      {
+        id: "2",
+        text: "GreenタグのTodoです",
+        isCompleted: false,
+        color: TODO_COLOR.Green,
+      },
+      {
+        id: "3",
+        text: "OrangeタグのTodoです",
+        isCompleted: false,
+        color: TODO_COLOR.Orange,
+      },
+      {
+        id: "4",
+        text: "BlueタグのTodoです",
+        isCompleted: true,
+        color: TODO_COLOR.Blue,
+      },
+    ];
+    test("Greenだけを選択したらColorタグがGreenのTodoだけを抽出する", async () => {
+      // Given: コンポーネントを出力しTodoを４件を表示する
+      const page = await TodoListPage.printByTodos(todos);
+
+      // When: ColorフィルタからGreenを選択する
+      await page.extractTodosByColors([TODO_COLOR.Green]);
+
+      // Then: GreenのTodoだけを表示する
+      expect(page.countTodos()).toBe(1);
+      expect(page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Green);
+      expect(page.getContentTodoByRow(1)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[1].isCompleted);
+    });
+
+    test("GreenとOrangeのTodoだけを抽出する", async () => {
+      // Given: コンポーネントを出力しTodoを４件を表示する
+      const page = await TodoListPage.printByTodos(todos);
+
+      // When: ColorフィルタからGreenとOrangeを選択する
+      await page.extractTodosByColors([TODO_COLOR.Green, TODO_COLOR.Orange]);
+
+      // Then: GreenとOrangeのTodoだけを表示する
+      expect(page.countTodos()).toBe(2);
+      expect(page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Green);
+      expect(page.getContentTodoByRow(1)).toBe(todos[1].text);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[1].isCompleted);
+      expect(page.getColorOfTodoByRow(2)).toBe(TODO_COLOR.Orange);
+      expect(page.getContentTodoByRow(2)).toBe(todos[2].text);
+      expect(page.isCompletedTodoByRow(2)).toBe(todos[2].isCompleted);
+    });
+
+    test("Greenを選択した後にチェックを外したら全てのTodoを表示する", async () => {
+      // Given: コンポーネントを出力しTodoを４件を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      // GreenのTodoだけを抽出する
+      await page.extractTodosByColors([TODO_COLOR.Green]);
+      expect(page.countTodos()).toBe(1);
+      expect(page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Green);
+
+      // When: Greenのチェックを外す
+      await page.unExtractTodosByColors([TODO_COLOR.Green]);
+
+      // Then: 全てのTodoが表示される
+      expect(page.countTodos()).toBe(4);
+      expect(page.getColorOfTodoByRow(1)).toBe(todos[0].color);
+      expect(page.getColorOfTodoByRow(2)).toBe(todos[1].color);
+      expect(page.getColorOfTodoByRow(3)).toBe(todos[2].color);
+      expect(page.getColorOfTodoByRow(4)).toBe(todos[3].color);
+    });
+
+    test("GreenとOrangeを選択した後にGreenだけ外したらOrangeのTodoだけを表示する", async () => {
+      // Given: コンポーネントを出力しTodoを４件を表示する
+      const page = await TodoListPage.printByTodos(todos);
+      // ColorフィルタからGreenとOrangeを選択する
+      await page.extractTodosByColors([TODO_COLOR.Green, TODO_COLOR.Orange]);
+      expect(page.countTodos()).toBe(2);
+      expect(page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Green);
+      expect(page.getColorOfTodoByRow(2)).toBe(TODO_COLOR.Orange);
+
+      // When: Greenだけチェックを外す
+      await page.unExtractTodosByColors([TODO_COLOR.Green]);
+
+      // Then: OrangeのTodoだけが表示される
+      expect(page.countTodos()).toBe(1);
+      expect(page.getColorOfTodoByRow(1)).toBe(TODO_COLOR.Orange);
+      expect(page.getContentTodoByRow(1)).toBe(todos[2].text);
+      expect(page.isCompletedTodoByRow(1)).toBe(todos[2].isCompleted);
+    });
+  });
+  describe.skip("フィルタの複合テスト", () => {
+    test("完了済みのBlueのTodoだけを表示する", async () => {});
+    test("未完了のOrangeのTodoだけを表示する", async () => {});
   });
 });
