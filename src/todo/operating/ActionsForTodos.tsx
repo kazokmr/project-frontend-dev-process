@@ -1,10 +1,16 @@
-const ActionsForTodos = () => {
+const ActionsForTodos = ({
+  onClickMarkAllCompleted,
+}: {
+  onClickMarkAllCompleted: () => void;
+}) => {
   return (
     <div>
       <h5>Actions</h5>
       <ul>
         <li>
-          <button type="button">Mark All Completed</button>
+          <button type="button" onClick={() => onClickMarkAllCompleted()}>
+            Mark All Completed
+          </button>
         </li>
         <li>
           <button type="button">Clear Completed</button>

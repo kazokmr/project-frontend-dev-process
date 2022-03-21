@@ -93,6 +93,9 @@ export class TodoListPage {
   unExtractTodosByColors = async (colors: TodoColor[]) =>
     this.extractTodosByColors(colors);
 
+  markAllCompleted = async () =>
+    this.user.click(screen.getByRole("button", { name: "Mark All Completed" }));
+
   countTodos = (): number => {
     const data = screen.getByLabelText("list-todo");
     return data ? data.childElementCount : 0;
