@@ -67,6 +67,9 @@ const TodoApp = () => {
       )
     );
 
+  const clearCompleted = () =>
+    setTodos(todos.filter((todo) => !todo.isCompleted));
+
   useEffect(() => {
     fetchTodo()
       .then((todos) => setTodos(todos))
@@ -89,6 +92,7 @@ const TodoApp = () => {
         curColors={colors}
         onChangeColor={filterByColors}
         onClickMarkAllCompleted={completeAllTodos}
+        onClickClearCompleted={clearCompleted}
       />
     </div>
   );
