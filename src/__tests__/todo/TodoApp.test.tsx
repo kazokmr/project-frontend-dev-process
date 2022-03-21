@@ -563,7 +563,7 @@ describe("Todoリストの操作テスト", () => {
     const todos: Todo[] = [
       {
         id: "1",
-        text: "色味選択のTodoです",
+        text: "色未選択のTodoです",
         isCompleted: true,
         color: TODO_COLOR.None,
       },
