@@ -47,7 +47,7 @@ const TodoApp = () => {
   const deleteTodo = (id: string) =>
     setTodos(todos.filter((todo) => todo.id !== id));
 
-  const remainingTodos = () => todos.filter((todo) => !todo.isCompleted);
+  const remainingTodos = () => todos.filter((todo) => !todo.isCompleted).length;
 
   const filterByStatus = (status: TodoStatus) => setStatus(status);
 
@@ -86,7 +86,7 @@ const TodoApp = () => {
         onClickDelete={deleteTodo}
       />
       <OperatingTodos
-        numberOfTodos={remainingTodos().length}
+        numberOfTodos={remainingTodos()}
         curStatus={status}
         onClickStatus={filterByStatus}
         curColors={colors}
