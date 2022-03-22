@@ -12,8 +12,11 @@ const TodoApp = () => {
   const [status, setStatus] = useState<TodoStatus>(TODO_STATUS.ALL);
   const [colors, setColors] = useState<TodoColor[]>([]);
 
-  const fetchTodo = (): Promise<Todo[]> =>
-    fetch("/todos").then((res) => res.json());
+  const fetchTodo = async () => {
+    const result = await fetch("/todos");
+    const todos: Todo[] = await result.json();
+    setTodos(todos);
+  };
 
   const selectTodo = () =>
     todos
@@ -71,9 +74,7 @@ const TodoApp = () => {
     setTodos(todos.filter((todo) => !todo.isCompleted));
 
   useEffect(() => {
-    fetchTodo()
-      .then((todos) => setTodos(todos))
-      .catch((error) => console.error(error));
+    fetchTodo();
   }, []);
 
   return (
