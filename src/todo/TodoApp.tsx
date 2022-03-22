@@ -3,11 +3,12 @@ import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
 import { createTodo, Todo } from "./model/todo/Todo";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TodoColor } from "./model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
 
 const TodoApp = () => {
+  const isMountRef = useRef(false);
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [status, setStatus] = useState<TodoStatus>(TODO_STATUS.ALL);
   const [colors, setColors] = useState<TodoColor[]>([]);
@@ -15,7 +16,9 @@ const TodoApp = () => {
   const fetchTodo = async () => {
     const result = await fetch("/todos");
     const todos: Todo[] = await result.json();
-    setTodos(todos);
+    if (isMountRef.current) {
+      setTodos(todos);
+    }
   };
 
   const selectTodo = () =>
@@ -74,7 +77,11 @@ const TodoApp = () => {
     setTodos(todos.filter((todo) => !todo.isCompleted));
 
   useEffect(() => {
+    isMountRef.current = true;
     fetchTodo();
+    return () => {
+      isMountRef.current = false;
+    };
   }, []);
 
   return (
