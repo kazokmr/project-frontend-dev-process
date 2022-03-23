@@ -7,7 +7,7 @@ const StatusFilter = ({
 }: {
   curStatus?: TodoStatus;
   onClickStatus: (status: TodoStatus) => void;
-}) => {
+}): JSX.Element => {
   return (
     <div>
       <h5>Filter by Status</h5>

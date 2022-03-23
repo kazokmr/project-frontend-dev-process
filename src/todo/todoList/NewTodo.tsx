@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 
-const NewTodo = ({ addTodo }: { addTodo: (text: string) => void }) => {
+const NewTodo = ({
+  addTodo,
+}: {
+  addTodo: (text: string) => void;
+}): JSX.Element => {
   const [textValue, setTextValue] = useState("");
   const [typingText, setTypingText] = useState(false);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setTextValue(e.target.value);
   };
 
-  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter" && !typingText) {
       addTodo(textValue);
       setTextValue("");

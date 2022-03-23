@@ -1,4 +1,4 @@
-const RemainingTodos = ({ numOfTodo }: { numOfTodo: number }) => {
+const RemainingTodos = ({ numOfTodo }: { numOfTodo: number }): JSX.Element => {
   return (
     <div>
       <h5>Remaining Todos</h5>

@@ -1,17 +1,16 @@
 import TodoItem, { TodoItemEventHandlers } from "./TodoItem";
 import { Todo } from "../model/todo/Todo";
-import { FC } from "react";
 
 type TodoListProp = {
   todos: Todo[];
 } & TodoItemEventHandlers;
 
-const TodoList: FC<TodoListProp> = ({
+const TodoList = ({
   todos,
   onChangeComplete,
   onChangeColor,
   onClickDelete,
-}) => {
+}: TodoListProp): JSX.Element => {
   return (
     <ul aria-label={"list-todo"}>
       {todos.map((todo) => (
