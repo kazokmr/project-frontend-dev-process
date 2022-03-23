@@ -90,18 +90,22 @@ const TodoApp = (): JSX.Element => {
       <NewTodo addTodo={addTodo} />
       <TodoList
         todos={selectTodo}
-        onChangeComplete={updateComplete}
-        onChangeColor={updateColor}
-        onClickDelete={deleteTodo}
+        handlers={{
+          onChangeComplete: updateComplete,
+          onChangeColor: updateColor,
+          onClickDelete: deleteTodo,
+        }}
       />
       <OperatingTodos
+        actionHandlers={{
+          onClickMarkAllCompleted: completeAllTodos,
+          onClickClearCompleted: clearCompleted,
+        }}
         numberOfTodos={remainingTodos}
         curStatus={status}
         onClickStatus={filterByStatus}
         curColors={colors}
         onChangeColor={filterByColors}
-        onClickMarkAllCompleted={completeAllTodos}
-        onClickClearCompleted={clearCompleted}
       />
     </div>
   );

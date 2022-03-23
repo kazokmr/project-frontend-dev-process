@@ -3,10 +3,17 @@ import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
 import userEvent from "@testing-library/user-event";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
+import { TodoItemEventHandlers } from "../../../todo/todoList/TodoItem";
 
 const onChangeComplete: jest.Mock = jest.fn();
 const onChangeColor: jest.Mock = jest.fn();
 const onClickDelete: jest.Mock = jest.fn();
+
+const mockHandler: TodoItemEventHandlers = {
+  onChangeColor,
+  onChangeComplete,
+  onClickDelete,
+};
 
 describe("Todoの件数による表示テスト", () => {
   const expectTexts: string[] = [
@@ -26,14 +33,7 @@ describe("Todoの件数による表示テスト", () => {
         color: TODO_COLOR.None,
       },
     ];
-    render(
-      <TodoList
-        todos={todos}
-        onChangeComplete={onChangeComplete}
-        onChangeColor={onChangeColor}
-        onClickDelete={onClickDelete}
-      />
-    );
+    render(<TodoList todos={todos} handlers={mockHandler} />);
     const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(1);
     expect(todoTexts[0].textContent).toBe(text);
@@ -54,14 +54,7 @@ describe("Todoの件数による表示テスト", () => {
         color: TODO_COLOR.None,
       },
     ];
-    render(
-      <TodoList
-        todos={todos}
-        onChangeComplete={onChangeComplete}
-        onChangeColor={onChangeColor}
-        onClickDelete={onClickDelete}
-      />
-    );
+    render(<TodoList todos={todos} handlers={mockHandler} />);
     const todoTexts = screen.getAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(2);
     todoTexts.forEach((todoText, index) => {
@@ -70,14 +63,7 @@ describe("Todoの件数による表示テスト", () => {
   });
 
   test("Todoが0件ならリストは表示されない", () => {
-    render(
-      <TodoList
-        todos={[]}
-        onChangeComplete={onChangeComplete}
-        onChangeColor={onChangeColor}
-        onClickDelete={onClickDelete}
-      />
-    );
+    render(<TodoList todos={[]} handlers={mockHandler} />);
     const todoTexts = screen.queryAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(0);
   });
@@ -102,14 +88,7 @@ describe("Todoの操作イベントの実行テスト", () => {
             color: TODO_COLOR.None,
           },
         ];
-        render(
-          <TodoList
-            todos={todos}
-            onChangeComplete={onChangeComplete}
-            onChangeColor={onChangeColor}
-            onClickDelete={onClickDelete}
-          />
-        );
+        render(<TodoList todos={todos} handlers={mockHandler} />);
 
         // When:Todoの完了状況を更新する
         const user = userEvent.setup();
@@ -146,14 +125,7 @@ describe("Todoの操作イベントの実行テスト", () => {
             color: TODO_COLOR.None,
           },
         ];
-        render(
-          <TodoList
-            todos={todos}
-            onChangeComplete={onChangeComplete}
-            onChangeColor={onChangeColor}
-            onClickDelete={onClickDelete}
-          />
-        );
+        render(<TodoList todos={todos} handlers={mockHandler} />);
 
         // When: Colorタグを変更する
         const user = userEvent.setup();
@@ -180,9 +152,7 @@ describe("Todoの操作イベントの実行テスト", () => {
               color: TODO_COLOR.None,
             },
           ]}
-          onChangeComplete={onChangeComplete}
-          onChangeColor={onChangeColor}
-          onClickDelete={onClickDelete}
+          handlers={mockHandler}
         />
       );
 

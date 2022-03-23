@@ -1,7 +1,7 @@
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
 
-interface ColorFilterProps {
+export interface ColorFilterProps {
   curColors: TodoColor[];
   onChangeColor: (color: TodoColor, isSelected: boolean) => void;
 }
