@@ -1,21 +1,30 @@
-const ActionsForTodos = ({
-  onClickMarkAllCompleted,
-  onClickClearCompleted,
-}: {
+export interface ActionForTodosHandlers {
   onClickMarkAllCompleted: () => void;
   onClickClearCompleted: () => void;
-}): JSX.Element => {
+}
+
+interface ActionForTodosProps {
+  handlers: ActionForTodosHandlers;
+}
+
+const ActionsForTodos = ({ handlers }: ActionForTodosProps): JSX.Element => {
   return (
     <div>
       <h5>Actions</h5>
       <ul>
         <li>
-          <button type="button" onClick={() => onClickMarkAllCompleted()}>
+          <button
+            type="button"
+            onClick={() => handlers.onClickMarkAllCompleted()}
+          >
             Mark All Completed
           </button>
         </li>
         <li>
-          <button type="button" onClick={() => onClickClearCompleted()}>
+          <button
+            type="button"
+            onClick={() => handlers.onClickClearCompleted()}
+          >
             Clear Completed
           </button>
         </li>

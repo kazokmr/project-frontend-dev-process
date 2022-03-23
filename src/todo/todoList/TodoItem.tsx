@@ -8,16 +8,12 @@ export interface TodoItemEventHandlers {
   onClickDelete: (id: string) => void;
 }
 
-type TodoItemProps = {
+interface TodoItemProps {
   todo: Todo;
-} & TodoItemEventHandlers;
+  handlers: TodoItemEventHandlers;
+}
 
-const TodoItem = ({
-  todo,
-  onChangeComplete,
-  onChangeColor,
-  onClickDelete,
-}: TodoItemProps): JSX.Element => {
+const TodoItem = ({ todo, handlers }: TodoItemProps): JSX.Element => {
   const optionalColors: JSX.Element[] = TodoColors.map((color) => (
     <option key={color} value={color}>
       {capitalize(color)}
@@ -31,7 +27,7 @@ const TodoItem = ({
           type="checkbox"
           aria-label={"todo-isCompleted"}
           checked={todo.isCompleted}
-          onChange={() => onChangeComplete(todo.id)}
+          onChange={() => handlers.onChangeComplete(todo.id)}
         />
       </span>
       <span aria-label={"content-todo"}>{todo.text}</span>
@@ -40,7 +36,7 @@ const TodoItem = ({
           aria-label={"select-todo-color"}
           value={todo.color}
           onChange={(event) =>
-            onChangeColor(todo.id, event.target.value as TodoColor)
+            handlers.onChangeColor(todo.id, event.target.value as TodoColor)
           }
         >
           {optionalColors}
@@ -50,7 +46,7 @@ const TodoItem = ({
         <button
           aria-label={"delete-todo"}
           type={"button"}
-          onClick={() => onClickDelete(todo.id)}
+          onClick={() => handlers.onClickDelete(todo.id)}
         >
           X
         </button>
