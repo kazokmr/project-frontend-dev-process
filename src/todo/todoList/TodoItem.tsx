@@ -1,7 +1,6 @@
 import { TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
 import { Todo } from "../model/todo/Todo";
-import { FC } from "react";
 
 export interface TodoItemEventHandlers {
   onChangeComplete: (id: string) => void;
@@ -13,13 +12,13 @@ type TodoItemProps = {
   todo: Todo;
 } & TodoItemEventHandlers;
 
-const TodoItem: FC<TodoItemProps> = ({
+const TodoItem = ({
   todo,
   onChangeComplete,
   onChangeColor,
   onClickDelete,
-}) => {
-  const optionalColors = TodoColors.map((color) => (
+}: TodoItemProps): JSX.Element => {
+  const optionalColors: JSX.Element[] = TodoColors.map((color) => (
     <option key={color} value={color}>
       {capitalize(color)}
     </option>

@@ -1,13 +1,15 @@
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
-import { FC } from "react";
 
 interface ColorFilterProps {
   curColors: TodoColor[];
   onChangeColor: (color: TodoColor, isSelected: boolean) => void;
 }
 
-const ColorFilter: FC<ColorFilterProps> = ({ curColors, onChangeColor }) => {
+const ColorFilter = ({
+  curColors,
+  onChangeColor,
+}: ColorFilterProps): JSX.Element => {
   return (
     <div>
       <h5>Filter by Color</h5>

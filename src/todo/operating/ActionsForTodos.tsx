@@ -4,7 +4,7 @@ const ActionsForTodos = ({
 }: {
   onClickMarkAllCompleted: () => void;
   onClickClearCompleted: () => void;
-}) => {
+}): JSX.Element => {
   return (
     <div>
       <h5>Actions</h5>
