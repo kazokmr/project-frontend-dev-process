@@ -2,7 +2,7 @@ import "./TodoApp.css";
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
-import { createTodo, Todo } from "./model/todo/Todo";
+import { Todo } from "./model/todo/Todo";
 import { useEffect, useRef, useState } from "react";
 import { TodoColor } from "./model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
@@ -31,8 +31,8 @@ const TodoApp = (): JSX.Element => {
     .filter((todo) => colors.length === 0 || colors.includes(todo.color));
 
   const addTodo = (text: string): void => {
-    const newTodo = createTodo(text);
-    setTodos([...todos, newTodo]);
+    const todo = new Todo(text);
+    setTodos([...todos, todo]);
   };
 
   const updateComplete = (id: string): void =>

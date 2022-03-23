@@ -1,16 +1,13 @@
 import { TODO_COLOR, TodoColor } from "../filter/TodoColors";
 import { ulid } from "ulid";
 
-export interface Todo {
-  id: string;
-  text: string;
-  isCompleted: boolean;
-  color: TodoColor;
-}
+export class Todo {
+  readonly id: string = ulid();
+  readonly text: string;
+  isCompleted: boolean = false;
+  color: TodoColor = TODO_COLOR.None;
 
-export const createTodo = (newText: string): Todo => ({
-  id: ulid(),
-  text: newText,
-  isCompleted: false,
-  color: TODO_COLOR.None,
-});
+  constructor(text: string) {
+    this.text = text;
+  }
+}
