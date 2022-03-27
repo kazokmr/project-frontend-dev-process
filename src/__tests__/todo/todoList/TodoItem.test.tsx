@@ -1,7 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import TodoItem, {
-  TodoItemEventHandlers,
-} from "../../../todo/todoList/TodoItem";
+import TodoItem from "../../../todo/todoList/TodoItem";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import userEvent from "@testing-library/user-event";
@@ -10,12 +8,6 @@ import { Todo } from "../../../todo/model/todo/Todo";
 const onChangeComplete: jest.Mock = jest.fn();
 const onChangeColor: jest.Mock = jest.fn();
 const onClickDelete: jest.Mock = jest.fn();
-
-const mockHandlers: TodoItemEventHandlers = {
-  onChangeComplete,
-  onChangeColor,
-  onClickDelete,
-};
 
 describe("初期選択状態のテスト", () => {
   test.each`
@@ -33,7 +25,9 @@ describe("初期選択状態のテスト", () => {
             isCompleted: isCompleted,
             color: TODO_COLOR.None,
           }}
-          handlers={mockHandlers}
+          onChangeColor={onChangeColor}
+          onChangeComplete={onChangeComplete}
+          onClickDelete={onClickDelete}
         />
       );
       const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
@@ -67,7 +61,9 @@ describe("初期選択状態のテスト", () => {
             isCompleted: false,
             color: todoColor,
           }}
-          handlers={mockHandlers}
+          onChangeColor={onChangeColor}
+          onChangeComplete={onChangeComplete}
+          onClickDelete={onClickDelete}
         />
       );
       const selectBox = screen.getByRole("option", { selected: true });
@@ -92,7 +88,9 @@ describe("初期選択状態のテスト", () => {
           isCompleted: false,
           color: TODO_COLOR.None,
         }}
-        handlers={mockHandlers}
+        onChangeColor={onChangeColor}
+        onChangeComplete={onChangeComplete}
+        onClickDelete={onClickDelete}
       />
     );
     // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
@@ -120,7 +118,9 @@ describe("Todoのイベントハンドラのテスト", () => {
               isCompleted: isCompleted,
               color: TODO_COLOR.None,
             }}
-            handlers={mockHandlers}
+            onChangeColor={onChangeColor}
+            onClickDelete={onClickDelete}
+            onChangeComplete={onChangeComplete}
           />
         );
 
@@ -157,7 +157,14 @@ describe("Todoのイベントハンドラのテスト", () => {
           isCompleted: false,
           color: TODO_COLOR.None,
         };
-        render(<TodoItem todo={todo} handlers={mockHandlers} />);
+        render(
+          <TodoItem
+            todo={todo}
+            onChangeColor={onChangeColor}
+            onChangeComplete={onChangeComplete}
+            onClickDelete={onClickDelete}
+          />
+        );
 
         // When: Colorタグを変更する
         const user = userEvent.setup();
@@ -181,7 +188,14 @@ describe("Todoのイベントハンドラのテスト", () => {
         isCompleted: false,
         color: TODO_COLOR.None,
       };
-      render(<TodoItem todo={todo} handlers={mockHandlers} />);
+      render(
+        <TodoItem
+          todo={todo}
+          onChangeColor={onChangeColor}
+          onChangeComplete={onChangeComplete}
+          onClickDelete={onClickDelete}
+        />
+      );
 
       // When: Todoの削除ボタンを押す
       const user = userEvent.setup();

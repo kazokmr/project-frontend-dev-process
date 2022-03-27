@@ -1,21 +1,19 @@
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
-import ActionsForTodos, {
-  ActionForTodosHandlers,
-} from "../../../todo/operating/ActionsForTodos";
+import ActionsForTodos from "../../../todo/operating/ActionsForTodos";
 
 const onClickMarkAllCompleted: jest.Mock = jest.fn();
 const onClickClearCompleted: jest.Mock = jest.fn();
 
-const mockHandlers: ActionForTodosHandlers = {
-  onClickClearCompleted,
-  onClickMarkAllCompleted,
-};
-
 describe("アクション操作の呼び出しテスト", () => {
   test("MarkAllCompletedを押したら指定の関数を呼び出す", async () => {
     // Given: コンポーネントを出力する
-    render(<ActionsForTodos handlers={mockHandlers} />);
+    render(
+      <ActionsForTodos
+        onClickClearCompleted={onClickClearCompleted}
+        onClickMarkAllCompleted={onClickMarkAllCompleted}
+      />
+    );
 
     // When: Mark All Completedをクリックする
     const user = userEvent.setup();
@@ -27,7 +25,12 @@ describe("アクション操作の呼び出しテスト", () => {
   });
   test("Clear Completed を押したら関数を呼び出す", async () => {
     // Given: コンポーネントを出力する
-    render(<ActionsForTodos handlers={mockHandlers} />);
+    render(
+      <ActionsForTodos
+        onClickClearCompleted={onClickClearCompleted}
+        onClickMarkAllCompleted={onClickMarkAllCompleted}
+      />
+    );
 
     // When: Clear Completedをクリックする
     const user = userEvent.setup();

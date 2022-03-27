@@ -471,3 +471,81 @@ exports[`Storyshots Example/Page Logged Out 1`] = `
   </section>
 </article>
 `;
+
+exports[`Storyshots Todo/Todo List/New Todo 標準 1`] = `
+<input
+  aria-label="input-todo"
+  onChange={[Function]}
+  onCompositionEnd={[Function]}
+  onCompositionStart={[Function]}
+  onKeyDown={[Function]}
+  placeholder="やることを入力してください"
+  type="text"
+  value=""
+/>
+`;
+
+exports[`Storyshots Todo/Todo List/Todo Item 標準 1`] = `
+<li>
+  <span>
+    <input
+      aria-label="todo-isCompleted"
+      checked={false}
+      onChange={[Function]}
+      type="checkbox"
+    />
+  </span>
+  <span
+    aria-label="content-todo"
+  >
+    Storybookを学ぶ
+  </span>
+  <span>
+    <select
+      aria-label="select-todo-color"
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value=""
+      >
+        
+      </option>
+      <option
+        value="green"
+      >
+        Green
+      </option>
+      <option
+        value="blue"
+      >
+        Blue
+      </option>
+      <option
+        value="orange"
+      >
+        Orange
+      </option>
+      <option
+        value="purple"
+      >
+        Purple
+      </option>
+      <option
+        value="red"
+      >
+        Red
+      </option>
+    </select>
+  </span>
+  <span>
+    <button
+      aria-label="delete-todo"
+      onClick={[Function]}
+      type="button"
+    >
+      X
+    </button>
+  </span>
+</li>
+`;
