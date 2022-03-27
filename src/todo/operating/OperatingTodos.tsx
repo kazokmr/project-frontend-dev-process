@@ -1,4 +1,4 @@
-import ActionsForTodos, { ActionForTodosHandlers } from "./ActionsForTodos";
+import ActionsForTodos from "./ActionsForTodos";
 import RemainingTodos from "./RemainingTodos";
 import StatusFilter from "./StatusFilter";
 import ColorFilter from "./ColorFilter";
@@ -6,7 +6,8 @@ import { TodoColor } from "../model/filter/TodoColors";
 import { TodoStatus } from "../model/filter/TodoStatus";
 
 interface OperatingTodosProps {
-  actionHandlers: ActionForTodosHandlers;
+  onClickMarkAllCompleted: () => void;
+  onClickClearCompleted: () => void;
   numberOfTodos: number;
   curStatus: TodoStatus;
   onClickStatus: (status: TodoStatus) => void;
@@ -15,7 +16,8 @@ interface OperatingTodosProps {
 }
 
 const OperatingTodos = ({
-  actionHandlers,
+  onClickMarkAllCompleted,
+  onClickClearCompleted,
   numberOfTodos,
   curStatus,
   onClickStatus,
@@ -24,7 +26,10 @@ const OperatingTodos = ({
 }: OperatingTodosProps): JSX.Element => {
   return (
     <div className="todo-footer">
-      <ActionsForTodos handlers={actionHandlers} />
+      <ActionsForTodos
+        onClickMarkAllCompleted={onClickMarkAllCompleted}
+        onClickClearCompleted={onClickClearCompleted}
+      />
       <RemainingTodos numOfTodo={numberOfTodos} />
       <StatusFilter curStatus={curStatus} onClickStatus={onClickStatus} />
       <ColorFilter curColors={curColors} onChangeColor={onChangeColor} />

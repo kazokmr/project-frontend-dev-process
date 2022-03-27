@@ -3,14 +3,24 @@ import { Todo } from "../model/todo/Todo";
 
 interface TodoListProp {
   todos: Todo[];
-  handlers: TodoItemEventHandlers;
 }
 
-const TodoList = ({ todos, handlers }: TodoListProp): JSX.Element => {
+const TodoList = ({
+  todos,
+  onChangeColor,
+  onChangeComplete,
+  onClickDelete,
+}: TodoListProp & TodoItemEventHandlers): JSX.Element => {
   return (
     <ul aria-label={"list-todo"}>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} handlers={handlers} />
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onChangeColor={onChangeColor}
+          onChangeComplete={onChangeComplete}
+          onClickDelete={onClickDelete}
+        />
       ))}
     </ul>
   );
