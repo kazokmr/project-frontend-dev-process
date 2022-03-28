@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import NewTodo from "./NewTodo";
+import { userEvent, within } from "@storybook/testing-library";
 
-const meta: ComponentMeta<typeof NewTodo> = {
+const Meta: ComponentMeta<typeof NewTodo> = {
   component: NewTodo,
   argTypes: {
     addTodo: {
@@ -10,8 +11,18 @@ const meta: ComponentMeta<typeof NewTodo> = {
     },
   },
 };
-export default meta;
+export default Meta;
 
 export const Default: ComponentStoryObj<typeof NewTodo> = {
   storyName: "標準",
+};
+
+export const Interaction: ComponentStoryObj<typeof NewTodo> = {
+  storyName: "Todoを入力してEnter",
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("textbox", { name: "input-todo" }));
+    await userEvent.keyboard("インタラクションテスト", { delay: 100 });
+    setTimeout(() => userEvent.keyboard("{Enter}"), 1000);
+  },
 };
