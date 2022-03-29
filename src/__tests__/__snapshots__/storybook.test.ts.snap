@@ -472,6 +472,322 @@ exports[`Storyshots Example/Page Logged Out 1`] = `
 </article>
 `;
 
+exports[`Storyshots Todo/Operating/Actions For Todos Default 1`] = `
+<div>
+  <h5>
+    Actions
+  </h5>
+  <ul>
+    <li>
+      <button
+        onClick={[Function]}
+        type="button"
+      >
+        Mark All Completed
+      </button>
+    </li>
+    <li>
+      <button
+        onClick={[Function]}
+        type="button"
+      >
+        Clear Completed
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots Todo/Operating/Color Filter Default 1`] = `
+<div>
+  <h5>
+    Filter by Color
+  </h5>
+  <ul>
+    <li>
+      <label>
+        <input
+          checked={false}
+          name="green"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Green
+      </label>
+    </li>
+    <li>
+      <label>
+        <input
+          checked={false}
+          name="blue"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Blue
+      </label>
+    </li>
+    <li>
+      <label>
+        <input
+          checked={false}
+          name="orange"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Orange
+      </label>
+    </li>
+    <li>
+      <label>
+        <input
+          checked={false}
+          name="purple"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Purple
+      </label>
+    </li>
+    <li>
+      <label>
+        <input
+          checked={false}
+          name="red"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Red
+      </label>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots Todo/Operating/Operating Todos Default 1`] = `
+<div
+  className="todo-footer"
+>
+  <div>
+    <h5>
+      Actions
+    </h5>
+    <ul>
+      <li>
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          Mark All Completed
+        </button>
+      </li>
+      <li>
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          Clear Completed
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <h5>
+      Remaining Todos
+    </h5>
+    <div
+      aria-label="remaining-todos"
+    >
+      1 item left
+    </div>
+  </div>
+  <div>
+    <h5>
+      Filter by Status
+    </h5>
+    <ul>
+      <li>
+        <button
+          aria-pressed={true}
+          onClick={[Function]}
+          type="button"
+        >
+          All
+        </button>
+      </li>
+      <li>
+        <button
+          aria-pressed={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Active
+        </button>
+      </li>
+      <li>
+        <button
+          aria-pressed={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Completed
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <h5>
+      Filter by Color
+    </h5>
+    <ul>
+      <li>
+        <label>
+          <input
+            checked={false}
+            name="green"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          Green
+        </label>
+      </li>
+      <li>
+        <label>
+          <input
+            checked={false}
+            name="blue"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          Blue
+        </label>
+      </li>
+      <li>
+        <label>
+          <input
+            checked={false}
+            name="orange"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          Orange
+        </label>
+      </li>
+      <li>
+        <label>
+          <input
+            checked={false}
+            name="purple"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          Purple
+        </label>
+      </li>
+      <li>
+        <label>
+          <input
+            checked={false}
+            name="red"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          Red
+        </label>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Todo/Operating/Remaining Todos ActiveなTodoが0件 1`] = `
+<div>
+  <h5>
+    Remaining Todos
+  </h5>
+  <div
+    aria-label="remaining-todos"
+  >
+    0 item left
+  </div>
+</div>
+`;
+
+exports[`Storyshots Todo/Operating/Remaining Todos ActiveなTodoが2件 1`] = `
+<div>
+  <h5>
+    Remaining Todos
+  </h5>
+  <div
+    aria-label="remaining-todos"
+  >
+    2 items left
+  </div>
+</div>
+`;
+
+exports[`Storyshots Todo/Operating/Remaining Todos ActiveなTodoが１件 1`] = `
+<div>
+  <h5>
+    Remaining Todos
+  </h5>
+  <div
+    aria-label="remaining-todos"
+  >
+    1 item left
+  </div>
+</div>
+`;
+
+exports[`Storyshots Todo/Operating/Status Filter Default 1`] = `
+<div>
+  <h5>
+    Filter by Status
+  </h5>
+  <ul>
+    <li>
+      <button
+        aria-pressed={true}
+        onClick={[Function]}
+        type="button"
+      >
+        All
+      </button>
+    </li>
+    <li>
+      <button
+        aria-pressed={false}
+        onClick={[Function]}
+        type="button"
+      >
+        Active
+      </button>
+    </li>
+    <li>
+      <button
+        aria-pressed={false}
+        onClick={[Function]}
+        type="button"
+      >
+        Completed
+      </button>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots Todo/Todo List/New Todo Todoを入力してEnter 1`] = `
+<input
+  aria-label="input-todo"
+  onChange={[Function]}
+  onCompositionEnd={[Function]}
+  onCompositionStart={[Function]}
+  onKeyDown={[Function]}
+  placeholder="やることを入力してください"
+  type="text"
+  value=""
+/>
+`;
+
 exports[`Storyshots Todo/Todo List/New Todo 標準 1`] = `
 <input
   aria-label="input-todo"
@@ -483,6 +799,71 @@ exports[`Storyshots Todo/Todo List/New Todo 標準 1`] = `
   type="text"
   value=""
 />
+`;
+
+exports[`Storyshots Todo/Todo List/Todo Item 完了済みのTodo 1`] = `
+<li>
+  <span>
+    <input
+      aria-label="todo-isCompleted"
+      checked={true}
+      onChange={[Function]}
+      type="checkbox"
+    />
+  </span>
+  <span
+    aria-label="content-todo"
+  >
+    Storybookを学ぶ
+  </span>
+  <span>
+    <select
+      aria-label="select-todo-color"
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value=""
+      >
+        
+      </option>
+      <option
+        value="green"
+      >
+        Green
+      </option>
+      <option
+        value="blue"
+      >
+        Blue
+      </option>
+      <option
+        value="orange"
+      >
+        Orange
+      </option>
+      <option
+        value="purple"
+      >
+        Purple
+      </option>
+      <option
+        value="red"
+      >
+        Red
+      </option>
+    </select>
+  </span>
+  <span>
+    <button
+      aria-label="delete-todo"
+      onClick={[Function]}
+      type="button"
+    >
+      X
+    </button>
+  </span>
+</li>
 `;
 
 exports[`Storyshots Todo/Todo List/Todo Item 標準 1`] = `
@@ -548,4 +929,197 @@ exports[`Storyshots Todo/Todo List/Todo Item 標準 1`] = `
     </button>
   </span>
 </li>
+`;
+
+exports[`Storyshots Todo/Todo List/Todo List Default 1`] = `
+<ul
+  aria-label="list-todo"
+>
+  <li>
+    <span>
+      <input
+        aria-label="todo-isCompleted"
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+    </span>
+    <span
+      aria-label="content-todo"
+    >
+      サンプル１
+    </span>
+    <span>
+      <select
+        aria-label="select-todo-color"
+        onChange={[Function]}
+        value=""
+      >
+        <option
+          value=""
+        >
+          
+        </option>
+        <option
+          value="green"
+        >
+          Green
+        </option>
+        <option
+          value="blue"
+        >
+          Blue
+        </option>
+        <option
+          value="orange"
+        >
+          Orange
+        </option>
+        <option
+          value="purple"
+        >
+          Purple
+        </option>
+        <option
+          value="red"
+        >
+          Red
+        </option>
+      </select>
+    </span>
+    <span>
+      <button
+        aria-label="delete-todo"
+        onClick={[Function]}
+        type="button"
+      >
+        X
+      </button>
+    </span>
+  </li>
+  <li>
+    <span>
+      <input
+        aria-label="todo-isCompleted"
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+    </span>
+    <span
+      aria-label="content-todo"
+    >
+      サンプル２
+    </span>
+    <span>
+      <select
+        aria-label="select-todo-color"
+        onChange={[Function]}
+        value="blue"
+      >
+        <option
+          value=""
+        >
+          
+        </option>
+        <option
+          value="green"
+        >
+          Green
+        </option>
+        <option
+          value="blue"
+        >
+          Blue
+        </option>
+        <option
+          value="orange"
+        >
+          Orange
+        </option>
+        <option
+          value="purple"
+        >
+          Purple
+        </option>
+        <option
+          value="red"
+        >
+          Red
+        </option>
+      </select>
+    </span>
+    <span>
+      <button
+        aria-label="delete-todo"
+        onClick={[Function]}
+        type="button"
+      >
+        X
+      </button>
+    </span>
+  </li>
+  <li>
+    <span>
+      <input
+        aria-label="todo-isCompleted"
+        checked={true}
+        onChange={[Function]}
+        type="checkbox"
+      />
+    </span>
+    <span
+      aria-label="content-todo"
+    >
+      サンプル３
+    </span>
+    <span>
+      <select
+        aria-label="select-todo-color"
+        onChange={[Function]}
+        value="red"
+      >
+        <option
+          value=""
+        >
+          
+        </option>
+        <option
+          value="green"
+        >
+          Green
+        </option>
+        <option
+          value="blue"
+        >
+          Blue
+        </option>
+        <option
+          value="orange"
+        >
+          Orange
+        </option>
+        <option
+          value="purple"
+        >
+          Purple
+        </option>
+        <option
+          value="red"
+        >
+          Red
+        </option>
+      </select>
+    </span>
+    <span>
+      <button
+        aria-label="delete-todo"
+        onClick={[Function]}
+        type="button"
+      >
+        X
+      </button>
+    </span>
+  </li>
+</ul>
 `;
