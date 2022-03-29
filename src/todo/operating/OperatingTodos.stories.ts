@@ -9,9 +9,11 @@ const Meta: ComponentMeta<typeof OperatingTodos> = {
 export default Meta;
 
 export const Default: ComponentStoryObj<typeof OperatingTodos> = {
+  args: {
+    numberOfTodos: 1,
+  },
   argTypes: {
     numberOfTodos: {
-      defaultValue: 1,
       control: { type: "range", min: 0, max: 100, step: 1 },
     },
     curStatus: {
