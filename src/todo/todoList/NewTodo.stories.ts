@@ -10,6 +10,11 @@ const Meta: ComponentMeta<typeof NewTodo> = {
       action: "Adding Todo",
     },
   },
+  parameters: {
+    controls: {
+      hideNoControlsWarning: true,
+    },
+  },
 };
 export default Meta;
 
