@@ -2,9 +2,11 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import TodoList from "./TodoList";
 import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
+import TodoItem from "./TodoItem";
 
 const Meta: ComponentMeta<typeof TodoList> = {
   component: TodoList,
+  subcomponents: { TodoItem },
 };
 export default Meta;
 
