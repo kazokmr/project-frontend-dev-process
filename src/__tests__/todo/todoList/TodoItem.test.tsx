@@ -94,7 +94,7 @@ describe("初期選択状態のテスト", () => {
       />
     );
     // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
-    const textBox = screen.getByLabelText("content-todo");
+    const textBox = screen.getByTestId("content-todo");
     expect(textBox.textContent).toBe(text);
   });
 });

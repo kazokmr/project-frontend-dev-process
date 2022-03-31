@@ -34,7 +34,7 @@ const TodoItem = ({
           onChange={() => onChangeComplete(todo.id)}
         />
       </span>
-      <span aria-label={"content-todo"}>{todo.text}</span>
+      <span data-testid={"content-todo"}>{todo.text}</span>
       <span>
         <select
           aria-label={"select-todo-color"}

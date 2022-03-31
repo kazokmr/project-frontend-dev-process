@@ -33,7 +33,7 @@ describe("Todoの件数による表示テスト", () => {
         onChangeColor={onChangeColor}
       />
     );
-    const todoTexts = screen.getAllByLabelText("content-todo");
+    const todoTexts = screen.getAllByTestId("content-todo");
     expect(todoTexts).toHaveLength(1);
     expect(todoTexts[0].textContent).toBe(text);
   });
@@ -61,7 +61,7 @@ describe("Todoの件数による表示テスト", () => {
         onChangeColor={onChangeColor}
       />
     );
-    const todoTexts = screen.getAllByLabelText("content-todo");
+    const todoTexts = screen.getAllByTestId("content-todo");
     expect(todoTexts).toHaveLength(2);
     todoTexts.forEach((todoText, index) => {
       expect(todoText.textContent).toBe(expectTexts[index]);

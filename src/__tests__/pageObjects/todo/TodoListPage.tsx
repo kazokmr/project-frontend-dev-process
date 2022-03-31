@@ -48,7 +48,7 @@ export class TodoListPage {
 
   waitPrintTodos = async (numOfTodos: number) => {
     if (numOfTodos === 0) return;
-    expect(await screen.findAllByLabelText("content-todo")).toHaveLength(
+    expect(await screen.findAllByTestId("content-todo")).toHaveLength(
       numOfTodos
     );
   };
@@ -118,7 +118,8 @@ export class TodoListPage {
   ): Promise<boolean> => {
     const suffix = numOfUnCompleted > 1 ? "s" : "";
     const contentText = `${numOfUnCompleted} item${suffix} left`;
-    return (await screen.findByText(contentText)) !== null;
+    const remainingTodo = await screen.findByTestId("remaining-todos");
+    return remainingTodo.textContent === contentText;
   };
 
   isSelectedStatus = async (
@@ -140,7 +141,7 @@ export class TodoListPage {
 
   private getContentOfTodoByIndex = (index: number): HTMLInputElement => {
     const contents: Array<HTMLInputElement> =
-      screen.getAllByLabelText("content-todo");
+      screen.getAllByTestId("content-todo");
     return contents[index];
   };
 
