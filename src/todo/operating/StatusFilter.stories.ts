@@ -2,10 +2,9 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import StatusFilter from "./StatusFilter";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
 
-const Meta: ComponentMeta<typeof StatusFilter> = {
+export default {
   component: StatusFilter,
-};
-export default Meta;
+} as ComponentMeta<typeof StatusFilter>;
 
 export const Default: ComponentStoryObj<typeof StatusFilter> = {
   argTypes: {

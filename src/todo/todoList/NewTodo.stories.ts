@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import NewTodo from "./NewTodo";
 import { userEvent, within } from "@storybook/testing-library";
 
-const Meta: ComponentMeta<typeof NewTodo> = {
+export default {
   component: NewTodo,
   argTypes: {
     addTodo: {
@@ -15,8 +15,7 @@ const Meta: ComponentMeta<typeof NewTodo> = {
       hideNoControlsWarning: true,
     },
   },
-};
-export default Meta;
+} as ComponentMeta<typeof NewTodo>;
 
 export const Default: ComponentStoryObj<typeof NewTodo> = {
   storyName: "標準",

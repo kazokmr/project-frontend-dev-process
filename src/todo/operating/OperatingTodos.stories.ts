@@ -3,10 +3,9 @@ import OperatingTodos from "./OperatingTodos";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
-const Meta: ComponentMeta<typeof OperatingTodos> = {
+export default {
   component: OperatingTodos,
-};
-export default Meta;
+} as ComponentMeta<typeof OperatingTodos>;
 
 export const Default: ComponentStoryObj<typeof OperatingTodos> = {
   args: {

@@ -3,10 +3,9 @@ import TodoItem from "./TodoItem";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
 
-const Meta: ComponentMeta<typeof TodoItem> = {
+export default {
   component: TodoItem,
-};
-export default Meta;
+} as ComponentMeta<typeof TodoItem>;
 
 export const Default: ComponentStoryObj<typeof TodoItem> = {
   storyName: "標準",

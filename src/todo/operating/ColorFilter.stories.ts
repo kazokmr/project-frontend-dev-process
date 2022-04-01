@@ -2,10 +2,9 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import ColorFilter from "./ColorFilter";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
-const Meta: ComponentMeta<typeof ColorFilter> = {
+export default {
   component: ColorFilter,
-};
-export default Meta;
+} as ComponentMeta<typeof ColorFilter>;
 
 export const Default: ComponentStoryObj<typeof ColorFilter> = {
   argTypes: {
