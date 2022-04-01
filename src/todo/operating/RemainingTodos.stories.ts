@@ -1,10 +1,9 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import RemainingTodos from "./RemainingTodos";
 
-const Meta: ComponentMeta<typeof RemainingTodos> = {
+export default {
   component: RemainingTodos,
-};
-export default Meta;
+} as ComponentMeta<typeof RemainingTodos>;
 
 export const Default: ComponentStoryObj<typeof RemainingTodos> = {
   storyName: "ActiveなTodoが１件",

@@ -3,15 +3,14 @@ import { rest } from "msw";
 import TodoApp from "./TodoApp";
 import { createMockedTodos } from "../mocks/handlers";
 
-const Meta: ComponentMeta<typeof TodoApp> = {
+export default {
   component: TodoApp,
   parameters: {
     controls: {
       hideNoControlsWarning: true,
     },
   },
-};
-export default Meta;
+} as ComponentMeta<typeof TodoApp>;
 
 export const Default: ComponentStoryObj<typeof TodoApp> = {
   parameters: {

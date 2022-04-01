@@ -4,11 +4,10 @@ import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import TodoItem from "./TodoItem";
 
-const Meta: ComponentMeta<typeof TodoList> = {
+export default {
   component: TodoList,
   subcomponents: { TodoItem },
-};
-export default Meta;
+} as ComponentMeta<typeof TodoList>;
 
 const todos: Todo[] = [
   { id: "1", text: "サンプル１", isCompleted: false, color: TODO_COLOR.None },

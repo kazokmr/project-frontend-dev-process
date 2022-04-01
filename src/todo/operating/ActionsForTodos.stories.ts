@@ -1,14 +1,13 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import ActionsForTodos from "./ActionsForTodos";
 
-const Meta: ComponentMeta<typeof ActionsForTodos> = {
+export default {
   component: ActionsForTodos,
   parameters: {
     controls: {
       hideNoControlsWarning: true,
     },
   },
-};
-export default Meta;
+} as ComponentMeta<typeof ActionsForTodos>;
 
 export const Default: ComponentStoryObj<typeof ActionsForTodos> = {};
