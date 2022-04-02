@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import { rest } from "msw";
 import TodoApp from "./TodoApp";
-import { createMockedTodos } from "../mocks/handlers";
+import { createMockedConstantTodos } from "../mocks/handlers";
 
 export default {
   component: TodoApp,
@@ -17,7 +17,7 @@ export const Default: ComponentStoryObj<typeof TodoApp> = {
     msw: {
       handlers: [
         rest.get("/todos", (req, res, ctx) => {
-          return res(ctx.json(createMockedTodos(5)));
+          return res(ctx.json(createMockedConstantTodos));
         }),
       ],
     },
