@@ -33,6 +33,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^14.0.4",
     "@types/jest": "^27.4.1",
+    "chromatic": "^6.5.3",
     "msw": "^0.39.2",
     "msw-storybook-addon": "^1.6.1",
     "prettier": "^2.6.1",
