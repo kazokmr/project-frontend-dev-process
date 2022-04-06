@@ -6,6 +6,7 @@ import { Todo } from "./model/todo/Todo";
 import { useEffect, useRef, useState } from "react";
 import { TodoColor } from "./model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
+import axios from "axios";
 
 const TodoApp = (): JSX.Element => {
   const isMountRef = useRef<boolean>(false);
@@ -14,8 +15,8 @@ const TodoApp = (): JSX.Element => {
   const [colors, setColors] = useState<TodoColor[]>([] as TodoColor[]);
 
   const fetchTodo = async (): Promise<void> => {
-    const result = await fetch("/todos");
-    const todos: Todo[] = await result.json();
+    const response = await axios.get("/todos");
+    const todos: Todo[] = response.data;
     if (isMountRef.current) {
       setTodos(todos);
     }
