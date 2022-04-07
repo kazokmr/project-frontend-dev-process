@@ -58,6 +58,7 @@ export class TodoListPage {
     await this.user.click(todoTextBox);
     await this.user.keyboard(inputText);
     await this.user.keyboard("[Enter]");
+    expect(await screen.findByText(inputText)).toBeInTheDocument();
   };
 
   completeTodo = async (numberOfRow: number): Promise<void> => {
