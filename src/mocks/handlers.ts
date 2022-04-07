@@ -1,11 +1,21 @@
-import { rest } from "msw";
+import { DefaultRequestBody, PathParams, rest } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColors } from "../todo/model/filter/TodoColors";
 
 export const handlers = [
-  rest.get("/todos", (request, response, context) => {
-    return response(context.status(200), context.json(createMockedTodos(3)));
-  }),
+  rest.get<DefaultRequestBody, PathParams, Todo[]>(
+    "/todos",
+    (request, response, context) => {
+      return response(context.status(200), context.json(createMockedTodos(3)));
+    }
+  ),
+  rest.post<{ text: string }, PathParams, Todo>(
+    "/addTodo",
+    (req, res, context) => {
+      const todo = new Todo(req.body.text);
+      return res(context.status(200), context.json(todo));
+    }
+  ),
 ];
 
 export const createMockedTodos = (
@@ -30,36 +40,3 @@ export const createMockedTodos = (
   }
   return todos;
 };
-
-export const createMockedConstantTodos: Todo[] = [
-  {
-    id: "1",
-    text: "君も今日もっとこの推薦性という事のためが参りですん。",
-    isCompleted: true,
-    color: TODO_COLOR.Red,
-  },
-  {
-    id: "2",
-    text: "主義を説きないのは無論事実でどうしてもたなた。",
-    isCompleted: false,
-    color: TODO_COLOR.Green,
-  },
-  {
-    id: "3",
-    text: "場合をはできるだけありて違ったんたでし",
-    isCompleted: true,
-    color: TODO_COLOR.Blue,
-  },
-  {
-    id: "4",
-    text: "引用欠くて、これらの.も色濃くでも係るますませ。",
-    isCompleted: true,
-    color: TODO_COLOR.Green,
-  },
-  {
-    id: "5",
-    text: "あるいは、ここを問題にすることを「侵害権」の投稿ある。",
-    isCompleted: false,
-    color: TODO_COLOR.None,
-  },
-];
