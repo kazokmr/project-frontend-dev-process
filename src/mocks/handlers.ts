@@ -10,7 +10,7 @@ export const handlers = [
     }
   ),
   rest.post<{ text: string }, PathParams, Todo>(
-    "/addTodo",
+    "/todo",
     (req, res, context) => {
       const todo = new Todo(req.body.text);
       return res(context.status(200), context.json(todo));

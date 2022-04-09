@@ -32,7 +32,7 @@ const TodoApp = (): JSX.Element => {
     .filter((todo) => colors.length === 0 || colors.includes(todo.color));
 
   const addTodo = async (text: string): Promise<void> => {
-    const response = await axios.post("/addTodo", { text: text });
+    const response = await axios.post("/todo", { text: text });
     const todo = response.data;
     setTodos([...todos, todo]);
   };

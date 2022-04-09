@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const prepare = () => {
   if (process.env.NODE_ENV === "development") {
@@ -12,10 +14,15 @@ const prepare = () => {
   return Promise.resolve();
 };
 
+const queryClient = new QueryClient();
+
 prepare().then(() => {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </React.StrictMode>,
     document.getElementById("root")
   );
