@@ -4,32 +4,31 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 import { TodoColor } from "../model/filter/TodoColors";
 
+interface TodosQueryParams {
+  status: TodoStatus;
+  colors: TodoColor[];
+}
+
 const fetchTodos = async ({
   status,
   colors,
-}: {
-  status: TodoStatus;
-  colors: TodoColor[];
-}): Promise<Todo[]> => {
+}: TodosQueryParams): Promise<Todo[]> => {
   const response = await axios.get("/todos");
   const todos: Todo[] = response.data;
   return todos
     .filter(
-      (todo) =>
+      (todo: Todo) =>
         status === TODO_STATUS.ALL ||
         (status === TODO_STATUS.ACTIVE && !todo.isCompleted) ||
         (status === TODO_STATUS.COMPLETED && todo.isCompleted)
     )
-    .filter((todo) => colors.length === 0 || colors.includes(todo.color));
+    .filter((todo: Todo) => colors.length === 0 || colors.includes(todo.color));
 };
 
-export function useTodos({
+export function useQueryTodo({
   status = TODO_STATUS.ALL,
   colors = [],
-}: {
-  status?: TodoStatus;
-  colors?: TodoColor[];
-}) {
+}: Partial<TodosQueryParams>) {
   return useQuery<Todo[]>(["todos", { status, colors }], () =>
     fetchTodos({ status, colors })
   );

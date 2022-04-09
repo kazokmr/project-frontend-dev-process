@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
 import { renderHook } from "@testing-library/react-hooks";
-import { useTodos } from "../../../todo/hooks/useTodos";
+import { useQueryTodo } from "../../../todo/hooks/useTodo";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
 import { server } from "../../../mocks/server";
@@ -21,7 +21,7 @@ describe("useQueryのテスト", () => {
     overrideHandler();
 
     // When: サーバーAPIをコールしてTodo配列をフェッチする
-    const { result, waitFor } = renderHook(() => useTodos({}), {
+    const { result, waitFor } = renderHook(() => useQueryTodo({}), {
       wrapper: createWrapper(),
     });
     await waitFor(() => result.current.isSuccess);
@@ -37,7 +37,7 @@ describe("useQueryのテスト", () => {
     // When: サーバーAPIをコールしてTodo配列をフェッチする
     const { result, waitFor } = renderHook(
       () =>
-        useTodos({
+        useQueryTodo({
           status: TODO_STATUS.COMPLETED,
         }),
       {
