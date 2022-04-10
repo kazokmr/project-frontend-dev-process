@@ -6,19 +6,20 @@ export const handlers = [
   rest.get<DefaultRequestBody, PathParams, Todo[]>(
     "/todos",
     (request, response, context) => {
-      return response(context.status(200), context.json(createMockedTodos(3)));
+      return response(context.status(200), context.json(mockedTodos));
     }
   ),
   rest.post<{ text: string }, PathParams, Todo>(
     "/todo",
     (req, res, context) => {
       const todo = new Todo(req.body.text);
+      mockedTodos = [...mockedTodos, todo];
       return res(context.status(200), context.json(todo));
     }
   ),
 ];
 
-export const createMockedTodos = (
+const createMockedTodos = (
   numberOfTodos: number,
   isInitCompleted: boolean = false,
   isInitColorTag: boolean = false
@@ -40,3 +41,5 @@ export const createMockedTodos = (
   }
   return todos;
 };
+
+let mockedTodos = createMockedTodos(5);

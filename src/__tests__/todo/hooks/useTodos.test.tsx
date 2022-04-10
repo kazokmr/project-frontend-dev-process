@@ -1,14 +1,15 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
-import { renderHook } from "@testing-library/react-hooks";
-import { useQueryTodo } from "../../../todo/hooks/useTodo";
+import { act, renderHook } from "@testing-library/react-hooks";
+import { useMutationTodoAdded, useQueryTodo } from "../../../todo/hooks/useTodo";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { server } from "../../../mocks/server";
-import { rest } from "msw";
+import { DefaultRequestBody, PathParams, rest } from "msw";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 
-const createWrapper = () => {
+// QueryClientをテスト対象のカスタムHookをラップする
+const queryClientWrapper = () => {
   const queryClient = new QueryClient();
   return ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -16,16 +17,16 @@ const createWrapper = () => {
 };
 
 describe("React QueryによるServerState管理", () => {
-  describe("useTodoQueryのテスト", () => {
-    beforeEach(() => {
-      // Given: MSWでリクエストをインターセプトしてハンドリングする
-      overrideHandler();
-    });
+  beforeEach(() => {
+    // Given: MSWでリクエストをインターセプトしてハンドリングする
+    overrideHandler();
+  });
 
+  describe("useTodoQueryのテスト", () => {
     test("バックエンドAPIを使いTodoリストが取得できること", async () => {
       // When: 全てのTodoを検索する
       const { result, waitFor } = renderHook(() => useQueryTodo({}), {
-        wrapper: createWrapper(),
+        wrapper: queryClientWrapper(),
       });
       await waitFor(() => result.current.isSuccess);
 
@@ -56,7 +57,7 @@ describe("React QueryによるServerState管理", () => {
               status: status,
             }),
           {
-            wrapper: createWrapper(),
+            wrapper: queryClientWrapper(),
           }
         );
         await waitFor(() => result.current.isSuccess);
@@ -88,7 +89,7 @@ describe("React QueryによるServerState管理", () => {
               colors: colors,
             }),
           {
-            wrapper: createWrapper(),
+            wrapper: queryClientWrapper(),
           }
         );
         await waitFor(() => result.current.isSuccess);
@@ -132,7 +133,7 @@ describe("React QueryによるServerState管理", () => {
               colors: colors,
             }),
           {
-            wrapper: createWrapper(),
+            wrapper: queryClientWrapper(),
           }
         );
         await waitFor(() => result.current.isSuccess);
@@ -142,17 +143,67 @@ describe("React QueryによるServerState管理", () => {
       }
     );
   });
+  describe("useMutationTodoのテスト", () => {
+    test("Todoを追加するとTodoリストが再フェッチする", async () => {
+      // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
+      const wrapper = queryClientWrapper();
+
+      // カスタムHook useQueryTodoを出力しTodoリストをFetchする
+      const { result: resultQuery, waitFor: waitForQuery } = renderHook(
+        () => useQueryTodo({}),
+        {
+          wrapper: wrapper,
+        }
+      );
+      await waitForQuery(() => resultQuery.current.isSuccess);
+      // 最初は７件
+      expect(resultQuery.current.data).toHaveLength(7);
+
+      // When: useMutation カスタムHookを出力する
+      const { result: resultMutation, waitFor: waitForMutation } = renderHook(
+        () => useMutationTodoAdded(),
+        {
+          wrapper: wrapper,
+        }
+      );
+
+      // mutateを実行して新しいTodoを実行する
+      const text = "hogehoge";
+      act(() => {
+        resultMutation.current.mutate({ text });
+      });
+      await waitForMutation(() => resultMutation.current.isSuccess);
+
+      // Then: queryデータが再FetchされTodoが追加される
+      const todosAfterAdded: Todo[] = resultQuery.current.data as Todo[];
+      expect(todosAfterAdded).toHaveLength(8);
+      expect(todosAfterAdded[7].text).toBe(text);
+      expect(todosAfterAdded[7].isCompleted).toBeFalsy();
+      expect(todosAfterAdded[7].color).toBe(TODO_COLOR.None);
+    });
+  });
 });
 
 const overrideHandler = () => {
   server.use(
-    rest.get("/todos", (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(mockTodos));
-    })
+    rest.get<DefaultRequestBody, PathParams, Todo[]>(
+      "/todos",
+      (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(mockTodos));
+      }
+    ),
+    rest.post<{ text: string }, PathParams, Todo>(
+      "/todo",
+      (req, res, context) => {
+        const todo = new Todo(req.body.text);
+        mockTodos = [...mockTodos, todo];
+        return res(context.status(200), context.json(todo));
+      }
+    )
   );
 };
 
-const mockTodos: Todo[] = [
+let mockTodos: Todo[] = [
   {
     id: "1",
     text: "No.1",

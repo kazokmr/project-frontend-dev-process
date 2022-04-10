@@ -34,7 +34,7 @@ export function useQueryTodo({
   );
 }
 
-export const useMutationAddTodo = () => {
+export const useMutationTodoAdded = () => {
   const queryClient = useQueryClient();
   return useMutation(
     ({ text }: { text: string }) => axios.post("/todo", { text: text }),
@@ -44,7 +44,7 @@ export const useMutationAddTodo = () => {
   );
 };
 
-export const useMutationChangeTodoCompleted = () => {
+export const useMutationTodoCompleted = () => {
   const queryClient = useQueryClient();
   return useMutation(
     ({ id }: { id: string }) => axios.put(`/todo/${id}/complete`),
@@ -54,7 +54,7 @@ export const useMutationChangeTodoCompleted = () => {
   );
 };
 
-export const useMutationChangeTodoColor = () => {
+export const useMutationTodoColorChanged = () => {
   const queryClient = useQueryClient();
   return useMutation(
     ({ id, color }: { id: string; color: TodoColor }) =>
@@ -65,7 +65,7 @@ export const useMutationChangeTodoColor = () => {
   );
 };
 
-export const useMutationDeleteTodo = () => {
+export const useMutationTodoDeleted = () => {
   const queryClient = useQueryClient();
   return useMutation(({ id }: { id: string }) => axios.delete(`/todo/${id}`), {
     onSuccess: () => queryClient.invalidateQueries("todos"),
