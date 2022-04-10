@@ -43,3 +43,7 @@ const createMockedTodos = (
 };
 
 let mockedTodos = createMockedTodos(5);
+
+export function setMockedTodo(todos: Todo[]) {
+  mockedTodos = todos;
+}

@@ -4,9 +4,54 @@ import { act, renderHook } from "@testing-library/react-hooks";
 import { useMutationTodoAdded, useQueryTodo } from "../../../todo/hooks/useTodo";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
-import { server } from "../../../mocks/server";
-import { DefaultRequestBody, PathParams, rest } from "msw";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
+import { setMockedTodo } from "../../../mocks/handlers";
+
+// Testデータ
+let testTodos: Todo[] = [
+  {
+    id: "1",
+    text: "No.1",
+    isCompleted: true,
+    color: TODO_COLOR.Blue,
+  },
+  {
+    id: "2",
+    text: "No.2",
+    isCompleted: true,
+    color: TODO_COLOR.Red,
+  },
+  {
+    id: "3",
+    text: "No.3",
+    isCompleted: false,
+    color: TODO_COLOR.Blue,
+  },
+  {
+    id: "4",
+    text: "No.4",
+    isCompleted: true,
+    color: TODO_COLOR.None,
+  },
+  {
+    id: "5",
+    text: "No.5",
+    isCompleted: false,
+    color: TODO_COLOR.Blue,
+  },
+  {
+    id: "6",
+    text: "No.6",
+    isCompleted: false,
+    color: TODO_COLOR.Green,
+  },
+  {
+    id: "7",
+    text: "No.7",
+    isCompleted: false,
+    color: TODO_COLOR.Green,
+  },
+];
 
 // QueryClientをテスト対象のカスタムHookをラップする
 const queryClientWrapper = () => {
@@ -18,8 +63,8 @@ const queryClientWrapper = () => {
 
 describe("React QueryによるServerState管理", () => {
   beforeEach(() => {
-    // Given: MSWでリクエストをインターセプトしてハンドリングする
-    overrideHandler();
+    // Given: MSWで利用するTodoデータを入れ替える
+    setMockedTodo(testTodos);
   });
 
   describe("useTodoQueryのテスト", () => {
@@ -32,7 +77,7 @@ describe("React QueryによるServerState管理", () => {
 
       // Then: todoが取得できること
       expect(result.current.data).toHaveLength(7);
-      expect(result.current.data).toEqual(mockTodos);
+      expect(result.current.data).toEqual(testTodos);
     });
 
     test.each`
@@ -65,7 +110,7 @@ describe("React QueryによるServerState管理", () => {
         // Then: todoが取得できること
         expect(result.current.data).toHaveLength(count);
         expect(result.current.data).toEqual(
-          mockTodos.filter((todo) => todo.isCompleted === isCompleted)
+          testTodos.filter((todo) => todo.isCompleted === isCompleted)
         );
       }
     );
@@ -97,7 +142,7 @@ describe("React QueryによるServerState管理", () => {
         // Then: todoが取得できること
         expect(result.current.data).toHaveLength(count);
         expect(result.current.data).toEqual(
-          mockTodos.filter(
+          testTodos.filter(
             (todo) => colors.length === 0 || colors.includes(todo.color)
           )
         );
@@ -144,7 +189,7 @@ describe("React QueryによるServerState管理", () => {
     );
   });
   describe("useMutationTodoのテスト", () => {
-    test("Todoを追加するとTodoリストが再フェッチする", async () => {
+    test("Todoを追加するとTodoリストを再フェッチする", async () => {
       // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
       const wrapper = queryClientWrapper();
 
@@ -180,70 +225,12 @@ describe("React QueryによるServerState管理", () => {
       expect(todosAfterAdded[7].text).toBe(text);
       expect(todosAfterAdded[7].isCompleted).toBeFalsy();
       expect(todosAfterAdded[7].color).toBe(TODO_COLOR.None);
+
+      // responseに含まれる追加されたTodoオブジェクトを確認する
+      const addedTodo: Todo = resultMutation.current.data?.data;
+      expect(addedTodo.text).toBe(text);
+      expect(addedTodo.isCompleted).toBeFalsy();
+      expect(addedTodo.color).toBe(TODO_COLOR.None);
     });
   });
 });
-
-const overrideHandler = () => {
-  server.use(
-    rest.get<DefaultRequestBody, PathParams, Todo[]>(
-      "/todos",
-      (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(mockTodos));
-      }
-    ),
-    rest.post<{ text: string }, PathParams, Todo>(
-      "/todo",
-      (req, res, context) => {
-        const todo = new Todo(req.body.text);
-        mockTodos = [...mockTodos, todo];
-        return res(context.status(200), context.json(todo));
-      }
-    )
-  );
-};
-
-let mockTodos: Todo[] = [
-  {
-    id: "1",
-    text: "No.1",
-    isCompleted: true,
-    color: TODO_COLOR.Blue,
-  },
-  {
-    id: "2",
-    text: "No.2",
-    isCompleted: true,
-    color: TODO_COLOR.Red,
-  },
-  {
-    id: "3",
-    text: "No.3",
-    isCompleted: false,
-    color: TODO_COLOR.Blue,
-  },
-  {
-    id: "4",
-    text: "No.4",
-    isCompleted: true,
-    color: TODO_COLOR.None,
-  },
-  {
-    id: "5",
-    text: "No.5",
-    isCompleted: false,
-    color: TODO_COLOR.Blue,
-  },
-  {
-    id: "6",
-    text: "No.6",
-    isCompleted: false,
-    color: TODO_COLOR.Green,
-  },
-  {
-    id: "7",
-    text: "No.7",
-    isCompleted: false,
-    color: TODO_COLOR.Green,
-  },
-];
