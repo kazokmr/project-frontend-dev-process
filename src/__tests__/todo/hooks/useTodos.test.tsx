@@ -7,7 +7,7 @@ import {
   useMutationTodoCompleted,
   useMutationTodoDeleted,
   useQueryTodo
-} from "../../../todo/hooks/useTodo";
+} from "../../../todo/hooks/useTodos";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
