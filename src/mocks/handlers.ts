@@ -43,6 +43,14 @@ export const handlers = [
       return res(ctx.status(200));
     }
   ),
+  rest.delete<{ id: string }, PathParams, DefaultRequestBody>(
+    "/todo/:id",
+    (req, res, ctx) => {
+      const { id } = req.params;
+      mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
+      return res(ctx.status(204));
+    }
+  ),
 ];
 
 const createMockedTodos = (

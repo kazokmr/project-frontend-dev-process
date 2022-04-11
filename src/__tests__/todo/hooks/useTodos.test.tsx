@@ -5,6 +5,7 @@ import {
   useMutationTodoAdded,
   useMutationTodoColorChanged,
   useMutationTodoCompleted,
+  useMutationTodoDeleted,
   useQueryTodo
 } from "../../../todo/hooks/useTodo";
 import { Todo } from "../../../todo/model/todo/Todo";
@@ -313,5 +314,40 @@ describe("React QueryによるServerState管理", () => {
       todosBeforeMutation[1].isCompleted
     );
     expect(todosAfterMutation[1].color).toBe(TODO_COLOR.Purple);
+  });
+  test("指定したIDのTodoをリストから削除する", async () => {
+    // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
+    const wrapper = queryClientWrapper();
+
+    // カスタムHook useQueryTodoを出力しTodoリストをFetchする
+    const { result: resultQuery, waitFor: waitForQuery } = renderHook(
+      () => useQueryTodo({}),
+      {
+        wrapper: wrapper,
+      }
+    );
+    await waitForQuery(() => resultQuery.current.isSuccess);
+    // 最初は７件取得できる
+    expect(resultQuery.current.data).toHaveLength(7);
+
+    // When: useMutation カスタムHookを出力する
+    const { result: resultMutation, waitFor: waitForMutation } = renderHook(
+      () => useMutationTodoDeleted(),
+      {
+        wrapper: wrapper,
+      }
+    );
+
+    // mutateを実行して指定したIDを削除する
+    act(() => {
+      resultMutation.current.mutate({ id: "4" });
+    });
+    await waitForMutation(() => resultMutation.current.isSuccess);
+
+    // Then: queryデータが再FetchされTodoが６件になっていること
+    const todos: Todo[] = resultQuery.current.data as Todo[];
+    expect(todos).toHaveLength(6);
+    expect(todos[2].id).toBe("3");
+    expect(todos[3].id).toBe("5");
   });
 });
