@@ -3,7 +3,11 @@ import userEvent from "@testing-library/user-event";
 import NewTodo from "../../../todo/todoList/NewTodo";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup";
 
-const addTodo: jest.Mock = jest.fn();
+// useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
+const mockedMutate: jest.Mock = jest.fn();
+jest.mock("../../../todo/hooks/useTodos", () => ({
+  useMutationTodoAdded: () => ({ mutate: mockedMutate }),
+}));
 
 test.each`
   text
@@ -11,7 +15,7 @@ test.each`
   ${"これはTodoです"}
 `("TextBoxに $text が入力できる", async ({ text }: { text: string }) => {
   // Given
-  render(<NewTodo addTodo={addTodo} />);
+  render(<NewTodo />);
   const user = userEvent.setup();
   const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
@@ -31,17 +35,17 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
     "Enterキーを押すとTextBoxに入力した $text を引数に関数を呼ぶ",
     async ({ text }: { text: string }) => {
       // Given: コンポーネントをレンダリングする
-      render(<NewTodo addTodo={addTodo} />);
+      render(<NewTodo />);
       const user = userEvent.setup();
       const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
       // When：ユーザーがTodoを書いてエンターキーを押す
       await submitInputTodo(user, textBox, text);
 
-      // Then: 入力した文字列をパラメータにcreateTodo関数が呼び出されること
-      expect(addTodo).toHaveBeenCalledTimes(1);
-      // 1回目の関数呼び出し時のパラメータが入力文字列であること
-      expect(addTodo.mock.calls[0][0]).toBe(text);
+      // Then: useMutation.mutate()を呼び出すこと。
+      expect(mockedMutate).toHaveBeenCalledTimes(1);
+      // useMutation.mutate()のパラメータに入力したテキストオブジェクトが渡される
+      expect(mockedMutate.mock.calls[0][0]).toStrictEqual({ text });
       // Enterキーを押したらTextBoxの値はクリアされる
       expect(textBox).toHaveValue("");
     }
@@ -49,7 +53,7 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
 
   test("Enterを押さなければ関数は呼ばれずtextboxもクリアしない", async () => {
     // Given
-    render(<NewTodo addTodo={addTodo} />);
+    render(<NewTodo />);
     const user = userEvent.setup();
     const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
@@ -58,7 +62,7 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
     await typeTodo(user, textBox, text);
 
     // Then
-    expect(addTodo).not.toHaveBeenCalled();
+    expect(mockedMutate).not.toHaveBeenCalled();
     expect(textBox).toHaveValue(text);
   });
 });
