@@ -1,7 +1,12 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
 import { act, renderHook } from "@testing-library/react-hooks";
-import { useMutationTodoAdded, useQueryTodo } from "../../../todo/hooks/useTodo";
+import {
+  useMutationTodoAdded,
+  useMutationTodoColorChanged,
+  useMutationTodoCompleted,
+  useQueryTodo
+} from "../../../todo/hooks/useTodo";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
@@ -232,5 +237,81 @@ describe("React QueryによるServerState管理", () => {
       expect(addedTodo.isCompleted).toBeFalsy();
       expect(addedTodo.color).toBe(TODO_COLOR.None);
     });
+    test("指定したIDのTodoをCompletedにする", async () => {
+      // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
+      const wrapper = queryClientWrapper();
+
+      // カスタムHook useQueryTodoを出力しTodoリストをFetchする
+      const { result: resultQuery, waitFor: waitForQuery } = renderHook(
+        () => useQueryTodo({}),
+        {
+          wrapper: wrapper,
+        }
+      );
+      await waitForQuery(() => resultQuery.current.isSuccess);
+      // 最初は未完了であることを確認する
+      const todosBeforeMutation: Todo[] = resultQuery.current.data as Todo[];
+      expect(todosBeforeMutation[2].isCompleted).toBeFalsy();
+
+      // When: useMutation カスタムHookを出力する
+      const { result: resultMutation, waitFor: waitForMutation } = renderHook(
+        () => useMutationTodoCompleted(),
+        {
+          wrapper: wrapper,
+        }
+      );
+
+      // mutateを実行して指定IDのTodoのCompleted状況を変更する
+      act(() => {
+        resultMutation.current.mutate({ id: "3" });
+      });
+      await waitForMutation(() => resultMutation.current.isSuccess);
+
+      // Then: queryデータが再FetchされTodoの完了状況が更新される
+      const todosAfterMutation: Todo[] = resultQuery.current.data as Todo[];
+      expect(todosAfterMutation[2].text).toBe(todosBeforeMutation[2].text);
+      expect(todosAfterMutation[2].isCompleted).not.toBe(
+        todosBeforeMutation[2].isCompleted
+      );
+      expect(todosAfterMutation[2].color).toBe(todosBeforeMutation[2].color);
+    });
+  });
+  test("指定したIDのTodoのColorを変更する", async () => {
+    // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
+    const wrapper = queryClientWrapper();
+
+    // カスタムHook useQueryTodoを出力しTodoリストをFetchする
+    const { result: resultQuery, waitFor: waitForQuery } = renderHook(
+      () => useQueryTodo({}),
+      {
+        wrapper: wrapper,
+      }
+    );
+    await waitForQuery(() => resultQuery.current.isSuccess);
+    // 最初はRedであることを確認する
+    const todosBeforeMutation: Todo[] = resultQuery.current.data as Todo[];
+    expect(todosBeforeMutation[1].color).toBe(TODO_COLOR.Red);
+
+    // When: useMutation カスタムHookを出力する
+    const { result: resultMutation, waitFor: waitForMutation } = renderHook(
+      () => useMutationTodoColorChanged(),
+      {
+        wrapper: wrapper,
+      }
+    );
+
+    // mutateを実行してColorを変更する
+    act(() => {
+      resultMutation.current.mutate({ id: "2", color: TODO_COLOR.Purple });
+    });
+    await waitForMutation(() => resultMutation.current.isSuccess);
+
+    // Then: queryデータが再FetchされTodoの完了状況が更新される
+    const todosAfterMutation: Todo[] = resultQuery.current.data as Todo[];
+    expect(todosAfterMutation[1].text).toBe(todosBeforeMutation[1].text);
+    expect(todosAfterMutation[1].isCompleted).toBe(
+      todosBeforeMutation[1].isCompleted
+    );
+    expect(todosAfterMutation[1].color).toBe(TODO_COLOR.Purple);
   });
 });

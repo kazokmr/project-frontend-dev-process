@@ -1,6 +1,10 @@
 import { DefaultRequestBody, PathParams, rest } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
-import { TODO_COLOR, TodoColors } from "../todo/model/filter/TodoColors";
+import {
+  TODO_COLOR,
+  TodoColor,
+  TodoColors,
+} from "../todo/model/filter/TodoColors";
 
 export const handlers = [
   rest.get<DefaultRequestBody, PathParams, Todo[]>(
@@ -15,6 +19,28 @@ export const handlers = [
       const todo = new Todo(req.body.text);
       mockedTodos = [...mockedTodos, todo];
       return res(context.status(200), context.json(todo));
+    }
+  ),
+  rest.put<{ id: string }, PathParams, Todo>(
+    "/todo/:id/complete",
+    (req, res, ctx) => {
+      const { id } = req.params;
+      mockedTodos = mockedTodos.map((todo: Todo) =>
+        todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted }
+      );
+      // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
+      return res(ctx.status(200));
+    }
+  ),
+  rest.put<{ id: string; color: TodoColor }, PathParams, Todo>(
+    "/todo/:id/changeColor",
+    (req, res, ctx) => {
+      const { id } = req.params;
+      mockedTodos = mockedTodos.map((todo: Todo) =>
+        todo.id !== id ? todo : { ...todo, color: req.body.color }
+      );
+      // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
+      return res(ctx.status(200));
     }
   ),
 ];
