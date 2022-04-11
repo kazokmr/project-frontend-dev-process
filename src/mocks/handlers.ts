@@ -53,7 +53,7 @@ export const handlers = [
   ),
 ];
 
-const createMockedTodos = (
+export const createMockedTodos = (
   numberOfTodos: number,
   isInitCompleted: boolean = false,
   isInitColorTag: boolean = false

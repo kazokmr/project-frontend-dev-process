@@ -3,10 +3,8 @@ import { render, screen } from "@testing-library/react";
 import TodoApp from "../../../todo/TodoApp";
 import userEvent from "@testing-library/user-event";
 import { TodoColor } from "../../../todo/model/filter/TodoColors";
-import { server } from "../../../mocks/server";
 import { Todo } from "../../../todo/model/todo/Todo";
-import { rest } from "msw";
-import { createMockedTodos } from "../../../mocks/handlers";
+import { createMockedTodos, setMockedTodo } from "../../../mocks/handlers";
 import { TodoStatus } from "../../../todo/model/filter/TodoStatus";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 
@@ -22,8 +20,8 @@ export class TodoListPage {
   static printWithRandomTodos = async (
     numOfTodos: number
   ): Promise<TodoListPage> => {
-    const initTodos = createMockedTodos(numOfTodos);
-    fetchInitialTodos(initTodos);
+    setMockedTodo(createMockedTodos(numOfTodos));
+    // fetchInitialTodos(initTodos);
     const page = new TodoListPage();
     await page.waitPrintTodos(numOfTodos);
     return page;
@@ -32,15 +30,14 @@ export class TodoListPage {
   static printWithDefaultTodos = async (
     numOfTodos: number
   ): Promise<TodoListPage> => {
-    const initTodos = createMockedTodos(numOfTodos, true, true);
-    fetchInitialTodos(initTodos);
+    setMockedTodo(createMockedTodos(numOfTodos, true, true));
     const page = new TodoListPage();
     await page.waitPrintTodos(numOfTodos);
     return page;
   };
 
   static printByTodos = async (initTodos: Todo[]): Promise<TodoListPage> => {
-    fetchInitialTodos(initTodos);
+    setMockedTodo(initTodos);
     const page = new TodoListPage();
     await page.waitPrintTodos(initTodos.length);
     return page;
@@ -173,11 +170,3 @@ export class TodoListPage {
     });
   };
 }
-
-const fetchInitialTodos = (todos: Todo[]) => {
-  server.use(
-    rest.get("/todos", (req, res, ctx) => {
-      return res.once(ctx.json(todos));
-    })
-  );
-};
