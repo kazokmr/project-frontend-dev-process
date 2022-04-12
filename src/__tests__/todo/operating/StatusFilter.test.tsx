@@ -15,7 +15,8 @@ const queryClient = new QueryClient({
   },
 });
 
-afterEach(() => queryClient);
+// QueryClientのキャッシュをクリアしてからテストする
+beforeEach(() => queryClient);
 
 describe("ボタンの初期状態をテストする", () => {
   test.each`
