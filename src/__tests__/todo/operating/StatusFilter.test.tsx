@@ -5,6 +5,16 @@ import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "react-query";
 
+// QueryClientインスタンスは、retry:無効、staleTime:Infinity にしてセットしたテストデータキャッシュを更新しないようにする
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: Infinity,
+    },
+  },
+});
+
 describe("ボタンの初期状態をテストする", () => {
   test.each`
     status                   | isAll    | isActive | isCompleted
@@ -25,16 +35,7 @@ describe("ボタンの初期状態をテストする", () => {
       isActive: boolean;
       isCompleted: boolean;
     }) => {
-      // Given: QueryClientインスタンスを生成して、初期値をセットする
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            staleTime: Infinity,
-          },
-        },
-      });
-
+      // Given: QueryClientインスタンスに初期値をセットしてコンポーネントを出力する
       queryClient.setQueryData(["status"], status);
       render(
         <QueryClientProvider client={queryClient}>
@@ -79,16 +80,7 @@ describe("ボタンを押した時の動作を確認する", () => {
       filterName: string;
       status: TodoStatus;
     }) => {
-      // Given: QueryClientインスタンスを生成して、初期値をセットする
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            staleTime: Infinity,
-          },
-        },
-      });
-
+      // Given: QueryClientインスタンスに初期値をセットしてコンポーネントを出力する
       queryClient.setQueryData(["status"], status);
       render(
         <QueryClientProvider client={queryClient}>
