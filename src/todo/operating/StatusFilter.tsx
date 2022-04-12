@@ -3,10 +3,10 @@ import { capitalize } from "../model/filter/StringCapitalization";
 import { useQueryClient } from "react-query";
 
 const StatusFilter = (): JSX.Element => {
-  const clientQuery = useQueryClient();
-  const curStatus = clientQuery.getQueryData<TodoStatus>(["status"]);
+  const queryClient = useQueryClient();
+  const curStatus = queryClient.getQueryData<TodoStatus>(["status"]);
   const setStatus = (status: TodoStatus) => {
-    clientQuery.setQueryData<TodoStatus>(["status"], status);
+    queryClient.setQueryData<TodoStatus>(["status"], status);
   };
 
   return (

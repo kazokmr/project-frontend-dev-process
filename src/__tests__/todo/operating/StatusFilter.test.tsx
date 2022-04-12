@@ -15,6 +15,8 @@ const queryClient = new QueryClient({
   },
 });
 
+afterEach(() => queryClient);
+
 describe("ボタンの初期状態をテストする", () => {
   test.each`
     status                   | isAll    | isActive | isCompleted
@@ -24,7 +26,7 @@ describe("ボタンの初期状態をテストする", () => {
     ${undefined}             | ${true}  | ${false} | ${false}
   `(
     "現在の検索状況が $curStatus なら、All: $isAll Active: $isActive Completed $isCompleted であること",
-    async ({
+    ({
       status,
       isAll,
       isActive,
