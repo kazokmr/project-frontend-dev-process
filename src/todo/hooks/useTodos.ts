@@ -29,8 +29,10 @@ export function useQueryTodo({
   status = TODO_STATUS.ALL,
   colors = [],
 }: Partial<TodosQueryParams>) {
-  return useQuery<Todo[]>(["todos", { status, colors }], () =>
-    fetchTodos({ status, colors })
+  return useQuery<Todo[]>(
+    ["todos", { status, colors }],
+    () => fetchTodos({ status, colors }),
+    { staleTime: Infinity }
   );
 }
 
