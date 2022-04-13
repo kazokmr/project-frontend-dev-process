@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { act, renderHook } from "@testing-library/react-hooks";
 import {
   useMutationAllTodoCompleted,
+  useMutationDeleteCompletedTodos,
   useMutationTodoAdded,
   useMutationTodoColorChanged,
   useMutationTodoCompleted,
@@ -386,6 +387,35 @@ describe("React QueryによるServerState管理", () => {
     expect(todos).toHaveLength(7);
     for (let todo of todos) {
       expect(todo.isCompleted).toBeTruthy();
+    }
+  });
+
+  test("完了済みのTodoをリストから削除する", async () => {
+    // Given: Todoリストを作る
+    const wrapper = queryClientWrapper();
+    const { result: resultQuery, waitFor: waitForQuery } = renderHook(
+      () => useQueryTodo({}),
+      { wrapper: wrapper }
+    );
+    await waitForQuery(() => resultQuery.current.isSuccess);
+    expect(resultQuery.current.data).toHaveLength(7);
+
+    // When: useMutationを実行する
+    const { result: resultMutation, waitFor: waitForMutation } = renderHook(
+      () => useMutationDeleteCompletedTodos(),
+      {
+        wrapper: wrapper,
+      }
+    );
+
+    act(() => resultMutation.current.mutate());
+    await waitForMutation(() => resultMutation.current.isSuccess);
+
+    // Then: TodoListには未完了のTodoだけが残る
+    const todos: Todo[] = resultQuery.current.data as Todo[];
+    expect(todos).toHaveLength(4);
+    for (let todo of todos) {
+      expect(todo.isCompleted).toBeFalsy();
     }
   });
 });
