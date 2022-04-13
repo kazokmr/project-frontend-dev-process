@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
 import { act, renderHook } from "@testing-library/react-hooks";
 import {
+  useMutationAllTodoCompleted,
   useMutationTodoAdded,
   useMutationTodoColorChanged,
   useMutationTodoCompleted,
@@ -120,6 +121,7 @@ describe("React QueryによるServerState管理", () => {
         );
       }
     );
+
     test.each`
       colors                                                   | count
       ${[TODO_COLOR.Blue]}                                     | ${3}
@@ -154,6 +156,7 @@ describe("React QueryによるServerState管理", () => {
         );
       }
     );
+
     test.each`
       status                   | colors                                                 | count
       ${undefined}             | ${undefined}                                           | ${7}
@@ -194,6 +197,7 @@ describe("React QueryによるServerState管理", () => {
       }
     );
   });
+
   describe("useMutationTodoのテスト", () => {
     test("Todoを追加するとTodoリストを再フェッチする", async () => {
       // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
@@ -238,6 +242,7 @@ describe("React QueryによるServerState管理", () => {
       expect(addedTodo.isCompleted).toBeFalsy();
       expect(addedTodo.color).toBe(TODO_COLOR.None);
     });
+
     test("指定したIDのTodoをCompletedにする", async () => {
       // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
       const wrapper = queryClientWrapper();
@@ -277,6 +282,7 @@ describe("React QueryによるServerState管理", () => {
       expect(todosAfterMutation[2].color).toBe(todosBeforeMutation[2].color);
     });
   });
+
   test("指定したIDのTodoのColorを変更する", async () => {
     // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
     const wrapper = queryClientWrapper();
@@ -315,6 +321,7 @@ describe("React QueryによるServerState管理", () => {
     );
     expect(todosAfterMutation[1].color).toBe(TODO_COLOR.Purple);
   });
+
   test("指定したIDのTodoをリストから削除する", async () => {
     // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
     const wrapper = queryClientWrapper();
@@ -349,5 +356,36 @@ describe("React QueryによるServerState管理", () => {
     expect(todos).toHaveLength(6);
     expect(todos[2].id).toBe("3");
     expect(todos[3].id).toBe("5");
+  });
+
+  test("全てのTodoを完了済みにする", async () => {
+    // Given: Todoリストを作成する
+    const wrapper = queryClientWrapper();
+    const { result: resultQuery, waitFor: waitForQuery } = renderHook(
+      () => useQueryTodo({}),
+      {
+        wrapper: wrapper,
+      }
+    );
+    await waitForQuery(() => resultQuery.current.isSuccess);
+    expect(resultQuery.current.data).toHaveLength(7);
+
+    // When: mutationを実行する
+    const { result: resultMutation, waitFor: waitForMutation } = renderHook(
+      () => useMutationAllTodoCompleted(),
+      { wrapper: wrapper }
+    );
+
+    act(() => {
+      resultMutation.current.mutate();
+    });
+    await waitForMutation(() => resultMutation.current.isSuccess);
+
+    // Then: TodoListの件数は最初と変わらず、全て完了になっていること
+    const todos: Todo[] = resultQuery.current.data as Todo[];
+    expect(todos).toHaveLength(7);
+    for (let todo of todos) {
+      expect(todo.isCompleted).toBeTruthy();
+    }
   });
 });

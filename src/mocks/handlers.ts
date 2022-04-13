@@ -51,6 +51,22 @@ export const handlers = [
       return res(ctx.status(204));
     }
   ),
+  rest.put<DefaultRequestBody, PathParams, DefaultRequestBody>(
+    "/todo/completeAll",
+    (req, res, ctx) => {
+      mockedTodos = mockedTodos.map((todo: Todo) =>
+        todo.isCompleted ? todo : { ...todo, isCompleted: !todo.isCompleted }
+      );
+      return res(ctx.status(200));
+    }
+  ),
+  rest.put<DefaultRequestBody, PathParams, DefaultRequestBody>(
+    "/todo/deleteCompleted",
+    (req, res, ctx) => {
+      mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
+      return res(ctx.status(200));
+    }
+  ),
 ];
 
 export const createMockedTodos = (
