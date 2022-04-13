@@ -1,4 +1,14 @@
-const RemainingTodos = ({ numOfTodo }: { numOfTodo: number }): JSX.Element => {
+import { useQueryClient } from "react-query";
+import { TodoStatus } from "../model/filter/TodoStatus";
+import { TodoColor } from "../model/filter/TodoColors";
+import { Todo } from "../model/todo/Todo";
+
+const RemainingTodos = (): JSX.Element => {
+  const queryClient = useQueryClient();
+  const status = queryClient.getQueryData<TodoStatus>(["status"]);
+  const colors = queryClient.getQueryData<TodoColor[]>(["colors"]);
+  const todos = queryClient.getQueryData<Todo[]>(["todos", { status, colors }]);
+  const numOfTodo = todos ? todos.length : 0;
   return (
     <div>
       <h5>Remaining Todos</h5>
