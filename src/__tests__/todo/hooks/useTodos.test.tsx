@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactNode } from "react";
 import { act, renderHook } from "@testing-library/react-hooks";
 import {
-  useMutationAllTodoCompleted,
+  useMutationCompleteAllTodos,
   useMutationDeleteCompletedTodos,
   useMutationTodoAdded,
   useMutationTodoColorChanged,
@@ -373,7 +373,7 @@ describe("React QueryによるServerState管理", () => {
 
     // When: mutationを実行する
     const { result: resultMutation, waitFor: waitForMutation } = renderHook(
-      () => useMutationAllTodoCompleted(),
+      () => useMutationCompleteAllTodos(),
       { wrapper: wrapper }
     );
 

@@ -74,7 +74,7 @@ export const useMutationTodoDeleted = () => {
   });
 };
 
-export const useMutationAllTodoCompleted = () => {
+export const useMutationCompleteAllTodos = () => {
   const queryClient = useQueryClient();
   return useMutation(() => axios.put("/todo/completeAll"), {
     onSuccess: () => queryClient.invalidateQueries("todos"),
