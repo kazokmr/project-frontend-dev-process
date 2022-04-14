@@ -5,7 +5,7 @@ import {
   useMutationCompleteAllTodos,
   useMutationDeleteCompletedTodos,
   useMutationTodoAdded,
-  useMutationTodoColorChanged,
+  useMutationTodoChangedColor,
   useMutationTodoCompleted,
   useMutationTodoDeleted,
   useQueryTodo
@@ -302,7 +302,7 @@ describe("React QueryによるServerState管理", () => {
 
     // When: useMutation カスタムHookを出力する
     const { result: resultMutation, waitFor: waitForMutation } = renderHook(
-      () => useMutationTodoColorChanged(),
+      () => useMutationTodoChangedColor(),
       {
         wrapper: wrapper,
       }

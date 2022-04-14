@@ -2,9 +2,17 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import TodoItem from "./TodoItem";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default {
   component: TodoItem,
+  decorators: [
+    (story) => (
+      <QueryClientProvider client={new QueryClient()}>
+        {story()}
+      </QueryClientProvider>
+    ),
+  ],
 } as ComponentMeta<typeof TodoItem>;
 
 export const Default: ComponentStoryObj<typeof TodoItem> = {

@@ -56,7 +56,7 @@ export const useMutationTodoCompleted = () => {
   );
 };
 
-export const useMutationTodoColorChanged = () => {
+export const useMutationTodoChangedColor = () => {
   const queryClient = useQueryClient();
   return useMutation(
     ({ id, color }: { id: string; color: TodoColor }) =>
