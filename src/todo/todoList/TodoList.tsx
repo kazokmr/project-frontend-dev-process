@@ -1,26 +1,19 @@
-import TodoItem, { TodoItemEventHandlers } from "./TodoItem";
+import TodoItem from "./TodoItem";
 import { Todo } from "../model/todo/Todo";
+import { useQueryClient } from "react-query";
+import { TodoStatus } from "../model/filter/TodoStatus";
+import { TodoColor } from "../model/filter/TodoColors";
 
-interface TodoListProp {
-  todos: Todo[];
-}
+const TodoList = (): JSX.Element => {
+  const queryClient = useQueryClient();
+  const status = queryClient.getQueryData<TodoStatus>(["status"]);
+  const colors = queryClient.getQueryData<TodoColor[]>(["colors"]);
+  const todos = queryClient.getQueryData<Todo[]>(["todos", { status, colors }]);
 
-const TodoList = ({
-  todos,
-  onChangeColor,
-  onChangeComplete,
-  onClickDelete,
-}: TodoListProp & TodoItemEventHandlers): JSX.Element => {
   return (
     <ul aria-label={"list-todo"}>
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onChangeColor={onChangeColor}
-          onChangeComplete={onChangeComplete}
-          onClickDelete={onClickDelete}
-        />
+      {todos?.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   );

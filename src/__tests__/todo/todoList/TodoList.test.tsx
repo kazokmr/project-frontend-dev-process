@@ -3,10 +3,33 @@ import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
 import userEvent from "@testing-library/user-event";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 
-const onChangeComplete: jest.Mock = jest.fn();
-const onChangeColor: jest.Mock = jest.fn();
-const onClickDelete: jest.Mock = jest.fn();
+const mockedMutateTodoCompleted: jest.Mock = jest.fn();
+const mockedMutateTodoChangedColor: jest.Mock = jest.fn();
+const mockedMutateTodoDeleted: jest.Mock = jest.fn();
+jest.mock("../../../todo/hooks/useTodos", () => ({
+  useMutationTodoCompleted: () => ({ mutate: mockedMutateTodoCompleted }),
+  useMutationTodoChangedColor: () => ({ mutate: mockedMutateTodoChangedColor }),
+  useMutationTodoDeleted: () => ({ mutate: mockedMutateTodoDeleted }),
+}));
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: false, staleTime: Infinity } },
+});
+
+const status: TodoStatus = TODO_STATUS.ALL;
+const colors: TodoColor[] = [];
+
+beforeEach(() => {
+  // テストごとにQueryClientを初期化する
+  queryClient.clear();
+  // 絞り込み条件をセットする
+  queryClient.setQueryData<TodoStatus>(["status"], status);
+  queryClient.setQueryData<TodoColor[]>(["colors"], colors);
+});
+
 describe("Todoの件数による表示テスト", () => {
   const expectTexts: string[] = [
     "これは１つ目のTodoです",
@@ -25,13 +48,11 @@ describe("Todoの件数による表示テスト", () => {
         color: TODO_COLOR.None,
       },
     ];
+    queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
     render(
-      <TodoList
-        todos={todos}
-        onClickDelete={onClickDelete}
-        onChangeComplete={onChangeComplete}
-        onChangeColor={onChangeColor}
-      />
+      <QueryClientProvider client={queryClient}>
+        <TodoList />
+      </QueryClientProvider>
     );
     const todoTexts = screen.getAllByTestId("content-todo");
     expect(todoTexts).toHaveLength(1);
@@ -53,13 +74,11 @@ describe("Todoの件数による表示テスト", () => {
         color: TODO_COLOR.None,
       },
     ];
+    queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
     render(
-      <TodoList
-        todos={todos}
-        onClickDelete={onClickDelete}
-        onChangeComplete={onChangeComplete}
-        onChangeColor={onChangeColor}
-      />
+      <QueryClientProvider client={queryClient}>
+        <TodoList />
+      </QueryClientProvider>
     );
     const todoTexts = screen.getAllByTestId("content-todo");
     expect(todoTexts).toHaveLength(2);
@@ -69,13 +88,11 @@ describe("Todoの件数による表示テスト", () => {
   });
 
   test("Todoが0件ならリストは表示されない", () => {
+    queryClient.setQueryData<Todo[]>(["todos", { status, colors }], []);
     render(
-      <TodoList
-        todos={[]}
-        onChangeColor={onChangeColor}
-        onChangeComplete={onChangeComplete}
-        onClickDelete={onClickDelete}
-      />
+      <QueryClientProvider client={queryClient}>
+        <TodoList />
+      </QueryClientProvider>
     );
     const todoTexts = screen.queryAllByLabelText("content-todo");
     expect(todoTexts).toHaveLength(0);
@@ -101,13 +118,11 @@ describe("Todoの操作イベントの実行テスト", () => {
             color: TODO_COLOR.None,
           },
         ];
+        queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
         render(
-          <TodoList
-            todos={todos}
-            onClickDelete={onClickDelete}
-            onChangeComplete={onChangeComplete}
-            onChangeColor={onChangeColor}
-          />
+          <QueryClientProvider client={queryClient}>
+            <TodoList />
+          </QueryClientProvider>
         );
 
         // When:Todoの完了状況を更新する
@@ -118,8 +133,10 @@ describe("Todoの操作イベントの実行テスト", () => {
         await user.click(checkBox);
 
         // Then: Todoの完了状況が更新されること
-        expect(onChangeComplete.mock.calls[0][0]).toBe(id);
-        expect(onChangeComplete).toHaveBeenCalledTimes(1);
+        expect(mockedMutateTodoCompleted.mock.calls[0][0]).toStrictEqual({
+          id,
+        });
+        expect(mockedMutateTodoCompleted).toHaveBeenCalledTimes(1);
       }
     );
   });
@@ -145,13 +162,11 @@ describe("Todoの操作イベントの実行テスト", () => {
             color: TODO_COLOR.None,
           },
         ];
+        queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
         render(
-          <TodoList
-            todos={todos}
-            onClickDelete={onClickDelete}
-            onChangeComplete={onChangeComplete}
-            onChangeColor={onChangeColor}
-          />
+          <QueryClientProvider client={queryClient}>
+            <TodoList />
+          </QueryClientProvider>
         );
 
         // When: Colorタグを変更する
@@ -160,8 +175,11 @@ describe("Todoの操作イベントの実行テスト", () => {
         await user.selectOptions(selectBox, changingColor);
 
         // Then: TodoのIDと変更するColorを渡して関数を1回呼び出すこと
-        expect(onChangeColor.mock.calls[0]).toEqual([id, changingColor]);
-        expect(onChangeColor).toHaveBeenCalledTimes(1);
+        expect(mockedMutateTodoChangedColor.mock.calls[0][0]).toStrictEqual({
+          id,
+          color: changingColor,
+        });
+        expect(mockedMutateTodoChangedColor).toHaveBeenCalledTimes(1);
       }
     );
   });
@@ -169,20 +187,19 @@ describe("Todoの操作イベントの実行テスト", () => {
     test("削除ボタンを押したら onClickDelete関数を呼ぶこと", async () => {
       // Given:TodoListを出力しTodoを１件渡す
       const id = "dummy-id";
+      const todos: Todo[] = [
+        {
+          id,
+          text: "Todoの削除イベントテスト",
+          isCompleted: false,
+          color: TODO_COLOR.None,
+        },
+      ];
+      queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
       render(
-        <TodoList
-          todos={[
-            {
-              id,
-              text: "このTodoの削除するイベントをテストする",
-              isCompleted: false,
-              color: TODO_COLOR.None,
-            },
-          ]}
-          onChangeColor={onChangeColor}
-          onChangeComplete={onChangeComplete}
-          onClickDelete={onClickDelete}
-        />
+        <QueryClientProvider client={queryClient}>
+          <TodoList />
+        </QueryClientProvider>
       );
 
       // When: Todoの削除ボタンを押す
@@ -191,8 +208,8 @@ describe("Todoの操作イベントの実行テスト", () => {
       await user.click(deleteButton);
 
       // Then: TodoのIDを渡して関数を1回呼び出すこと
-      expect(onClickDelete.mock.calls[0][0]).toBe(id);
-      expect(onClickDelete).toHaveBeenCalledTimes(1);
+      expect(mockedMutateTodoDeleted.mock.calls[0][0]).toStrictEqual({ id });
+      expect(mockedMutateTodoDeleted).toHaveBeenCalledTimes(1);
     });
   });
 });
