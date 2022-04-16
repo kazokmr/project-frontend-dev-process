@@ -1,12 +1,10 @@
 import React, { useState } from "react";
+import { useMutationTodoAdded } from "../hooks/useTodos";
 
-const NewTodo = ({
-  addTodo,
-}: {
-  addTodo: (text: string) => void;
-}): JSX.Element => {
+const NewTodo = (): JSX.Element => {
   const [textValue, setTextValue] = useState("");
   const [typingText, setTypingText] = useState(false);
+  const mutation = useMutationTodoAdded();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setTextValue(e.target.value);
@@ -14,7 +12,7 @@ const NewTodo = ({
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter" && !typingText) {
-      addTodo(textValue);
+      mutation.mutate({ text: textValue });
       setTextValue("");
     }
   };

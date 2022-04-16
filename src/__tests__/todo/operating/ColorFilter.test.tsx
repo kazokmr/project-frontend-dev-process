@@ -1,19 +1,31 @@
 import ColorFilter from "../../../todo/operating/ColorFilter";
 import { render, screen } from "@testing-library/react";
-import {
-  TODO_COLOR,
-  TodoColor,
-  TodoColors,
-} from "../../../todo/model/filter/TodoColors";
+import { TODO_COLOR, TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import userEvent from "@testing-library/user-event";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-const onChangeColor: jest.Mock = jest.fn();
+// QueryClientインスタンスは、retry:無効、staleTime:Infinity にしてセットしたテストデータキャッシュを更新しないようにする
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: Infinity,
+    },
+  },
+});
+
+// queryClientのキャッシュをクリアしてからテストする
+beforeEach(() => queryClient.clear());
 
 describe("カラーフィルターの初期値", () => {
   test("Noneを除く全ての色が表示され選択できること", () => {
     // Given: コンポーネントをレンダリングする
-    render(<ColorFilter curColors={[]} onChangeColor={onChangeColor} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ColorFilter />
+      </QueryClientProvider>
+    );
 
     // When: フィルタ要素のname配列を取得する
     const filterNames = screen
@@ -29,19 +41,26 @@ describe("カラーフィルターの初期値", () => {
   });
 
   test("Noneを除く全てが未選択であること", () => {
-    render(<ColorFilter curColors={[]} onChangeColor={onChangeColor} />);
+    queryClient.setQueryData<TodoColor[]>(["colors"], []);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ColorFilter />
+      </QueryClientProvider>
+    );
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
       TodoColors.length - 1
     );
   });
 
-  test("propsで指定された色が初期選択されること", () => {
+  test("Stateにセットされている色が初期選択されること", () => {
+    const colors: TodoColor[] = [TODO_COLOR.Green, TODO_COLOR.Purple];
+    queryClient.setQueryData<TodoColor[]>(["colors"], colors);
     render(
-      <ColorFilter
-        curColors={[TODO_COLOR.Green, TODO_COLOR.Purple]}
-        onChangeColor={onChangeColor}
-      />
+      <QueryClientProvider client={queryClient}>
+        <ColorFilter />
+      </QueryClientProvider>
     );
+
     expect(
       screen
         .getAllByRole("checkbox", { checked: true })
@@ -54,8 +73,12 @@ describe("カラーフィルターの初期値", () => {
     ).toEqual(["blue", "orange", "red"]);
   });
 
-  test("パラメータが渡されない場合はNoneを除く全てが未選択であること", () => {
-    render(<ColorFilter curColors={[]} onChangeColor={onChangeColor} />);
+  test("Stateが未設定ならNoneを除く全てが未選択であること", () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ColorFilter />
+      </QueryClientProvider>
+    );
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
       TodoColors.length - 1
     );
@@ -76,7 +99,7 @@ describe("checkboxの状態管理のテスト", () => {
     ${TODO_COLOR.Red}    | ${false}
     ${TODO_COLOR.Red}    | ${true}
   `(
-    "選択状況が$isSelectedの$checkColorを選択したらonChangeColor関数の引数に渡されること",
+    "選択状況が$isSelectedの$checkColorを選択したら選択状況が変わること",
     async ({
       checkColor,
       isSelected,
@@ -84,9 +107,14 @@ describe("checkboxの状態管理のテスト", () => {
       checkColor: TodoColor;
       isSelected: boolean;
     }) => {
-      // Given: 選択中のColorが一つもない状態でコンポーネントを表示する
+      // Given: ColorFilterの初期状態を設定する
       const colors: TodoColor[] = isSelected ? [checkColor] : [];
-      render(<ColorFilter curColors={colors} onChangeColor={onChangeColor} />);
+      queryClient.setQueryData<TodoColor[]>(["colors"], colors);
+      render(
+        <QueryClientProvider client={queryClient}>
+          <ColorFilter />
+        </QueryClientProvider>
+      );
 
       // When: Colorチェックボックスを選択する
       const checkbox = screen.getByRole("checkbox", {
@@ -95,10 +123,10 @@ describe("checkboxの状態管理のテスト", () => {
       const user = userEvent.setup();
       await user.click(checkbox);
 
-      // Then: onClickColor関数に引数を渡すこと
-      expect(onChangeColor.mock.calls[0][0]).toBe(checkColor);
-      expect(onChangeColor.mock.calls[0][1]).toBe(!isSelected);
-      expect(onChangeColor).toHaveBeenCalledTimes(1);
+      // Then: 選択済みだったら未選択、未選択だったら選択済みとなること
+      expect(
+        queryClient.getQueryData<TodoColor[]>(["colors"])?.includes(checkColor)
+      ).not.toBe(isSelected);
     }
   );
 });

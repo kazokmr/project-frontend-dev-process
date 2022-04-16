@@ -2,12 +2,20 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import OperatingTodos from "./OperatingTodos";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { TODO_COLOR } from "../model/filter/TodoColors";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default {
   component: OperatingTodos,
 } as ComponentMeta<typeof OperatingTodos>;
 
 export const Default: ComponentStoryObj<typeof OperatingTodos> = {
+  decorators: [
+    (story) => (
+      <QueryClientProvider client={new QueryClient()}>
+        {story()}
+      </QueryClientProvider>
+    ),
+  ],
   args: {
     numberOfTodos: 1,
   },

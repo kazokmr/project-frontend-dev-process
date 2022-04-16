@@ -1,20 +1,25 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import NewTodo from "./NewTodo";
 import { userEvent, within } from "@storybook/testing-library";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default {
   component: NewTodo,
-  argTypes: {
-    addTodo: {
-      description: "テキストに入力した文字をTodoにする",
-      action: "Adding Todo",
-    },
-  },
   parameters: {
     controls: {
       hideNoControlsWarning: true,
     },
+    actions: {
+      handles: ["change"],
+    },
   },
+  decorators: [
+    (story) => (
+      <QueryClientProvider client={new QueryClient()}>
+        {story()}
+      </QueryClientProvider>
+    ),
+  ],
 } as ComponentMeta<typeof NewTodo>;
 
 export const Default: ComponentStoryObj<typeof NewTodo> = {

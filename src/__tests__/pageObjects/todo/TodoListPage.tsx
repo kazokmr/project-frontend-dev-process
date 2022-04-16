@@ -7,12 +7,24 @@ import { Todo } from "../../../todo/model/todo/Todo";
 import { createMockedTodos, setMockedTodo } from "../../../mocks/handlers";
 import { TodoStatus } from "../../../todo/model/filter/TodoStatus";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export class TodoListPage {
   private readonly user: UserEvent;
 
   private constructor() {
-    render(<TodoApp />);
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          staleTime: Infinity,
+        },
+      },
+    });
+    render(
+      <QueryClientProvider client={queryClient}>
+        <TodoApp />
+      </QueryClientProvider>
+    );
     this.user = userEvent.setup();
   }
 
@@ -51,7 +63,9 @@ export class TodoListPage {
   };
 
   writeTodo = async (inputText: string): Promise<void> => {
-    const todoTextBox = screen.getByRole("textbox", { name: "input-todo" });
+    const todoTextBox = await screen.findByRole("textbox", {
+      name: "input-todo",
+    });
     await this.user.click(todoTextBox);
     await this.user.keyboard(inputText);
     await this.user.keyboard("[Enter]");
@@ -77,7 +91,7 @@ export class TodoListPage {
   };
 
   extractTodosByStatus = async (status: TodoStatus) => {
-    const activeFilter = this.getStatusFilter(status);
+    const activeFilter = await this.getStatusFilter(status);
     await this.user.click(activeFilter);
   };
 
@@ -158,8 +172,10 @@ export class TodoListPage {
     return buttons[index];
   };
 
-  private getStatusFilter = (todoStatus: TodoStatus) => {
-    return screen.getByRole("button", {
+  private getStatusFilter = async (
+    todoStatus: TodoStatus
+  ): Promise<HTMLButtonElement> => {
+    return await screen.findByRole("button", {
       name: new RegExp("^" + todoStatus + "$", "i"),
     });
   };
