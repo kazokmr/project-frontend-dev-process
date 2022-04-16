@@ -8,20 +8,17 @@ import { useQueryTodo } from "./hooks/useTodos";
 import { useQuery } from "react-query";
 
 const TodoApp = (): JSX.Element => {
-  const { data: status } = useQuery<TodoStatus>(["status"], {
+  useQuery<TodoStatus>(["status"], {
     enabled: false,
     staleTime: Infinity,
     initialData: TODO_STATUS.ALL,
   });
-  const { data: colors } = useQuery<TodoColor[]>(["colors"], {
+  useQuery<TodoColor[]>(["colors"], {
     enabled: false,
     staleTime: Infinity,
     initialData: [] as TodoColor[],
   });
-  const { isLoading, isError } = useQueryTodo({
-    status,
-    colors,
-  });
+  const { isLoading, isError } = useQueryTodo();
 
   if (isLoading) {
     return <span>Loading...</span>;
