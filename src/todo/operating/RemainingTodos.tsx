@@ -1,14 +1,10 @@
 import { useQueryClient } from "react-query";
-import { TodoStatus } from "../model/filter/TodoStatus";
-import { TodoColor } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
 
 const RemainingTodos = (): JSX.Element => {
   const queryClient = useQueryClient();
-  const status = queryClient.getQueryData<TodoStatus>(["status"]);
-  const colors = queryClient.getQueryData<TodoColor[]>(["colors"]);
-  const todos = queryClient.getQueryData<Todo[]>(["todos", { status, colors }]);
-  const numOfTodo = todos ? todos.length : 0;
+  const todos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+  const numOfTodo = todos.filter((todo: Todo) => !todo.isCompleted).length;
   return (
     <div>
       <h5>Remaining Todos</h5>
