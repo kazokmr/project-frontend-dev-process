@@ -10,13 +10,13 @@ export const handlers = [
   rest.get<DefaultRequestBody, PathParams, Todo[]>(
     "/todos",
     (req, res, ctx) => {
-      return res(ctx.delay(500), ctx.status(200), ctx.json(mockedTodos));
+      return res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos));
     }
   ),
   rest.post<{ text: string }, PathParams, Todo>("/todo", (req, res, ctx) => {
     const todo = new Todo(req.body.text);
     mockedTodos = [...mockedTodos, todo];
-    return res(ctx.delay(500), ctx.status(200), ctx.json(todo));
+    return res(ctx.delay(300), ctx.status(200), ctx.json(todo));
   }),
   rest.put<{ id: string }, PathParams, Todo>(
     "/todo/:id/complete",
@@ -26,7 +26,7 @@ export const handlers = [
         todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted }
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
-      return res(ctx.delay(500), ctx.status(200));
+      return res(ctx.delay(300), ctx.status(200));
     }
   ),
   rest.put<{ id: string; color: TodoColor }, PathParams, Todo>(
@@ -37,7 +37,7 @@ export const handlers = [
         todo.id !== id ? todo : { ...todo, color: req.body.color }
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
-      return res(ctx.delay(500), ctx.status(200));
+      return res(ctx.delay(300), ctx.status(200));
     }
   ),
   rest.delete<{ id: string }, PathParams, DefaultRequestBody>(
@@ -45,23 +45,24 @@ export const handlers = [
     (req, res, ctx) => {
       const { id } = req.params;
       mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
-      return res(ctx.delay(500), ctx.status(204));
+      return res(ctx.delay(300), ctx.status(204));
     }
   ),
   rest.put<DefaultRequestBody, PathParams, DefaultRequestBody>(
     "/todo/completeAll",
     (req, res, ctx) => {
-      mockedTodos = mockedTodos.map((todo: Todo) =>
-        todo.isCompleted ? todo : { ...todo, isCompleted: !todo.isCompleted }
-      );
-      return res(ctx.delay(500), ctx.status(200));
+      mockedTodos = mockedTodos.map((todo: Todo) => ({
+        ...todo,
+        isCompleted: true,
+      }));
+      return res(ctx.delay(300), ctx.status(200));
     }
   ),
   rest.put<DefaultRequestBody, PathParams, DefaultRequestBody>(
     "/todo/deleteCompleted",
     (req, res, ctx) => {
       mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
-      return res(ctx.delay(500), ctx.status(200));
+      return res(ctx.delay(300), ctx.status(200));
     }
   ),
 ];
