@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
-import userEvent from "@testing-library/user-event";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
@@ -19,197 +18,181 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, staleTime: Infinity } },
 });
 
-const status: TodoStatus = TODO_STATUS.ALL;
-const colors: TodoColor[] = [];
-
 beforeEach(() => {
   // テストごとにQueryClientを初期化する
   queryClient.clear();
-  // 絞り込み条件をセットする
-  queryClient.setQueryData<TodoStatus>(["status"], status);
-  queryClient.setQueryData<TodoColor[]>(["colors"], colors);
 });
 
 describe("Todoの件数による表示テスト", () => {
-  const expectTexts: string[] = [
-    "これは１つ目のTodoです",
-    "This is a text in the second row",
-  ];
-  test.each`
-    text
-    ${expectTexts[0]}
-    ${expectTexts[1]}
-  `("Todoが１件で $text を表示すること", ({ text }: { text: string }) => {
-    const todos: Array<Todo> = [
-      {
-        id: "dummy",
-        text: text,
-        isCompleted: false,
-        color: TODO_COLOR.None,
-      },
+  describe("表示されるTodo件数の検証", () => {
+    const expectTexts: string[] = [
+      "これは１つ目のTodoです",
+      "This is a text in the second row",
     ];
-    queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TodoList />
-      </QueryClientProvider>
-    );
-    const todoTexts = screen.getAllByTestId("content-todo");
-    expect(todoTexts).toHaveLength(1);
-    expect(todoTexts[0].textContent).toBe(text);
-  });
-
-  test("Todoが2件の場合の表示", () => {
-    const todos: Array<Todo> = [
-      {
-        id: "dummy-1",
-        text: expectTexts[0],
-        isCompleted: false,
-        color: TODO_COLOR.None,
-      },
-      {
-        id: "dummy-2",
-        text: expectTexts[1],
-        isCompleted: false,
-        color: TODO_COLOR.None,
-      },
-    ];
-    queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TodoList />
-      </QueryClientProvider>
-    );
-    const todoTexts = screen.getAllByTestId("content-todo");
-    expect(todoTexts).toHaveLength(2);
-    todoTexts.forEach((todoText, index) => {
-      expect(todoText.textContent).toBe(expectTexts[index]);
-    });
-  });
-
-  test("Todoが0件ならリストは表示されない", () => {
-    queryClient.setQueryData<Todo[]>(["todos", { status, colors }], []);
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TodoList />
-      </QueryClientProvider>
-    );
-    const todoTexts = screen.queryAllByLabelText("content-todo");
-    expect(todoTexts).toHaveLength(0);
-  });
-});
-
-describe("Todoの操作イベントの実行テスト", () => {
-  describe("Todoの完了操作イベントの実行テスト", () => {
     test.each`
-      isCompleted
-      ${false}
-      ${true}
-    `(
-      "完了状況が $isCompleted のTodoをクリックすると onChangeComplete関数を呼ぶこと",
-      async ({ isCompleted }: { isCompleted: boolean }) => {
-        // Given: Todoを１つ用意して表示する
-        const id: string = "dummy-id";
-        const todos: Todo[] = [
-          {
-            id,
-            text: "完了チェックのテスト",
-            isCompleted,
-            color: TODO_COLOR.None,
-          },
-        ];
-        queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
-        render(
-          <QueryClientProvider client={queryClient}>
-            <TodoList />
-          </QueryClientProvider>
-        );
-
-        // When:Todoの完了状況を更新する
-        const user = userEvent.setup();
-        const checkBox = screen.getAllByRole("checkbox", {
-          name: "todo-isCompleted",
-        })[0];
-        await user.click(checkBox);
-
-        // Then: Todoの完了状況が更新されること
-        expect(mockedMutateTodoCompleted.mock.calls[0][0]).toStrictEqual({
-          id,
-        });
-        expect(mockedMutateTodoCompleted).toHaveBeenCalledTimes(1);
-      }
-    );
-  });
-  describe("TodoのColorタグの変更イベントの実行テスト", () => {
-    test.each`
-      changingColor
-      ${TODO_COLOR.None}
-      ${TODO_COLOR.Blue}
-      ${TODO_COLOR.Green}
-      ${TODO_COLOR.Orange}
-      ${TODO_COLOR.Purple}
-      ${TODO_COLOR.Red}
-    `(
-      "Colorタグを $changingColor に変更したら onChangeColor関数を呼ぶこと",
-      async ({ changingColor }: { changingColor: TodoColor }) => {
-        // Given: TodoListコンポーネントをレンダリングする
-        const id: string = "dummy-id";
-        const todos: Todo[] = [
-          {
-            id,
-            text: "Colorタグの変更",
-            isCompleted: false,
-            color: TODO_COLOR.None,
-          },
-        ];
-        queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
-        render(
-          <QueryClientProvider client={queryClient}>
-            <TodoList />
-          </QueryClientProvider>
-        );
-
-        // When: Colorタグを変更する
-        const user = userEvent.setup();
-        const selectBox = screen.getByLabelText("select-todo-color");
-        await user.selectOptions(selectBox, changingColor);
-
-        // Then: TodoのIDと変更するColorを渡して関数を1回呼び出すこと
-        expect(mockedMutateTodoChangedColor.mock.calls[0][0]).toStrictEqual({
-          id,
-          color: changingColor,
-        });
-        expect(mockedMutateTodoChangedColor).toHaveBeenCalledTimes(1);
-      }
-    );
-  });
-  describe("Todoの削除イベントの実行テスト", () => {
-    test("削除ボタンを押したら onClickDelete関数を呼ぶこと", async () => {
-      // Given:TodoListを出力しTodoを１件渡す
-      const id = "dummy-id";
-      const todos: Todo[] = [
+      text
+      ${expectTexts[0]}
+      ${expectTexts[1]}
+    `("Todoが１件で $text を表示すること", ({ text }: { text: string }) => {
+      const todos: Array<Todo> = [
         {
-          id,
-          text: "Todoの削除イベントテスト",
+          id: "dummy",
+          text: text,
           isCompleted: false,
           color: TODO_COLOR.None,
         },
       ];
-      queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
+      queryClient.setQueryData<Todo[]>(["todos"], todos);
       render(
         <QueryClientProvider client={queryClient}>
           <TodoList />
         </QueryClientProvider>
       );
-
-      // When: Todoの削除ボタンを押す
-      const user = userEvent.setup();
-      const deleteButton = screen.getByRole("button", { name: "delete-todo" });
-      await user.click(deleteButton);
-
-      // Then: TodoのIDを渡して関数を1回呼び出すこと
-      expect(mockedMutateTodoDeleted.mock.calls[0][0]).toStrictEqual({ id });
-      expect(mockedMutateTodoDeleted).toHaveBeenCalledTimes(1);
+      const todoTexts = screen.getAllByTestId("content-todo");
+      expect(todoTexts).toHaveLength(1);
+      expect(todoTexts[0].textContent).toBe(text);
     });
+
+    test("Todoが2件の場合の表示", () => {
+      const todos: Array<Todo> = [
+        {
+          id: "dummy-1",
+          text: expectTexts[0],
+          isCompleted: false,
+          color: TODO_COLOR.None,
+        },
+        {
+          id: "dummy-2",
+          text: expectTexts[1],
+          isCompleted: false,
+          color: TODO_COLOR.None,
+        },
+      ];
+      queryClient.setQueryData<Todo[]>(["todos"], todos);
+      render(
+        <QueryClientProvider client={queryClient}>
+          <TodoList />
+        </QueryClientProvider>
+      );
+      const todoTexts = screen.getAllByTestId("content-todo");
+      expect(todoTexts).toHaveLength(2);
+      todoTexts.forEach((todoText, index) => {
+        expect(todoText.textContent).toBe(expectTexts[index]);
+      });
+    });
+
+    test("Todoが0件ならリストは表示されない", () => {
+      queryClient.setQueryData<Todo[]>(["todos"], []);
+      render(
+        <QueryClientProvider client={queryClient}>
+          <TodoList />
+        </QueryClientProvider>
+      );
+      const todoTexts = screen.queryAllByLabelText("content-todo");
+      expect(todoTexts).toHaveLength(0);
+    });
+  });
+  describe("filterで表示するTodoが絞り込まれるか検証", () => {
+    const todos: Todo[] = [
+      { id: "1", text: "１件目", isCompleted: false, color: TODO_COLOR.None },
+      { id: "2", text: "２件目", isCompleted: true, color: TODO_COLOR.Blue },
+      { id: "3", text: "３件目", isCompleted: true, color: TODO_COLOR.Red },
+      { id: "4", text: "４件目", isCompleted: false, color: TODO_COLOR.Blue },
+      { id: "5", text: "５件目", isCompleted: false, color: TODO_COLOR.Purple },
+      { id: "6", text: "６件目", isCompleted: false, color: TODO_COLOR.Red },
+      { id: "7", text: "７件目", isCompleted: true, color: TODO_COLOR.Green },
+      { id: "8", text: "８件目", isCompleted: false, color: TODO_COLOR.Red },
+      { id: "9", text: "９件目", isCompleted: true, color: TODO_COLOR.None },
+    ];
+    test.each`
+      status                   | count
+      ${TODO_STATUS.ALL}       | ${9}
+      ${TODO_STATUS.ACTIVE}    | ${5}
+      ${TODO_STATUS.COMPLETED} | ${4}
+    `(
+      "$statusで絞るとTodoListは$count件になる",
+      ({ status, count }: { status: TodoStatus; count: number }) => {
+        // Given: クライアントキャッシュにqueryをセットする
+        queryClient.setQueryData<TodoStatus>(["status"], status);
+        queryClient.setQueryData<TodoColor[]>(["colors"], []);
+        queryClient.setQueryData<Todo[]>(["todos"], todos);
+
+        // When: TodoListコンポーネントを出力しTodo件数を取得する
+        render(
+          <QueryClientProvider client={queryClient}>
+            <TodoList />
+          </QueryClientProvider>
+        );
+        const todoItems = screen.queryAllByTestId("content-todo");
+
+        // Then: 標準されるTodoを検証する
+        expect(todoItems).toHaveLength(count);
+      }
+    );
+    test.each`
+      colors                                                                                       | count
+      ${[]}                                                                                        | ${9}
+      ${[TODO_COLOR.Green]}                                                                        | ${1}
+      ${[TODO_COLOR.Blue]}                                                                         | ${2}
+      ${[TODO_COLOR.Green, TODO_COLOR.Blue]}                                                       | ${3}
+      ${[TODO_COLOR.Blue, TODO_COLOR.Green, TODO_COLOR.Orange, TODO_COLOR.Purple, TODO_COLOR.Red]} | ${7}
+    `(
+      "$colorsで絞るとTodoListは$count件になる",
+      ({ colors, count }: { colors: TodoColor[]; count: number }) => {
+        // Given: クライアントキャッシュにqueryをセットする
+        queryClient.setQueryData<TodoStatus>(["status"], TODO_STATUS.ALL);
+        queryClient.setQueryData<TodoColor[]>(["colors"], colors);
+        queryClient.setQueryData<Todo[]>(["todos"], todos);
+
+        // When: TodoListコンポーネントを出力しTodo件数を取得する
+        render(
+          <QueryClientProvider client={queryClient}>
+            <TodoList />
+          </QueryClientProvider>
+        );
+        const todoItems = screen.queryAllByTestId("content-todo");
+
+        // Then: 標準されるTodoを検証する
+        expect(todoItems).toHaveLength(count);
+      }
+    );
+    test.each`
+      status                   | colors                                                                                       | count
+      ${TODO_STATUS.ACTIVE}    | ${[]}                                                                                        | ${5}
+      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Green]}                                                                        | ${0}
+      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Green, TODO_COLOR.Blue]}                                                       | ${1}
+      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Blue, TODO_COLOR.Green, TODO_COLOR.Orange, TODO_COLOR.Purple, TODO_COLOR.Red]} | ${4}
+      ${TODO_STATUS.COMPLETED} | ${[]}                                                                                        | ${4}
+      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Green]}                                                                        | ${1}
+      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Green, TODO_COLOR.Blue]}                                                       | ${2}
+      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Blue, TODO_COLOR.Green, TODO_COLOR.Orange, TODO_COLOR.Purple, TODO_COLOR.Red]} | ${3}
+    `(
+      "$statusと$colorsで絞るとTodoListは$count件になる",
+      ({
+        status,
+        colors,
+        count,
+      }: {
+        status: TodoStatus;
+        colors: TodoColor[];
+        count: number;
+      }) => {
+        // Given: クライアントキャッシュにqueryをセットする
+        queryClient.setQueryData<TodoStatus>(["status"], status);
+        queryClient.setQueryData<TodoColor[]>(["colors"], colors);
+        queryClient.setQueryData<Todo[]>(["todos"], todos);
+
+        // When: TodoListコンポーネントを出力しTodo件数を取得する
+        render(
+          <QueryClientProvider client={queryClient}>
+            <TodoList />
+          </QueryClientProvider>
+        );
+        const todoItems = screen.queryAllByTestId("content-todo");
+
+        // Then: 標準されるTodoを検証する
+        expect(todoItems).toHaveLength(count);
+      }
+    );
   });
 });
