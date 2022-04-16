@@ -11,8 +11,7 @@ import {
   useQueryTodo
 } from "../../../todo/hooks/useTodos";
 import { Todo } from "../../../todo/model/todo/Todo";
-import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
-import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
+import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
 import { setMockedTodo } from "../../../mocks/handlers";
 
 // Testデータ
@@ -78,7 +77,7 @@ describe("React QueryによるServerState管理", () => {
   describe("useTodoQueryのテスト", () => {
     test("バックエンドAPIを使いTodoリストが取得できること", async () => {
       // When: 全てのTodoを検索する
-      const { result, waitFor } = renderHook(() => useQueryTodo({}), {
+      const { result, waitFor } = renderHook(() => useQueryTodo(), {
         wrapper: queryClientWrapper(),
       });
       await waitFor(() => result.current.isSuccess);
@@ -87,118 +86,7 @@ describe("React QueryによるServerState管理", () => {
       expect(result.current.data).toHaveLength(7);
       expect(result.current.data).toEqual(testTodos);
     });
-
-    test.each`
-      status                   | isCompleted | count
-      ${TODO_STATUS.ACTIVE}    | ${false}    | ${4}
-      ${TODO_STATUS.COMPLETED} | ${true}     | ${3}
-    `(
-      "Todoステータス'$status'でTodoリストを絞り込む",
-      async ({
-        status,
-        isCompleted,
-        count,
-      }: {
-        status: TodoStatus;
-        isCompleted: boolean;
-        count: number;
-      }) => {
-        // When: サーバーAPIをコールしてTodo配列をフェッチする
-        const { result, waitFor } = renderHook(
-          () =>
-            useQueryTodo({
-              status: status,
-            }),
-          {
-            wrapper: queryClientWrapper(),
-          }
-        );
-        await waitFor(() => result.current.isSuccess);
-
-        // Then: todoが取得できること
-        expect(result.current.data).toHaveLength(count);
-        expect(result.current.data).toEqual(
-          testTodos.filter((todo) => todo.isCompleted === isCompleted)
-        );
-      }
-    );
-
-    test.each`
-      colors                                                   | count
-      ${[TODO_COLOR.Blue]}                                     | ${3}
-      ${[TODO_COLOR.Red]}                                      | ${1}
-      ${[TODO_COLOR.Purple]}                                   | ${0}
-      ${[]}                                                    | ${7}
-      ${[TODO_COLOR.Blue, TODO_COLOR.Green]}                   | ${5}
-      ${[TODO_COLOR.Orange, TODO_COLOR.Green, TODO_COLOR.Red]} | ${3}
-      ${[TODO_COLOR.Blue, TODO_COLOR.Green, TODO_COLOR.Red]}   | ${6}
-      ${[TODO_COLOR.Purple, TODO_COLOR.Orange]}                | ${0}
-    `(
-      "Todoの色'$colors'でTodoリストを絞り込む",
-      async ({ colors, count }: { colors: TodoColor[]; count: number }) => {
-        // When: サーバーAPIをコールしてTodo配列をフェッチする
-        const { result, waitFor } = renderHook(
-          () =>
-            useQueryTodo({
-              colors: colors,
-            }),
-          {
-            wrapper: queryClientWrapper(),
-          }
-        );
-        await waitFor(() => result.current.isSuccess);
-
-        // Then: todoが取得できること
-        expect(result.current.data).toHaveLength(count);
-        expect(result.current.data).toEqual(
-          testTodos.filter(
-            (todo) => colors.length === 0 || colors.includes(todo.color)
-          )
-        );
-      }
-    );
-
-    test.each`
-      status                   | colors                                                 | count
-      ${undefined}             | ${undefined}                                           | ${7}
-      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Blue]}                                   | ${2}
-      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Blue, TODO_COLOR.Red]}                   | ${2}
-      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Blue, TODO_COLOR.Red, TODO_COLOR.Green]} | ${4}
-      ${TODO_STATUS.ACTIVE}    | ${[TODO_COLOR.Orange, TODO_COLOR.Purple]}              | ${0}
-      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Blue]}                                   | ${1}
-      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Blue, TODO_COLOR.Red]}                   | ${2}
-      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Blue, TODO_COLOR.Red, TODO_COLOR.Green]} | ${2}
-      ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Orange, TODO_COLOR.Purple]}              | ${0}
-    `(
-      "Todoのステータス'$status' と 色 '$colors' を組み合わせると '$count' 件のTodoを検索する",
-      async ({
-        status,
-        colors,
-        count,
-      }: {
-        status?: TodoStatus;
-        colors?: TodoColor[];
-        count: number;
-      }) => {
-        // When: サーバーAPIをコールしてTodo配列をフェッチする
-        const { result, waitFor } = renderHook(
-          () =>
-            useQueryTodo({
-              status: status,
-              colors: colors,
-            }),
-          {
-            wrapper: queryClientWrapper(),
-          }
-        );
-        await waitFor(() => result.current.isSuccess);
-
-        // Then: todoが取得できること
-        expect(result.current.data).toHaveLength(count);
-      }
-    );
   });
-
   describe("useMutationTodoのテスト", () => {
     test("Todoを追加するとTodoリストを再フェッチする", async () => {
       // Given: useQueryTodo と useMutationTodoAdded が参照するqueryClientを生成する
@@ -206,7 +94,7 @@ describe("React QueryによるServerState管理", () => {
 
       // カスタムHook useQueryTodoを出力しTodoリストをFetchする
       const { result: resultQuery, waitFor: waitForQuery } = renderHook(
-        () => useQueryTodo({}),
+        () => useQueryTodo(),
         {
           wrapper: wrapper,
         }
@@ -228,7 +116,9 @@ describe("React QueryによるServerState管理", () => {
       act(() => {
         resultMutation.current.mutate({ text });
       });
-      await waitForMutation(() => resultMutation.current.isSuccess);
+      await waitForMutation(() => resultMutation.current.isSuccess, {
+        timeout: 1500,
+      });
 
       // Then: queryデータが再FetchされTodoが追加される
       const todosAfterAdded: Todo[] = resultQuery.current.data as Todo[];
@@ -250,7 +140,7 @@ describe("React QueryによるServerState管理", () => {
 
       // カスタムHook useQueryTodoを出力しTodoリストをFetchする
       const { result: resultQuery, waitFor: waitForQuery } = renderHook(
-        () => useQueryTodo({}),
+        () => useQueryTodo(),
         {
           wrapper: wrapper,
         }
@@ -272,7 +162,9 @@ describe("React QueryによるServerState管理", () => {
       act(() => {
         resultMutation.current.mutate({ id: "3" });
       });
-      await waitForMutation(() => resultMutation.current.isSuccess);
+      await waitForMutation(() => resultMutation.current.isSuccess, {
+        timeout: 1500,
+      });
 
       // Then: queryデータが再FetchされTodoの完了状況が更新される
       const todosAfterMutation: Todo[] = resultQuery.current.data as Todo[];
@@ -290,7 +182,7 @@ describe("React QueryによるServerState管理", () => {
 
     // カスタムHook useQueryTodoを出力しTodoリストをFetchする
     const { result: resultQuery, waitFor: waitForQuery } = renderHook(
-      () => useQueryTodo({}),
+      () => useQueryTodo(),
       {
         wrapper: wrapper,
       }
@@ -312,7 +204,9 @@ describe("React QueryによるServerState管理", () => {
     act(() => {
       resultMutation.current.mutate({ id: "2", color: TODO_COLOR.Purple });
     });
-    await waitForMutation(() => resultMutation.current.isSuccess);
+    await waitForMutation(() => resultMutation.current.isSuccess, {
+      timeout: 1500,
+    });
 
     // Then: queryデータが再FetchされTodoの完了状況が更新される
     const todosAfterMutation: Todo[] = resultQuery.current.data as Todo[];
@@ -329,7 +223,7 @@ describe("React QueryによるServerState管理", () => {
 
     // カスタムHook useQueryTodoを出力しTodoリストをFetchする
     const { result: resultQuery, waitFor: waitForQuery } = renderHook(
-      () => useQueryTodo({}),
+      () => useQueryTodo(),
       {
         wrapper: wrapper,
       }
@@ -350,7 +244,9 @@ describe("React QueryによるServerState管理", () => {
     act(() => {
       resultMutation.current.mutate({ id: "4" });
     });
-    await waitForMutation(() => resultMutation.current.isSuccess);
+    await waitForMutation(() => resultMutation.current.isSuccess, {
+      timeout: 1500,
+    });
 
     // Then: queryデータが再FetchされTodoが６件になっていること
     const todos: Todo[] = resultQuery.current.data as Todo[];
@@ -363,7 +259,7 @@ describe("React QueryによるServerState管理", () => {
     // Given: Todoリストを作成する
     const wrapper = queryClientWrapper();
     const { result: resultQuery, waitFor: waitForQuery } = renderHook(
-      () => useQueryTodo({}),
+      () => useQueryTodo(),
       {
         wrapper: wrapper,
       }
@@ -380,7 +276,9 @@ describe("React QueryによるServerState管理", () => {
     act(() => {
       resultMutation.current.mutate();
     });
-    await waitForMutation(() => resultMutation.current.isSuccess);
+    await waitForMutation(() => resultMutation.current.isSuccess, {
+      timeout: 1500,
+    });
 
     // Then: TodoListの件数は最初と変わらず、全て完了になっていること
     const todos: Todo[] = resultQuery.current.data as Todo[];
@@ -394,7 +292,7 @@ describe("React QueryによるServerState管理", () => {
     // Given: Todoリストを作る
     const wrapper = queryClientWrapper();
     const { result: resultQuery, waitFor: waitForQuery } = renderHook(
-      () => useQueryTodo({}),
+      () => useQueryTodo(),
       { wrapper: wrapper }
     );
     await waitForQuery(() => resultQuery.current.isSuccess);
@@ -409,7 +307,9 @@ describe("React QueryによるServerState管理", () => {
     );
 
     act(() => resultMutation.current.mutate());
-    await waitForMutation(() => resultMutation.current.isSuccess);
+    await waitForMutation(() => resultMutation.current.isSuccess, {
+      timeout: 1500,
+    });
 
     // Then: TodoListには未完了のTodoだけが残る
     const todos: Todo[] = resultQuery.current.data as Todo[];
