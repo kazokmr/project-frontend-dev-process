@@ -4,7 +4,8 @@ import { useQueryClient } from "react-query";
 
 const StatusFilter = (): JSX.Element => {
   const queryClient = useQueryClient();
-  const curStatus = queryClient.getQueryData<TodoStatus>(["status"]);
+  const curStatus =
+    queryClient.getQueryData<TodoStatus>(["status"]) ?? TODO_STATUS.ALL;
   const setStatus = (status: TodoStatus) => {
     queryClient.setQueryData<TodoStatus>(["status"], status);
   };

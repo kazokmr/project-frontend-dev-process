@@ -26,7 +26,7 @@ describe("ボタンの初期状態をテストする", () => {
     ${TODO_STATUS.COMPLETED} | ${false} | ${false} | ${true}
     ${undefined}             | ${true}  | ${false} | ${false}
   `(
-    "現在の検索状況が $curStatus なら、All: $isAll Active: $isActive Completed $isCompleted であること",
+    "現在の検索状況が $status なら、All: $isAll Active: $isActive Completed $isCompleted であること",
     ({
       status,
       isAll,
