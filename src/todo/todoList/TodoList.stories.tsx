@@ -27,7 +27,7 @@ export const Default: ComponentStoryObj<typeof TodoList> = {
       const colors: TodoColor[] = [];
       queryClient.setQueryData<TodoStatus>(["status"], status);
       queryClient.setQueryData<TodoColor[]>(["colors"], colors);
-      queryClient.setQueryData<Todo[]>(["todos", { status, colors }], todos);
+      queryClient.setQueryData<Todo[]>(["todos"], todos);
       return (
         <QueryClientProvider client={queryClient}>
           {story()}

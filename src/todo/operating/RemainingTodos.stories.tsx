@@ -2,8 +2,7 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import RemainingTodos from "./RemainingTodos";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Todo } from "../model/todo/Todo";
-import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
-import { TODO_COLOR, TodoColor } from "../model/filter/TodoColors";
+import { TODO_COLOR } from "../model/filter/TodoColors";
 
 export default {
   component: RemainingTodos,
@@ -17,18 +16,13 @@ const queryClient = new QueryClient({
   },
 });
 
-const status: TodoStatus = TODO_STATUS.ALL;
-const colors: TodoColor[] = [];
-
 export const Default: ComponentStoryObj<typeof RemainingTodos> = {
   storyName: "ActiveなTodoが１件",
   decorators: [
     (story) => {
       queryClient.clear();
-      queryClient.setQueryData<TodoStatus>(["status"], status);
-      queryClient.setQueryData<TodoColor[]>(["colors"], colors);
       queryClient.setQueryData<Todo[]>(
-        ["todos", { status, colors }],
+        ["todos"],
         [
           {
             id: "1",
@@ -52,9 +46,7 @@ export const NoActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
   decorators: [
     (story) => {
       queryClient.clear();
-      queryClient.setQueryData<TodoStatus>(["status"], status);
-      queryClient.setQueryData<TodoColor[]>(["colors"], colors);
-      queryClient.setQueryData<Todo[]>(["todos", { status, colors }], []);
+      queryClient.setQueryData<Todo[]>(["todos"], []);
       return (
         <QueryClientProvider client={queryClient}>
           {story()}
@@ -69,10 +61,8 @@ export const MultiActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
   decorators: [
     (story) => {
       queryClient.clear();
-      queryClient.setQueryData<TodoStatus>(["status"], status);
-      queryClient.setQueryData<TodoColor[]>(["colors"], colors);
       queryClient.setQueryData<Todo[]>(
-        ["todos", { status, colors }],
+        ["todos"],
         [
           {
             id: "1",

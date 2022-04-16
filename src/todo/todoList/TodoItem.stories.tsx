@@ -13,6 +13,11 @@ export default {
       </QueryClientProvider>
     ),
   ],
+  parameters: {
+    actions: {
+      handles: ["click button", "change input", "change select"],
+    },
+  },
 } as ComponentMeta<typeof TodoItem>;
 
 export const Default: ComponentStoryObj<typeof TodoItem> = {

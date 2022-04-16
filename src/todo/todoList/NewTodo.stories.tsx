@@ -9,6 +9,9 @@ export default {
     controls: {
       hideNoControlsWarning: true,
     },
+    actions: {
+      handles: ["change"],
+    },
   },
   decorators: [
     (story) => (
