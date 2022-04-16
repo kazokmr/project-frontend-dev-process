@@ -6,6 +6,7 @@ import {
   useMutationTodoCompleted,
   useMutationTodoDeleted,
 } from "../hooks/useTodos";
+import { ChangeEvent } from "react";
 
 interface TodoItemProps {
   todo: Todo;
@@ -16,7 +17,7 @@ const TodoItem = ({ todo }: TodoItemProps): JSX.Element => {
   const mutateTodoChangedColor = useMutationTodoChangedColor();
   const mutateTodoDeleted = useMutationTodoDeleted();
 
-  const optionalColors: JSX.Element[] = TodoColors.map((color) => (
+  const optionalColors: JSX.Element[] = TodoColors.map((color: TodoColor) => (
     <option key={color} value={color}>
       {capitalize(color)}
     </option>
@@ -37,7 +38,7 @@ const TodoItem = ({ todo }: TodoItemProps): JSX.Element => {
         <select
           aria-label={"select-todo-color"}
           value={todo.color}
-          onChange={(event) =>
+          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
             mutateTodoChangedColor.mutate({
               id: todo.id,
               color: event.target.value as TodoColor,
