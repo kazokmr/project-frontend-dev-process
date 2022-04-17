@@ -2,22 +2,9 @@ import "./TodoApp.css";
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
-import { TodoColor } from "./model/filter/TodoColors";
-import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
 import { useQueryTodo } from "./hooks/useTodos";
-import { useQuery } from "react-query";
 
 const TodoApp = (): JSX.Element => {
-  useQuery<TodoStatus>(["status"], {
-    enabled: false,
-    staleTime: Infinity,
-    initialData: TODO_STATUS.ALL,
-  });
-  useQuery<TodoColor[]>(["colors"], {
-    enabled: false,
-    staleTime: Infinity,
-    initialData: [] as TodoColor[],
-  });
   const { isLoading, isError } = useQueryTodo();
 
   if (isLoading) {

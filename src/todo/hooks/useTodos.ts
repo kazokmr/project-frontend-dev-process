@@ -1,7 +1,8 @@
 import { Todo } from "../model/todo/Todo";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { TodoColor } from "../model/filter/TodoColors";
+import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 
 const fetchTodos = async (): Promise<Todo[]> => {
   const response = await axios.get("/todos");
@@ -9,10 +10,24 @@ const fetchTodos = async (): Promise<Todo[]> => {
 };
 
 export function useQueryTodo() {
-  return useQuery<Todo[]>(["todos"], () => fetchTodos(), {
+  return useQuery<Todo[], AxiosError, Todo[]>(["todos"], fetchTodos, {
     staleTime: Infinity,
   });
 }
+
+export const useQueryStatus = () =>
+  useQuery<TodoStatus, Error>(["status"], {
+    enabled: false,
+    staleTime: Infinity,
+    initialData: TODO_STATUS.ALL,
+  }).data ?? TODO_STATUS.ALL;
+
+export const useQueryColors = () =>
+  useQuery<TodoColor[], Error>(["colors"], {
+    enabled: false,
+    staleTime: Infinity,
+    initialData: [],
+  }).data ?? [];
 
 export const useMutationTodoAdded = () => {
   const queryClient = useQueryClient();
@@ -41,8 +56,8 @@ export const useMutationTodoCompleted = () => {
     {
       onMutate: async ({ id }: { id: string }) => {
         await queryClient.cancelQueries(["todos"]);
-        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]);
-        const updater = oldTodos?.map((todo: Todo) =>
+        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+        const updater = oldTodos.map((todo: Todo) =>
           todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
         );
         queryClient.setQueryData(["todos"], updater);
@@ -64,8 +79,8 @@ export const useMutationTodoChangedColor = () => {
     {
       onMutate: async ({ id, color }: { id: string; color: TodoColor }) => {
         await queryClient.cancelQueries(["todos"]);
-        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]);
-        const updater = oldTodos?.map((todo: Todo) =>
+        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+        const updater = oldTodos.map((todo: Todo) =>
           todo.id === id ? { ...todo, color } : todo
         );
         queryClient.setQueryData(["todos"], updater);
@@ -90,9 +105,9 @@ export const useMutationTodoDeleted = () => {
         // invalidateQueriesからのreFetchで上書きされないようにキャンセルする
         await queryClient.cancelQueries(["todos"]);
         // 更新前データのスナップショットをバックアップする
-        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]);
+        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
         // 期待する結果にClient Cacheを更新する(楽観的アップデート)
-        const updater = oldTodos?.filter((todo: Todo) => todo.id !== id);
+        const updater = oldTodos.filter((todo: Todo) => todo.id !== id);
         queryClient.setQueriesData(["todos"], updater);
         // Contextにスナップショットをセットする
         return { oldTodos };
@@ -112,8 +127,8 @@ export const useMutationCompleteAllTodos = () => {
   return useMutation(() => axios.put("/todo/completeAll"), {
     onMutate: async () => {
       await queryClient.cancelQueries(["todos"]);
-      const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]);
-      const updater = oldTodos?.map((todo: Todo) => ({
+      const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+      const updater = oldTodos.map((todo: Todo) => ({
         ...todo,
         isCompleted: true,
       }));
@@ -132,8 +147,8 @@ export const useMutationDeleteCompletedTodos = () => {
   return useMutation(() => axios.put("/todo/deleteCompleted"), {
     onMutate: async () => {
       await queryClient.cancelQueries(["todos"]);
-      const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]);
-      const updater = oldTodos?.filter((todo: Todo) => !todo.isCompleted);
+      const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+      const updater = oldTodos.filter((todo: Todo) => !todo.isCompleted);
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
     },

@@ -1,11 +1,11 @@
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 import { capitalize } from "../model/filter/StringCapitalization";
 import { useQueryClient } from "react-query";
+import { useQueryStatus } from "../hooks/useTodos";
 
 const StatusFilter = (): JSX.Element => {
+  const curStatus = useQueryStatus();
   const queryClient = useQueryClient();
-  const curStatus =
-    queryClient.getQueryData<TodoStatus>(["status"]) ?? TODO_STATUS.ALL;
   const setStatus = (status: TodoStatus) => {
     queryClient.setQueryData<TodoStatus>(["status"], status);
   };

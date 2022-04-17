@@ -5,23 +5,12 @@ import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 
-const mockedMutateTodoCompleted: jest.Mock = jest.fn();
-const mockedMutateTodoChangedColor: jest.Mock = jest.fn();
-const mockedMutateTodoDeleted: jest.Mock = jest.fn();
-jest.mock("../../../todo/hooks/useTodos", () => ({
-  useMutationTodoCompleted: () => ({ mutate: mockedMutateTodoCompleted }),
-  useMutationTodoChangedColor: () => ({ mutate: mockedMutateTodoChangedColor }),
-  useMutationTodoDeleted: () => ({ mutate: mockedMutateTodoDeleted }),
-}));
-
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, staleTime: Infinity } },
 });
 
-beforeEach(() => {
-  // テストごとにQueryClientを初期化する
-  queryClient.clear();
-});
+// queryClientのキャッシュをクリアしてからテストする
+beforeEach(() => queryClient.clear());
 
 describe("Todoの件数による表示テスト", () => {
   describe("表示されるTodo件数の検証", () => {

@@ -1,10 +1,11 @@
-import { useQueryClient } from "react-query";
 import { Todo } from "../model/todo/Todo";
+import { useQueryTodo } from "../hooks/useTodos";
 
 const RemainingTodos = (): JSX.Element => {
-  const queryClient = useQueryClient();
-  const todos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
-  const numOfTodo = todos.filter((todo: Todo) => !todo.isCompleted).length;
+  const { data: todos } = useQueryTodo();
+  const numOfTodo = todos
+    ? todos.filter((todo: Todo) => !todo.isCompleted).length
+    : 0;
   return (
     <div>
       <h5>Remaining Todos</h5>
