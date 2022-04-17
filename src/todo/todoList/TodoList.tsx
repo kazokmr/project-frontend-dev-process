@@ -1,16 +1,18 @@
+import { TODO_STATUS } from "../model/filter/TodoStatus";
 import TodoItem from "./TodoItem";
 import { Todo } from "../model/todo/Todo";
-import { useQueryClient } from "react-query";
-import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
-import { TodoColor } from "../model/filter/TodoColors";
+import {
+  useQueryColors,
+  useQueryStatus,
+  useQueryTodo,
+} from "../hooks/useTodos";
 
 const TodoList = (): JSX.Element => {
-  const queryClient = useQueryClient();
-  const status =
-    queryClient.getQueryData<TodoStatus>(["status"]) ?? TODO_STATUS.ALL;
-  const colors = queryClient.getQueryData<TodoColor[]>(["colors"]) ?? [];
-  const data = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
-  const todos: Todo[] = data
+  const colors = useQueryColors();
+  const status = useQueryStatus();
+  const data = useQueryTodo().data ?? [];
+
+  const todos = data
     .filter(
       (todo: Todo) =>
         status === TODO_STATUS.ALL ||

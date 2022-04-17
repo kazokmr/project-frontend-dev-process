@@ -1,20 +1,18 @@
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
 import { useQueryClient } from "react-query";
+import { useQueryColors } from "../hooks/useTodos";
 
 const ColorFilter = (): JSX.Element => {
+  const curColors = useQueryColors();
   const queryClient = useQueryClient();
-  const curColors = queryClient.getQueryData<TodoColor[]>(["colors"]);
   const setColors = (color: TodoColor, isChecked: boolean) => {
-    if (isChecked && !curColors?.includes(color)) {
+    if (isChecked && !curColors.includes(color)) {
+      queryClient.setQueryData<TodoColor[]>("colors", [...curColors, color]);
+    } else if (!isChecked && curColors.includes(color)) {
       queryClient.setQueryData<TodoColor[]>(
-        ["colors"],
-        curColors ? [...curColors, color] : [color]
-      );
-    } else if (!isChecked && curColors?.includes(color)) {
-      queryClient.setQueryData<TodoColor[]>(
-        ["colors"],
-        curColors?.filter((curColor) => curColor !== color)
+        "colors",
+        curColors.filter((curColor: TodoColor) => curColor !== color)
       );
     }
   };
