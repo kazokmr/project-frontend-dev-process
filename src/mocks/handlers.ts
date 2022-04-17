@@ -67,6 +67,43 @@ export const handlers = [
   ),
 ];
 
+let mockedTodos: Todo[] = [
+  {
+    id: "1",
+    text: "君も今日もっとこの推薦性という事のためが参りですん。",
+    isCompleted: true,
+    color: TODO_COLOR.Red,
+  },
+  {
+    id: "2",
+    text: "主義を説きないのは無論事実でどうしてもたなた。",
+    isCompleted: false,
+    color: TODO_COLOR.Green,
+  },
+  {
+    id: "3",
+    text: "場合をはできるだけありて違ったんたでし",
+    isCompleted: true,
+    color: TODO_COLOR.Blue,
+  },
+  {
+    id: "4",
+    text: "引用欠くて、これらの.も色濃くでも係るますませ。",
+    isCompleted: true,
+    color: TODO_COLOR.Green,
+  },
+  {
+    id: "5",
+    text: "あるいは、ここを問題にすることを「侵害権」の投稿ある。",
+    isCompleted: false,
+    color: TODO_COLOR.None,
+  },
+];
+
+export function setMockedTodo(todos: Todo[]) {
+  mockedTodos = todos;
+}
+
 export const createMockedTodos = (
   numberOfTodos: number,
   isInitCompleted: boolean = false,
@@ -89,9 +126,3 @@ export const createMockedTodos = (
   }
   return todos;
 };
-
-let mockedTodos = createMockedTodos(5);
-
-export function setMockedTodo(todos: Todo[]) {
-  mockedTodos = todos;
-}
