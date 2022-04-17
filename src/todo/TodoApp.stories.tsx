@@ -10,7 +10,7 @@ export default {
       hideNoControlsWarning: true,
     },
     actions: {
-      handles: ["click", "change"],
+      handles: ["click .btn", "change"],
     },
   },
   decorators: [
@@ -29,9 +29,31 @@ export const Error: ComponentStoryObj<typeof TodoApp> = {
     msw: {
       handlers: {
         todos: rest.get("/todos", (req, res, ctx) => {
-          return res(ctx.status(403));
+          // return:BAD_REQUEST,
+          return res(
+            ctx.delay(),
+            ctx.status(400),
+            ctx.json({ errorMessage: "これはエラーです" })
+          );
         }),
       },
     },
   },
+  decorators: [
+    (story) => {
+      // useQueryのリトライを無効にする(デフォルトが３回なので）
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+          },
+        },
+      });
+      return (
+        <QueryClientProvider client={queryClient}>
+          {story()}
+        </QueryClientProvider>
+      );
+    },
+  ],
 };

@@ -1,16 +1,33 @@
 import { Todo } from "../model/todo/Todo";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { TodoColor } from "../model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 
-const fetchTodos = async (): Promise<Todo[]> => {
-  const response = await axios.get("/todos");
-  return response.data;
+const fetchTodos = async () => {
+  try {
+    const response = await axios.get("/todos");
+    return response.data;
+  } catch (err) {
+    // Axiosから返るエラーの場合
+    if (axios.isAxiosError(err)) {
+      // レスポンスが返ってきた場合
+      if (err.response) {
+        throw new Error(
+          `HTTPステータス: ${err.response.status}: ${err.response.data.errorMessage}`
+        );
+      } else {
+        throw new Error(`サーバーエラー: ${err.message}`);
+      }
+    } else {
+      // Axios以外の想定外エラー
+      throw new Error(`予期せぬエラー: ${(err as Error).message}`);
+    }
+  }
 };
 
 export function useQueryTodo() {
-  return useQuery<Todo[], AxiosError, Todo[]>(["todos"], fetchTodos, {
+  return useQuery<Todo[], Error, Todo[]>(["todos"], fetchTodos, {
     staleTime: Infinity,
   });
 }
