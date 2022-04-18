@@ -11,7 +11,6 @@ const TodoList = (): JSX.Element => {
   const colors = useQueryColors();
   const status = useQueryStatus();
   const data = useQueryTodo().data ?? [];
-
   const todos = data
     .filter(
       (todo: Todo) =>
@@ -19,9 +18,7 @@ const TodoList = (): JSX.Element => {
         (status === TODO_STATUS.COMPLETED && todo.isCompleted) ||
         (status === TODO_STATUS.ACTIVE && !todo.isCompleted)
     )
-    .filter(
-      (todo: Todo) => colors?.length === 0 || colors?.includes(todo.color)
-    );
+    .filter((todo: Todo) => colors.length === 0 || colors.includes(todo.color));
 
   return (
     <ul aria-label={"list-todo"}>
