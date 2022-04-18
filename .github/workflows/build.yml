@@ -32,7 +32,7 @@ jobs:
         run: yarn eslint
 
       - name: Run Jest
-        run: yarn test --collectCoverage
+        run: yarn test --collectCoverage --silent
 
       - name: Run Chromatic
         uses: chromaui/action@v1
