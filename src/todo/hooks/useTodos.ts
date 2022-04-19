@@ -26,11 +26,38 @@ const fetchTodos = async () => {
   }
 };
 
-export function useQueryTodo() {
-  return useQuery<Todo[], Error, Todo[]>(["todos"], fetchTodos, {
+export function useQueryTodo<T>(select?: (data: Todo[]) => T) {
+  return useQuery<Todo[], Error, T>(["todos"], fetchTodos, {
     staleTime: Infinity,
+    select,
+    notifyOnChangeProps: ["data"],
   });
 }
+
+export const useFilteredTodos = ({
+  status,
+  colors,
+}: {
+  status: TodoStatus;
+  colors: TodoColor[];
+}) =>
+  useQueryTodo<Todo[]>((todos: Todo[]) =>
+    todos
+      .filter(
+        (todo: Todo) =>
+          status === TODO_STATUS.ALL ||
+          (status === TODO_STATUS.COMPLETED && todo.isCompleted) ||
+          (status === TODO_STATUS.ACTIVE && !todo.isCompleted)
+      )
+      .filter(
+        (todo: Todo) => colors.length === 0 || colors.includes(todo.color)
+      )
+  );
+
+export const useRemainingTodos = () =>
+  useQueryTodo<number>((todos: Todo[]) =>
+    todos ? todos.filter((todo: Todo) => !todo.isCompleted).length : 0
+  );
 
 export const useQueryStatus = () =>
   useQuery<TodoStatus, Error>(["status"], {

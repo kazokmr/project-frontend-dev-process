@@ -1,11 +1,8 @@
-import { Todo } from "../model/todo/Todo";
-import { useQueryTodo } from "../hooks/useTodos";
+import { useRemainingTodos } from "../hooks/useTodos";
 
 const RemainingTodos = (): JSX.Element => {
-  const { data: todos } = useQueryTodo();
-  const numOfTodo = todos
-    ? todos.filter((todo: Todo) => !todo.isCompleted).length
-    : 0;
+  const numOfTodo = useRemainingTodos().data ?? 0;
+
   return (
     <div>
       <h5>Remaining Todos</h5>
