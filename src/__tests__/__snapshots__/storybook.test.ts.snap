@@ -775,18 +775,6 @@ exports[`Storyshots Todo/Operating/Status Filter Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots Todo/Todo App Default 1`] = `
-<span>
-  Loading...
-</span>
-`;
-
-exports[`Storyshots Todo/Todo App Error 1`] = `
-<span>
-  Loading...
-</span>
-`;
-
 exports[`Storyshots Todo/Todo List/New Todo Todoを入力してEnter 1`] = `
 <input
   aria-label="input-todo"
@@ -941,10 +929,4 @@ exports[`Storyshots Todo/Todo List/Todo Item 標準 1`] = `
     </button>
   </span>
 </li>
-`;
-
-exports[`Storyshots Todo/Todo List/Todo List Default 1`] = `
-<ul
-  aria-label="list-todo"
-/>
 `;

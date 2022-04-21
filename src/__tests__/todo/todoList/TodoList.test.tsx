@@ -102,7 +102,7 @@ describe("Todoの件数による表示テスト", () => {
       ).toBeInTheDocument();
 
       // Then: Todosが１件も表示されないこと
-      const todoTexts = screen.queryAllByLabelText("content-todo");
+      const todoTexts = screen.queryAllByTestId("content-todo");
       expect(todoTexts).toHaveLength(0);
     });
   });
