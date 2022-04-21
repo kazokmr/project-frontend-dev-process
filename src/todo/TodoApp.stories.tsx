@@ -64,6 +64,6 @@ export const Error: ComponentStoryObj<typeof TodoApp> = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(await canvas.findByText("Error!!")).toBeInTheDocument();
+    expect(await canvas.findByText(/^Error!!:.+/)).toBeInTheDocument();
   },
 };
