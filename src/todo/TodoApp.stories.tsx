@@ -2,6 +2,8 @@ import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import { rest } from "msw";
 import TodoApp from "./TodoApp";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { within } from "@storybook/testing-library";
+import { expect } from "@storybook/jest";
 
 export default {
   component: TodoApp,
@@ -11,32 +13,6 @@ export default {
     },
     actions: {
       handles: ["click .btn", "change"],
-    },
-  },
-  decorators: [
-    (story) => (
-      <QueryClientProvider client={new QueryClient()}>
-        {story()}
-      </QueryClientProvider>
-    ),
-  ],
-} as ComponentMeta<typeof TodoApp>;
-
-export const Default: ComponentStoryObj<typeof TodoApp> = {};
-
-export const Error: ComponentStoryObj<typeof TodoApp> = {
-  parameters: {
-    msw: {
-      handlers: {
-        todos: rest.get("/todos", (req, res, ctx) => {
-          // return:BAD_REQUEST,
-          return res(
-            ctx.delay(),
-            ctx.status(400),
-            ctx.json({ errorMessage: "これはエラーです" })
-          );
-        }),
-      },
     },
   },
   decorators: [
@@ -56,4 +32,38 @@ export const Error: ComponentStoryObj<typeof TodoApp> = {
       );
     },
   ],
+} as ComponentMeta<typeof TodoApp>;
+
+export const Default: ComponentStoryObj<typeof TodoApp> = {
+  parameters: {
+    storyshots: { disable: true },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(
+      await canvas.findByRole("list", { name: "list-todo" })
+    ).toBeInTheDocument();
+  },
+};
+
+export const Error: ComponentStoryObj<typeof TodoApp> = {
+  parameters: {
+    msw: {
+      handlers: {
+        todos: rest.get("/todos", (req, res, ctx) => {
+          // return:BAD_REQUEST,
+          return res(
+            ctx.delay(0),
+            ctx.status(400),
+            ctx.json({ errorMessage: "これはエラーです" })
+          );
+        }),
+      },
+    },
+    storyshots: { disable: true },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(await canvas.findByText(/^Error!!:.+/)).toBeInTheDocument();
+  },
 };
