@@ -30,7 +30,7 @@ export function useQueryTodo<T>(select?: (data: Todo[]) => T) {
   return useQuery<Todo[], Error, T>(["todos"], fetchTodos, {
     staleTime: Infinity,
     select,
-    notifyOnChangeProps: ["data"],
+    notifyOnChangeProps: "tracked",
   });
 }
 
