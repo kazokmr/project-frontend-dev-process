@@ -2,7 +2,9 @@ import { Todo } from "../model/todo/Todo";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { TodoColor } from "../model/filter/TodoColors";
-import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
+import { TODO_STATUS } from "../model/filter/TodoStatus";
+import { useRecoilValue } from "recoil";
+import { colorsFilterState, statusFilterState } from "../TodoApp";
 
 const fetchTodos = async () => {
   try {
@@ -34,14 +36,10 @@ export function useQueryTodo<T>(select?: (data: Todo[]) => T) {
   });
 }
 
-export const useFilteredTodos = ({
-  status,
-  colors,
-}: {
-  status: TodoStatus;
-  colors: TodoColor[];
-}) =>
-  useQueryTodo<Todo[]>((todos: Todo[]) =>
+export const useFilteredTodos = () => {
+  const status = useRecoilValue(statusFilterState);
+  const colors = useRecoilValue(colorsFilterState);
+  return useQueryTodo<Todo[]>((todos: Todo[]) =>
     todos
       .filter(
         (todo: Todo) =>
@@ -53,25 +51,12 @@ export const useFilteredTodos = ({
         (todo: Todo) => colors.length === 0 || colors.includes(todo.color)
       )
   );
+};
 
 export const useRemainingTodos = () =>
   useQueryTodo<number>((todos: Todo[]) =>
     todos ? todos.filter((todo: Todo) => !todo.isCompleted).length : 0
   );
-
-export const useQueryStatus = () =>
-  useQuery<TodoStatus, Error>(["status"], {
-    enabled: false,
-    staleTime: Infinity,
-    initialData: TODO_STATUS.ALL,
-  }).data ?? TODO_STATUS.ALL;
-
-export const useQueryColors = () =>
-  useQuery<TodoColor[], Error>(["colors"], {
-    enabled: false,
-    staleTime: Infinity,
-    initialData: [],
-  }).data ?? [];
 
 export const useMutationTodoAdded = () => {
   const queryClient = useQueryClient();
