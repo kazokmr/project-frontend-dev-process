@@ -8,10 +8,10 @@ const ColorFilter = (): JSX.Element => {
   const queryClient = useQueryClient();
   const setColors = (color: TodoColor, isChecked: boolean) => {
     if (isChecked && !curColors.includes(color)) {
-      queryClient.setQueryData<TodoColor[]>("colors", [...curColors, color]);
+      queryClient.setQueryData<TodoColor[]>(["colors"], [...curColors, color]);
     } else if (!isChecked && curColors.includes(color)) {
       queryClient.setQueryData<TodoColor[]>(
-        "colors",
+        ["colors"],
         curColors.filter((curColor: TodoColor) => curColor !== color)
       );
     }

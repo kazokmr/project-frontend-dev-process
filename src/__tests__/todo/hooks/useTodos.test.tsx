@@ -83,14 +83,14 @@ const wrapper = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
-describe("React QueryによるServerState管理", () => {
-  beforeEach(() => {
-    // テストごとにQueryClientのキャッシュをクリアする
-    queryClient.clear();
-    // Todoデータをリセットする
-    setMockedTodo(testTodos);
-  });
+beforeEach(() => {
+  // テストごとにQueryClientのキャッシュをクリアする
+  queryClient.clear();
+  // Todoデータをリセットする
+  setMockedTodo(testTodos);
+});
 
+describe("React QueryによるServerState管理", () => {
   describe("useTodoQueryのテスト", () => {
     test("バックエンドAPIを使いTodoリストが取得できること", async () => {
       // When: 全てのTodoを検索する
@@ -102,7 +102,7 @@ describe("React QueryによるServerState管理", () => {
 
       // Then: todoが取得できること
       expect(result.current.data).toHaveLength(7);
-      expect(result.current.data).toEqual(testTodos);
+      expect(result.current.data).toStrictEqual(testTodos);
     });
   });
 
