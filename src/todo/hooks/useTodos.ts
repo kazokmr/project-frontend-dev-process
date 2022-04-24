@@ -88,7 +88,7 @@ export const useMutationTodoAdded = () => {
       onError: (err, variables, context) => {
         queryClient.setQueryData(["todos"], context?.oldTodos);
       },
-      onSettled: () => queryClient.invalidateQueries("todos"),
+      onSettled: () => queryClient.invalidateQueries(["todos"]),
     }
   );
 };
@@ -110,7 +110,7 @@ export const useMutationTodoCompleted = () => {
       onError: (err, variables, context) => {
         queryClient.setQueryData(["todos"], context?.oldTodos);
       },
-      onSettled: () => queryClient.invalidateQueries("todos"),
+      onSettled: () => queryClient.invalidateQueries(["todos"]),
     }
   );
 };
@@ -133,7 +133,7 @@ export const useMutationTodoChangedColor = () => {
       onError: (err, variables, context) => {
         queryClient.setQueryData(["todos"], context?.oldTodos);
       },
-      onSettled: () => queryClient.invalidateQueries("todos"),
+      onSettled: () => queryClient.invalidateQueries(["todos"]),
     }
   );
 };
@@ -141,7 +141,7 @@ export const useMutationTodoChangedColor = () => {
 export const useMutationTodoDeleted = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    "todoDeleted",
+    ["todoDeleted"],
     ({ id }: { id: string }) => axios.delete(`/todo/${id}`),
     {
       // Mutateが呼ばれたタイミングでClient Cacheを更新する
@@ -161,7 +161,7 @@ export const useMutationTodoDeleted = () => {
         queryClient.setQueryData(["todos"], context?.oldTodos);
       },
       // onSettledで、Success時もError時も最後にreFetchしてサーバーの最新情報に更新する
-      onSettled: () => queryClient.invalidateQueries("todos"),
+      onSettled: () => queryClient.invalidateQueries(["todos"]),
     }
   );
 };
@@ -182,7 +182,7 @@ export const useMutationCompleteAllTodos = () => {
     onError: (error, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries("todos"),
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
 
@@ -199,6 +199,6 @@ export const useMutationDeleteCompletedTodos = () => {
     onError: (error, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries("todos"),
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
