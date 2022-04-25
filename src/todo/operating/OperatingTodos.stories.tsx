@@ -3,6 +3,7 @@ import OperatingTodos from "./OperatingTodos";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
 
 export default {
   component: OperatingTodos,
@@ -11,9 +12,11 @@ export default {
 export const Default: ComponentStoryObj<typeof OperatingTodos> = {
   decorators: [
     (story) => (
-      <QueryClientProvider client={new QueryClient()}>
-        {story()}
-      </QueryClientProvider>
+      <RecoilRoot>
+        <QueryClientProvider client={new QueryClient()}>
+          {story()}
+        </QueryClientProvider>
+      </RecoilRoot>
     ),
   ],
   args: {

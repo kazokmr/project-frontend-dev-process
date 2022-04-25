@@ -13,6 +13,7 @@ import { createMockedTodos, setMockedTodo } from "../../../mocks/handlers";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
 
 export class TodoListPage {
   private readonly user: UserEvent;
@@ -29,9 +30,11 @@ export class TodoListPage {
       },
     });
     render(
-      <QueryClientProvider client={queryClient}>
-        <TodoApp />
-      </QueryClientProvider>
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <TodoApp />
+        </QueryClientProvider>
+      </RecoilRoot>
     );
     this.user = userEvent.setup();
     this.refTodos = todos;

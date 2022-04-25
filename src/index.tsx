@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { createRoot } from "react-dom/client";
+import { RecoilRoot } from "recoil";
 
 const prepare = () => {
   if (process.env.NODE_ENV === "development") {
@@ -21,10 +22,12 @@ prepare().then(() => {
   const root = createRoot(container!);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </RecoilRoot>
     </StrictMode>
   );
 });

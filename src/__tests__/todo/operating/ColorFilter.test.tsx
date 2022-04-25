@@ -1,30 +1,38 @@
+import { ReactNode } from "react";
 import ColorFilter from "../../../todo/operating/ColorFilter";
-import { render, screen } from "@testing-library/react";
 import { TODO_COLOR, TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
-import userEvent from "@testing-library/user-event";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MutableSnapshot, RecoilRoot } from "recoil";
+import { colorsFilterState } from "../../../todo/TodoApp";
 
-// QueryClientインスタンスは、retry:無効、staleTime:Infinity にしてセットしたテストデータキャッシュを更新しないようにする
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      staleTime: Infinity,
-    },
-  },
-});
+// Recoilの初期Stateを渡す関数
+const stateInitializer =
+  (initialColors: TodoColor[]) =>
+  ({ set }: MutableSnapshot) =>
+    set<TodoColor[]>(colorsFilterState, initialColors);
 
-// queryClientのキャッシュをクリアしてからテストする
-beforeEach(() => queryClient.clear());
+// テストコンポーネントに状態管理をセットするWrapper
+const ProviderWrapper = ({
+  children,
+  initialColors = [],
+}: {
+  children: ReactNode;
+  initialColors?: TodoColor[];
+}) => (
+  <RecoilRoot initializeState={stateInitializer(initialColors)}>
+    {children}
+  </RecoilRoot>
+);
 
 describe("カラーフィルターの初期値", () => {
   test("Noneを除く全ての色が表示され選択できること", () => {
     // Given: コンポーネントをレンダリングする
     render(
-      <QueryClientProvider client={queryClient}>
+      <ProviderWrapper>
         <ColorFilter />
-      </QueryClientProvider>
+      </ProviderWrapper>
     );
 
     // When: フィルタ要素のname配列を取得する
@@ -41,11 +49,10 @@ describe("カラーフィルターの初期値", () => {
   });
 
   test("Noneを除く全てが未選択であること", () => {
-    queryClient.setQueryData<TodoColor[]>(["colors"], []);
     render(
-      <QueryClientProvider client={queryClient}>
+      <ProviderWrapper>
         <ColorFilter />
-      </QueryClientProvider>
+      </ProviderWrapper>
     );
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
       TodoColors.length - 1
@@ -54,11 +61,12 @@ describe("カラーフィルターの初期値", () => {
 
   test("Stateにセットされている色が初期選択されること", () => {
     const colors: TodoColor[] = [TODO_COLOR.Green, TODO_COLOR.Purple];
-    queryClient.setQueryData<TodoColor[]>(["colors"], colors);
+    // const initializeState = ({ set }: MutableSnapshot) =>
+    //   set(colorsFilterState, colors);
     render(
-      <QueryClientProvider client={queryClient}>
+      <ProviderWrapper initialColors={colors}>
         <ColorFilter />
-      </QueryClientProvider>
+      </ProviderWrapper>
     );
 
     expect(
@@ -75,9 +83,9 @@ describe("カラーフィルターの初期値", () => {
 
   test("Stateが未設定ならNoneを除く全てが未選択であること", () => {
     render(
-      <QueryClientProvider client={queryClient}>
+      <ProviderWrapper>
         <ColorFilter />
-      </QueryClientProvider>
+      </ProviderWrapper>
     );
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
       TodoColors.length - 1
@@ -109,11 +117,10 @@ describe("checkboxの状態管理のテスト", () => {
     }) => {
       // Given: ColorFilterの初期状態を設定する
       const colors: TodoColor[] = isSelected ? [checkColor] : [];
-      queryClient.setQueryData<TodoColor[]>(["colors"], colors);
       render(
-        <QueryClientProvider client={queryClient}>
+        <ProviderWrapper initialColors={colors}>
           <ColorFilter />
-        </QueryClientProvider>
+        </ProviderWrapper>
       );
 
       // When: Colorチェックボックスを選択する
@@ -125,8 +132,11 @@ describe("checkboxの状態管理のテスト", () => {
 
       // Then: 選択済みだったら未選択、未選択だったら選択済みとなること
       expect(
-        queryClient.getQueryData<TodoColor[]>(["colors"])?.includes(checkColor)
-      ).not.toBe(isSelected);
+        await screen.findByRole("checkbox", {
+          name: capitalize(checkColor),
+          checked: !isSelected,
+        })
+      ).toBeInTheDocument();
     }
   );
 });

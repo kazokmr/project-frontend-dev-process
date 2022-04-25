@@ -4,6 +4,7 @@ import TodoItem from "./TodoItem";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { within } from "@storybook/testing-library";
 import { expect } from "@storybook/jest";
+import { RecoilRoot } from "recoil";
 
 export default {
   component: TodoList,
@@ -24,9 +25,11 @@ export default {
         },
       });
       return (
-        <QueryClientProvider client={queryClient}>
-          {story()}
-        </QueryClientProvider>
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
+            {story()}
+          </QueryClientProvider>
+        </RecoilRoot>
       );
     },
   ],

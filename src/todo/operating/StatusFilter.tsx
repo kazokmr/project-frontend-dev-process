@@ -1,14 +1,10 @@
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 import { capitalize } from "../model/filter/StringCapitalization";
-import { useQueryClient } from "react-query";
-import { useQueryStatus } from "../hooks/useTodos";
+import { useRecoilState } from "recoil";
+import { statusFilterState } from "../TodoApp";
 
 const StatusFilter = (): JSX.Element => {
-  const curStatus = useQueryStatus();
-  const queryClient = useQueryClient();
-  const setStatus = (status: TodoStatus) => {
-    queryClient.setQueryData<TodoStatus>(["status"], status);
-  };
+  const [status, setStatus] = useRecoilState<TodoStatus>(statusFilterState);
 
   return (
     <div>
@@ -17,7 +13,7 @@ const StatusFilter = (): JSX.Element => {
         <li>
           <button
             type="button"
-            aria-pressed={curStatus === TODO_STATUS.ALL}
+            aria-pressed={status === TODO_STATUS.ALL}
             onClick={() => setStatus(TODO_STATUS.ALL)}
           >
             All
@@ -26,7 +22,7 @@ const StatusFilter = (): JSX.Element => {
         <li>
           <button
             type="button"
-            aria-pressed={curStatus === TODO_STATUS.ACTIVE}
+            aria-pressed={status === TODO_STATUS.ACTIVE}
             onClick={() => setStatus(TODO_STATUS.ACTIVE)}
           >
             {capitalize(TODO_STATUS.ACTIVE)}
@@ -35,7 +31,7 @@ const StatusFilter = (): JSX.Element => {
         <li>
           <button
             type="button"
-            aria-pressed={curStatus === TODO_STATUS.COMPLETED}
+            aria-pressed={status === TODO_STATUS.COMPLETED}
             onClick={() => setStatus(TODO_STATUS.COMPLETED)}
           >
             {capitalize(TODO_STATUS.COMPLETED)}
