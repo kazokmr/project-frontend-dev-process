@@ -13,6 +13,7 @@ import {
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
 import { setMockedTodo } from "../../../mocks/handlers";
+import { RecoilRoot } from "recoil";
 
 // Testデータ
 let testTodos: Todo[] = [
@@ -80,7 +81,9 @@ setLogger({
 
 // テスト対象のカスタムHookでQueryClientを利用するためのカスタムWrapper
 const wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  <RecoilRoot>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  </RecoilRoot>
 );
 
 beforeEach(() => {

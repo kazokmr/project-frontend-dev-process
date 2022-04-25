@@ -3,20 +3,13 @@ import StatusFilter from "../../../todo/operating/StatusFilter";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import userEvent from "@testing-library/user-event";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { MutableSnapshot, RecoilRoot } from "recoil";
+import { statusFilterState } from "../../../todo/TodoApp";
 
-// QueryClientインスタンスは、retry:無効、staleTime:Infinity にしてセットしたテストデータキャッシュを更新しないようにする
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      staleTime: Infinity,
-    },
-  },
-});
-
-// QueryClientのキャッシュをクリアしてからテストする
-beforeEach(() => queryClient);
+const stateInitializer =
+  (initialState: TodoStatus = TODO_STATUS.ALL) =>
+  ({ set }: MutableSnapshot) =>
+    set<TodoStatus>(statusFilterState, initialState);
 
 describe("ボタンの初期状態をテストする", () => {
   test.each`
@@ -38,12 +31,11 @@ describe("ボタンの初期状態をテストする", () => {
       isActive: boolean;
       isCompleted: boolean;
     }) => {
-      // Given: QueryClientインスタンスに初期値をセットしてコンポーネントを出力する
-      queryClient.setQueryData(["status"], status);
+      // Given: Statusに初期状態を渡す
       render(
-        <QueryClientProvider client={queryClient}>
+        <RecoilRoot initializeState={stateInitializer(status)}>
           <StatusFilter />
-        </QueryClientProvider>
+        </RecoilRoot>
       );
 
       // When: Buttonを検索する
@@ -83,26 +75,22 @@ describe("ボタンを押した時の動作を確認する", () => {
       filterName: string;
       status: TodoStatus;
     }) => {
-      // Given: QueryClientインスタンスに初期値をセットしてコンポーネントを出力する
-      queryClient.setQueryData(["status"], status);
+      // Given: Statusに初期状態を渡す
       render(
-        <QueryClientProvider client={queryClient}>
+        <RecoilRoot initializeState={stateInitializer(status)}>
           <StatusFilter />
-        </QueryClientProvider>
+        </RecoilRoot>
       );
 
       // When: ボタンを押す
       const filter = screen.getByRole("button", { name: filterName });
       const user = userEvent.setup();
       await user.click(filter);
-      const button = screen.getByRole("button", {
-        name: filterName,
-        pressed: true,
-      });
 
       // Then: ボタンが押され、ステータスがセットされること
-      expect(button).toBeInTheDocument();
-      expect(queryClient.getQueryData(["status"])).toBe(status);
+      expect(
+        await screen.findByRole("button", { name: filterName, pressed: true })
+      ).toBeInTheDocument();
     }
   );
 });
