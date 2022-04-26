@@ -2,27 +2,34 @@ import {
   useMutationCompleteAllTodos,
   useMutationDeleteCompletedTodos,
 } from "../hooks/useTodos";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
 const ActionsForTodos = (): JSX.Element => {
   const completeAllTodos = useMutationCompleteAllTodos();
   const deleteCompletedTodos = useMutationDeleteCompletedTodos();
 
   return (
-    <div>
-      <h5>Actions</h5>
-      <ul>
-        <li>
-          <button type="button" onClick={() => completeAllTodos.mutate()}>
+    <Box>
+      <Container>
+        <Typography variant={"h5"} component={"h5"} align={"center"}>
+          Actions
+        </Typography>
+        <Stack spacing={2}>
+          <Button
+            variant={"contained"}
+            onClick={() => completeAllTodos.mutate()}
+          >
             Mark All Completed
-          </button>
-        </li>
-        <li>
-          <button type="button" onClick={() => deleteCompletedTodos.mutate()}>
+          </Button>
+          <Button
+            variant={"contained"}
+            onClick={() => deleteCompletedTodos.mutate()}
+          >
             Clear Completed
-          </button>
-        </li>
-      </ul>
-    </div>
+          </Button>
+        </Stack>
+      </Container>
+    </Box>
   );
 };
 
