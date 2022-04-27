@@ -15,8 +15,9 @@ const fetchTodos = async () => {
     if (axios.isAxiosError(err)) {
       // レスポンスが返ってきた場合
       if (err.response) {
+        const { errorMessage } = err.response.data as { errorMessage: string };
         throw new Error(
-          `HTTPステータス: ${err.response.status}: ${err.response.data.errorMessage}`
+          `HTTPステータス: ${err.response.status}: ${errorMessage}`
         );
       } else {
         throw new Error(`サーバーエラー: ${err.message}`);
