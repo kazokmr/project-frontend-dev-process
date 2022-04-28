@@ -1,44 +1,53 @@
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
-import { capitalize } from "../model/filter/StringCapitalization";
 import { useRecoilState } from "recoil";
 import { statusFilterState } from "../TodoApp";
+import { Box, Button, ButtonGroup, Container, Typography } from "@mui/material";
 
 const StatusFilter = (): JSX.Element => {
   const [status, setStatus] = useRecoilState<TodoStatus>(statusFilterState);
 
   return (
-    <div>
-      <h5>Filter by Status</h5>
-      <ul>
-        <li>
-          <button
-            type="button"
+    <Box>
+      <Container maxWidth={"md"}>
+        <Typography variant={"subtitle1"}>Filter by Status</Typography>
+        <ButtonGroup
+          variant={"contained"}
+          orientation={"vertical"}
+          color={"secondary"}
+        >
+          <Button
+            sx={{
+              typography: "button",
+              textTransform: "capitalize",
+            }}
             aria-pressed={status === TODO_STATUS.ALL}
             onClick={() => setStatus(TODO_STATUS.ALL)}
           >
-            All
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
+            {TODO_STATUS.ALL}
+          </Button>
+          <Button
+            sx={{
+              typography: "button",
+              textTransform: "capitalize",
+            }}
             aria-pressed={status === TODO_STATUS.ACTIVE}
             onClick={() => setStatus(TODO_STATUS.ACTIVE)}
           >
-            {capitalize(TODO_STATUS.ACTIVE)}
-          </button>
-        </li>
-        <li>
-          <button
-            type="button"
+            {TODO_STATUS.ACTIVE}
+          </Button>
+          <Button
+            sx={{
+              typography: "button",
+              textTransform: "capitalize",
+            }}
             aria-pressed={status === TODO_STATUS.COMPLETED}
             onClick={() => setStatus(TODO_STATUS.COMPLETED)}
           >
-            {capitalize(TODO_STATUS.COMPLETED)}
-          </button>
-        </li>
-      </ul>
-    </div>
+            {TODO_STATUS.COMPLETED}
+          </Button>
+        </ButtonGroup>
+      </Container>
+    </Box>
   );
 };
 

@@ -28,7 +28,7 @@ describe("Todoアプリ画面の初期レンダリング", () => {
       "Filter by Status",
       "Filter by Color",
     ];
-    (await screen.findAllByRole("heading", { level: 5 })).forEach(
+    (await screen.findAllByRole("heading", { level: 6 })).forEach(
       (value, index) => {
         expect(value.textContent).toBe(operationTitles[index]);
       }
