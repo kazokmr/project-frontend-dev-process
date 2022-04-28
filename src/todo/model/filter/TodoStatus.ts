@@ -1,5 +1,5 @@
 export const TODO_STATUS = {
-  ALL: "All",
+  ALL: "all",
   ACTIVE: "active",
   COMPLETED: "completed",
 } as const;

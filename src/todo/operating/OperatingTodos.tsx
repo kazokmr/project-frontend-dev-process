@@ -2,15 +2,16 @@ import ActionsForTodos from "./ActionsForTodos";
 import RemainingTodos from "./RemainingTodos";
 import StatusFilter from "./StatusFilter";
 import ColorFilter from "./ColorFilter";
+import { Box } from "@mui/material";
 
 const OperatingTodos = (): JSX.Element => {
   return (
-    <div className="todo-footer">
+    <Box className="todo-footer">
       <ActionsForTodos />
       <RemainingTodos />
       <StatusFilter />
       <ColorFilter />
-    </div>
+    </Box>
   );
 };
 

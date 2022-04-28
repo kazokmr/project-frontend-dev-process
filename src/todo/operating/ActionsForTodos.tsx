@@ -10,19 +10,25 @@ const ActionsForTodos = (): JSX.Element => {
 
   return (
     <Box>
-      <Container>
-        <Typography variant={"h5"} component={"h5"} align={"center"}>
-          Actions
-        </Typography>
+      <Container maxWidth={"md"}>
+        <Typography variant={"subtitle1"}>Actions</Typography>
         <Stack spacing={2}>
           <Button
             variant={"contained"}
+            sx={{
+              typography: "button",
+              textTransform: "capitalize",
+            }}
             onClick={() => completeAllTodos.mutate()}
           >
             Mark All Completed
           </Button>
           <Button
             variant={"contained"}
+            sx={{
+              typography: "button",
+              textTransform: "capitalize",
+            }}
             onClick={() => deleteCompletedTodos.mutate()}
           >
             Clear Completed

@@ -11,7 +11,6 @@ import { TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { createMockedTodos, setMockedTodo } from "../../../mocks/handlers";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 
@@ -267,9 +266,7 @@ export class TodoListPage {
   private getColorFilter = async (
     color: TodoColor
   ): Promise<HTMLInputElement> => {
-    return await screen.findByRole("checkbox", {
-      name: capitalize(color),
-    });
+    return await screen.findByRole("checkbox", { name: color });
   };
 
   /// 今回の操作で選択状態となるColorフィルターをセットする

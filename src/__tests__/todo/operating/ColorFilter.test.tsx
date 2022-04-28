@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import ColorFilter from "../../../todo/operating/ColorFilter";
 import { TODO_COLOR, TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
-import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
@@ -124,16 +123,14 @@ describe("checkboxの状態管理のテスト", () => {
       );
 
       // When: Colorチェックボックスを選択する
-      const checkbox = screen.getByRole("checkbox", {
-        name: capitalize(checkColor),
-      });
+      const checkbox = screen.getByRole("checkbox", { name: checkColor });
       const user = userEvent.setup();
       await user.click(checkbox);
 
       // Then: 選択済みだったら未選択、未選択だったら選択済みとなること
       expect(
         await screen.findByRole("checkbox", {
-          name: capitalize(checkColor),
+          name: checkColor,
           checked: !isSelected,
         })
       ).toBeInTheDocument();

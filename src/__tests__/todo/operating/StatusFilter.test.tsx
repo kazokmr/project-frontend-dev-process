@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import StatusFilter from "../../../todo/operating/StatusFilter";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import { capitalize } from "../../../todo/model/filter/StringCapitalization";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
 import { statusFilterState } from "../../../todo/TodoApp";
@@ -40,15 +39,15 @@ describe("ボタンの初期状態をテストする", () => {
 
       // When: Buttonを検索する
       const buttonAll = screen.getByRole("button", {
-        name: capitalize(TODO_STATUS.ALL),
+        name: TODO_STATUS.ALL,
         pressed: isAll,
       });
       const buttonActive = screen.getByRole("button", {
-        name: capitalize(TODO_STATUS.ACTIVE),
+        name: TODO_STATUS.ACTIVE,
         pressed: isActive,
       });
       const buttonCompleted = screen.getByRole("button", {
-        name: capitalize(TODO_STATUS.COMPLETED),
+        name: TODO_STATUS.COMPLETED,
         pressed: isCompleted,
       });
 
@@ -62,10 +61,10 @@ describe("ボタンの初期状態をテストする", () => {
 
 describe("ボタンを押した時の動作を確認する", () => {
   test.each`
-    filterName                           | status
-    ${capitalize(TODO_STATUS.ALL)}       | ${TODO_STATUS.ALL}
-    ${capitalize(TODO_STATUS.ACTIVE)}    | ${TODO_STATUS.ACTIVE}
-    ${capitalize(TODO_STATUS.COMPLETED)} | ${TODO_STATUS.COMPLETED}
+    filterName               | status
+    ${TODO_STATUS.ALL}       | ${TODO_STATUS.ALL}
+    ${TODO_STATUS.ACTIVE}    | ${TODO_STATUS.ACTIVE}
+    ${TODO_STATUS.COMPLETED} | ${TODO_STATUS.COMPLETED}
   `(
     "$filterNameボタンを押したら Statusの状態が $statusとなること",
     async ({
