@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 
 const OperatingTodos = (): JSX.Element => {
   return (
-    <Grid container spacing={4}>
+    <Grid container>
       <Grid item xs={6} sm={3}>
         <ActionsForTodos />
       </Grid>

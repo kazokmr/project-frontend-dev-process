@@ -9,7 +9,7 @@ const ActionsForTodos = (): JSX.Element => {
   const deleteCompletedTodos = useMutationDeleteCompletedTodos();
 
   return (
-    <Container>
+    <Container maxWidth={"md"}>
       <Typography variant={"subtitle1"} gutterBottom={true}>
         Actions
       </Typography>

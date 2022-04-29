@@ -7,7 +7,7 @@ const StatusFilter = (): JSX.Element => {
   const [status, setStatus] = useRecoilState<TodoStatus>(statusFilterState);
 
   return (
-    <Container>
+    <Container maxWidth={"md"}>
       <Typography variant={"subtitle1"} gutterBottom={true}>
         Filter by Status
       </Typography>

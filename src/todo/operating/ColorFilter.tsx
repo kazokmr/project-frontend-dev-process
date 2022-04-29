@@ -21,7 +21,7 @@ const ColorFilter = (): JSX.Element => {
   };
 
   return (
-    <Container>
+    <Container maxWidth={"md"}>
       <Typography variant={"subtitle1"} gutterBottom={true}>
         Filter by Color
       </Typography>
