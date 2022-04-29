@@ -1,4 +1,3 @@
-import "./TodoApp.css";
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
@@ -6,6 +5,7 @@ import { useQueryTodo } from "./hooks/useTodos";
 import { atom } from "recoil";
 import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
 import { TodoColor } from "./model/filter/TodoColors";
+import { Container } from "@mui/material";
 
 export const statusFilterState = atom<TodoStatus>({
   key: "status",
@@ -28,11 +28,15 @@ const TodoApp = (): JSX.Element => {
   }
 
   return (
-    <div className="todo-container">
-      <NewTodo />
-      <TodoList />
-      <OperatingTodos />
-    </div>
+    <>
+      <Container component={"main"}>
+        <NewTodo />
+        <TodoList />
+      </Container>
+      <Container component={"footer"} sx={{ mt: "8" }}>
+        <OperatingTodos />
+      </Container>
+    </>
   );
 };
 

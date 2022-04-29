@@ -2,7 +2,6 @@ import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { useRecoilState } from "recoil";
 import { colorsFilterState } from "../TodoApp";
 import {
-  Box,
   Checkbox,
   Container,
   FormControlLabel,
@@ -22,36 +21,36 @@ const ColorFilter = (): JSX.Element => {
   };
 
   return (
-    <Box>
-      <Container>
-        <Typography variant={"subtitle1"}>Filter by Color</Typography>
-        <List dense={true}>
-          {TodoColors.filter((color) => color !== TODO_COLOR.None).map(
-            (color) => (
-              <ListItem key={color} disablePadding={true}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      sx={{
-                        color: color,
-                        "&.Mui-checked": { color: color },
-                      }}
-                      name={color}
-                      checked={colors ? colors.includes(color) : false}
-                      onChange={(event) =>
-                        updateColors(color, event.target.checked)
-                      }
-                    />
-                  }
-                  label={color}
-                  sx={{ textTransform: "capitalize", color }}
-                />
-              </ListItem>
-            )
-          )}
-        </List>
-      </Container>
-    </Box>
+    <Container>
+      <Typography variant={"subtitle1"} gutterBottom={true}>
+        Filter by Color
+      </Typography>
+      <List dense={true}>
+        {TodoColors.filter((color) => color !== TODO_COLOR.None).map(
+          (color) => (
+            <ListItem key={color} disablePadding={true}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    sx={{
+                      color: color,
+                      "&.Mui-checked": { color: color },
+                    }}
+                    name={color}
+                    checked={colors ? colors.includes(color) : false}
+                    onChange={(event) =>
+                      updateColors(color, event.target.checked)
+                    }
+                  />
+                }
+                label={color}
+                sx={{ textTransform: "capitalize", color }}
+              />
+            </ListItem>
+          )
+        )}
+      </List>
+    </Container>
   );
 };
 

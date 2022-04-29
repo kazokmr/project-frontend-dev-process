@@ -1,12 +1,7 @@
-import "./App.css";
 import TodoApp from "./todo/TodoApp";
 
 const App = (): JSX.Element => {
-  return (
-    <main className="App">
-      <TodoApp />
-    </main>
-  );
+  return <TodoApp />;
 };
 
 export default App;
