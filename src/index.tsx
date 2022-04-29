@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { createRoot } from "react-dom/client";
 import { RecoilRoot } from "recoil";
+import { CssBaseline } from "@mui/material";
 
 const prepare = () => {
   if (process.env.NODE_ENV === "development") {
@@ -24,6 +25,7 @@ prepare().then(() => {
     <StrictMode>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
+          <CssBaseline />
           <App />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

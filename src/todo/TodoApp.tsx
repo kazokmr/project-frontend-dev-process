@@ -29,11 +29,11 @@ const TodoApp = (): JSX.Element => {
 
   return (
     <>
-      <Container component={"main"}>
+      <Container maxWidth={"md"} component={"main"}>
         <NewTodo />
         <TodoList />
       </Container>
-      <Container component={"footer"} sx={{ mt: "8" }}>
+      <Container maxWidth={"md"} component={"footer"} sx={{ mt: 6 }}>
         <OperatingTodos />
       </Container>
     </>

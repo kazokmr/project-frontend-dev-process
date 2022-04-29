@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMutationTodoAdded } from "../hooks/useTodos";
+import { TextField } from "@mui/material";
 
 const NewTodo = (): JSX.Element => {
   const [textValue, setTextValue] = useState("");
@@ -18,10 +19,13 @@ const NewTodo = (): JSX.Element => {
   };
 
   return (
-    <input
-      type="text"
-      aria-label={"input-todo"}
-      placeholder={"やることを入力してください"}
+    <TextField
+      variant={"filled"}
+      inputProps={{ "aria-label": "input-todo" }}
+      fullWidth={true}
+      margin={"dense"}
+      placeholder={"やること"}
+      helperText={"やることを入力してEnterを押してください"}
       value={textValue}
       onChange={handleOnChange}
       onKeyDown={handleOnKeyDown}

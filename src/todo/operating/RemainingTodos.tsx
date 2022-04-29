@@ -5,7 +5,7 @@ const RemainingTodos = (): JSX.Element => {
   const numOfTodo = useRemainingTodos().data ?? 0;
 
   return (
-    <Container>
+    <Container maxWidth={"md"}>
       <Typography variant={"subtitle1"} gutterBottom={true}>
         Remaining Todos
       </Typography>

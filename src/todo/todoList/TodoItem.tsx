@@ -1,11 +1,20 @@
 import { TodoColor, TodoColors } from "../model/filter/TodoColors";
-import { capitalize } from "../model/filter/StringCapitalization";
 import { Todo } from "../model/todo/Todo";
 import {
   useMutationTodoChangedColor,
   useMutationTodoCompleted,
   useMutationTodoDeleted,
 } from "../hooks/useTodos";
+import {
+  capitalize,
+  Checkbox,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  NativeSelect,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { ChangeEvent } from "react";
 
 interface TodoItemProps {
@@ -24,40 +33,42 @@ const TodoItem = ({ todo }: TodoItemProps): JSX.Element => {
   ));
 
   return (
-    <li key={todo.id}>
-      <span>
-        <input
-          type="checkbox"
-          aria-label={"todo-isCompleted"}
+    <ListItem
+      key={todo.id}
+      secondaryAction={
+        <IconButton
+          edge={"end"}
+          aria-label={"delete-todo"}
+          onClick={() => mutateTodoDeleted.mutate({ id: todo.id })}
+        >
+          <DeleteIcon />
+        </IconButton>
+      }
+    >
+      <ListItemIcon>
+        <Checkbox
+          edge={"start"}
+          inputProps={{ "aria-label": "todo-isCompleted" }}
           checked={todo.isCompleted}
           onChange={() => mutateTodoCompleted.mutate({ id: todo.id })}
         />
-      </span>
-      <span data-testid={"content-todo"}>{todo.text}</span>
-      <span>
-        <select
-          aria-label={"select-todo-color"}
-          value={todo.color}
-          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-            mutateTodoChangedColor.mutate({
-              id: todo.id,
-              color: event.target.value as TodoColor,
-            })
-          }
-        >
-          {optionalColors}
-        </select>
-      </span>
-      <span>
-        <button
-          aria-label={"delete-todo"}
-          type={"button"}
-          onClick={() => mutateTodoDeleted.mutate({ id: todo.id })}
-        >
-          X
-        </button>
-      </span>
-    </li>
+      </ListItemIcon>
+      <ListItemText primary={todo.text} data-testid={"content-todo"} />
+      <NativeSelect
+        variant={"standard"}
+        inputProps={{ "aria-label": "select-todo-color" }}
+        value={todo.color}
+        onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+          mutateTodoChangedColor.mutate({
+            id: todo.id,
+            color: event.target.value as TodoColor,
+          })
+        }
+        sx={{ color: todo.color, width: 100 }}
+      >
+        {optionalColors}
+      </NativeSelect>
+    </ListItem>
   );
 };
 
