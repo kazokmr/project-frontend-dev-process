@@ -138,7 +138,7 @@ describe("React QueryによるServerState管理", () => {
       expect(todosAfterAdded[7].color).toBe(TODO_COLOR.None);
 
       // 登録したtextが、TodoオブジェクトでresultMutationに返される
-      const after: Todo = resultMutation.current.data?.data;
+      const after: Todo = resultMutation.current.data as Todo;
       expect(after.text).toBe(text);
       expect(after.isCompleted).toBeFalsy();
       expect(after.color).toBe(TODO_COLOR.None);
