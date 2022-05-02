@@ -10,7 +10,7 @@ const stateInitializer =
   ({ set }: MutableSnapshot) =>
     set<TodoStatus>(statusFilterState, initialState);
 
-describe("ボタンの初期状態をテストする", () => {
+describe("Radioボタンの初期状態をテストする", () => {
   test.each`
     status                   | isAll    | isActive | isCompleted
     ${TODO_STATUS.ALL}       | ${true}  | ${false} | ${false}
@@ -38,17 +38,17 @@ describe("ボタンの初期状態をテストする", () => {
       );
 
       // When: Buttonを検索する
-      const buttonAll = screen.getByRole("button", {
+      const buttonAll = screen.getByRole("radio", {
         name: TODO_STATUS.ALL,
-        pressed: isAll,
+        checked: isAll,
       });
-      const buttonActive = screen.getByRole("button", {
+      const buttonActive = screen.getByRole("radio", {
         name: TODO_STATUS.ACTIVE,
-        pressed: isActive,
+        checked: isActive,
       });
-      const buttonCompleted = screen.getByRole("button", {
+      const buttonCompleted = screen.getByRole("radio", {
         name: TODO_STATUS.COMPLETED,
-        pressed: isCompleted,
+        checked: isCompleted,
       });
 
       // Then: 設定されたStatusでボタンのPress状態が設定されていること
@@ -82,13 +82,13 @@ describe("ボタンを押した時の動作を確認する", () => {
       );
 
       // When: ボタンを押す
-      const filter = screen.getByRole("button", { name: filterName });
+      const filter = screen.getByRole("radio", { name: filterName });
       const user = userEvent.setup();
       await user.click(filter);
 
       // Then: ボタンが押され、ステータスがセットされること
       expect(
-        await screen.findByRole("button", { name: filterName, pressed: true })
+        await screen.findByRole("radio", { name: filterName, checked: true })
       ).toBeInTheDocument();
     }
   );

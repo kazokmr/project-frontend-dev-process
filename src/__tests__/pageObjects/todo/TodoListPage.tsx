@@ -131,9 +131,9 @@ export class TodoListPage {
 
     // ボタンが押された状態になるまで待つ
     expect(
-      await screen.findByRole("button", {
+      await screen.findByRole("radio", {
         name: new RegExp("^" + status + "$", "i"),
-        pressed: true,
+        checked: true,
       })
     ).toBeInTheDocument();
     // TodoListの表示数が期待通りになるのを待つ
@@ -212,7 +212,7 @@ export class TodoListPage {
 
   isSelectedStatus = async (status: TodoStatus): Promise<boolean> => {
     const element = await this.getStatusFilter(status);
-    return element.attributes.getNamedItem("aria-pressed")?.value === "true";
+    return element.checked;
   };
 
   private getCompletedOfTodoByIndex = async (
@@ -257,8 +257,8 @@ export class TodoListPage {
 
   private getStatusFilter = async (
     todoStatus: TodoStatus
-  ): Promise<HTMLButtonElement> => {
-    return await screen.findByRole("button", {
+  ): Promise<HTMLInputElement> => {
+    return await screen.findByRole("radio", {
       name: new RegExp("^" + todoStatus + "$", "i"),
     });
   };
