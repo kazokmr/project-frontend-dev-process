@@ -1,4 +1,4 @@
-import { DefaultRequestBody, PathParams, rest } from "msw";
+import { DefaultBodyType, PathParams, rest } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
 import {
   TODO_COLOR,
@@ -7,12 +7,9 @@ import {
 } from "../todo/model/filter/TodoColors";
 
 export const handlers = [
-  rest.get<DefaultRequestBody, PathParams, Todo[]>(
-    "/todos",
-    (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos));
-    }
-  ),
+  rest.get<DefaultBodyType, PathParams, Todo[]>("/todos", (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos));
+  }),
   rest.post<{ text: string }, PathParams, Todo>("/todo", (req, res, ctx) => {
     const todo = new Todo(req.body.text);
     mockedTodos = [...mockedTodos, todo];
@@ -40,7 +37,7 @@ export const handlers = [
       return res(ctx.delay(300), ctx.status(200));
     }
   ),
-  rest.delete<{ id: string }, PathParams, DefaultRequestBody>(
+  rest.delete<{ id: string }, PathParams, DefaultBodyType>(
     "/todo/:id",
     (req, res, ctx) => {
       const { id } = req.params;
@@ -48,7 +45,7 @@ export const handlers = [
       return res(ctx.delay(300), ctx.status(204));
     }
   ),
-  rest.put<DefaultRequestBody, PathParams, DefaultRequestBody>(
+  rest.put<DefaultBodyType, PathParams, DefaultBodyType>(
     "/todo/completeAll",
     (req, res, ctx) => {
       mockedTodos = mockedTodos.map((todo: Todo) => ({
@@ -58,7 +55,7 @@ export const handlers = [
       return res(ctx.delay(300), ctx.status(200));
     }
   ),
-  rest.put<DefaultRequestBody, PathParams, DefaultRequestBody>(
+  rest.put<DefaultBodyType, PathParams, DefaultBodyType>(
     "/todo/deleteCompleted",
     (req, res, ctx) => {
       mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
