@@ -1,5 +1,5 @@
 import { UserEvent } from "@testing-library/user-event/dist/types/setup";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import TodoApp from "../../../todo/TodoApp";
 import userEvent from "@testing-library/user-event";
 import { TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
@@ -113,7 +113,7 @@ export class TodoListPage {
     const deleteTodo = await this.getDeleteOfTodoByIndex(numberOfRow - 1);
     await this.user.click(deleteTodo);
     // Todoが削除されるまで待つ
-    // await waitForElementToBeRemoved(deleteTodo);
+    await waitForElementToBeRemoved(deleteTodo);
   };
 
   extractTodosByStatus = async (status: TodoStatus) => {

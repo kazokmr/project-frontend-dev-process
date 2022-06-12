@@ -11,18 +11,17 @@ const client: HttpClient = new RestClient();
 
 const fetchTodos = () => client.queryTodos();
 
-export function useQueryTodo<T>(select?: (data: Todo[]) => T) {
+export function useQueryTodos<T>(select?: (data: Todo[]) => T) {
   return useQuery<Todo[], Error, T>(["todos"], fetchTodos, {
     staleTime: Infinity,
     select,
-    notifyOnChangeProps: "tracked",
   });
 }
 
 export const useFilteredTodos = () => {
   const status = useRecoilValue(statusFilterState);
   const colors = useRecoilValue(colorsFilterState);
-  return useQueryTodo<Todo[]>((todos: Todo[]) =>
+  return useQueryTodos<Todo[]>((todos: Todo[]) =>
     todos
       .filter(
         (todo: Todo) =>
@@ -37,7 +36,7 @@ export const useFilteredTodos = () => {
 };
 
 export const useRemainingTodos = () =>
-  useQueryTodo<number>((todos: Todo[]) =>
+  useQueryTodos<number>((todos: Todo[]) =>
     todos ? todos.filter((todo: Todo) => !todo.isCompleted).length : 0
   );
 
