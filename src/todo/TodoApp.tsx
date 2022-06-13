@@ -1,7 +1,7 @@
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
-import { useQueryTodo } from "./hooks/useTodos";
+import { useQueryTodos } from "./hooks/useTodos";
 import { atom } from "recoil";
 import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
 import { TodoColor } from "./model/filter/TodoColors";
@@ -17,7 +17,7 @@ export const colorsFilterState = atom<TodoColor[]>({
 });
 
 const TodoApp = (): JSX.Element => {
-  const { isLoading, isError, error } = useQueryTodo();
+  const { isLoading, isError, error } = useQueryTodos();
 
   if (isLoading) {
     return <span>Loading...</span>;
