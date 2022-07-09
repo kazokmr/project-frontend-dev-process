@@ -7,7 +7,7 @@ import { server } from "./mocks/server";
 import { setGlobalConfig } from "@storybook/testing-react";
 import * as globalStorybookConfig from "../.storybook/preview";
 import { GlobalConfig } from "@storybook/testing-react/dist/types";
-
+server.printHandlers();
 beforeAll(() => server.listen());
 
 afterEach(() => server.resetHandlers());

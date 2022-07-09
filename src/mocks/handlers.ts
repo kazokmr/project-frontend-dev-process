@@ -1,14 +1,14 @@
-import { DefaultBodyType, PathParams, rest } from "msw";
+import { DefaultBodyType, PathParams, ResponseComposition, rest } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
 import {
   TODO_COLOR,
   TodoColor,
-  TodoColors,
+  TodoColors
 } from "../todo/model/filter/TodoColors";
 
 export const handlers = [
-  rest.get<DefaultBodyType, PathParams, Todo[]>("/todos", (req, res, ctx) => {
-    return res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos));
+  rest.get<DefaultBodyType, PathParams, Todo[]>("/todos", (req, res: ResponseComposition<Todo[]>, ctx) => {
+    return res(ctx.status(200), ctx.json(mockedTodos), ctx.delay(300));
   }),
   rest.post<{ text: string }, PathParams, Todo>("/todo", (req, res, ctx) => {
     const todo = new Todo(req.body.text);
@@ -50,7 +50,7 @@ export const handlers = [
     (req, res, ctx) => {
       mockedTodos = mockedTodos.map((todo: Todo) => ({
         ...todo,
-        isCompleted: true,
+        isCompleted: true
       }));
       return res(ctx.delay(300), ctx.status(200));
     }
@@ -61,7 +61,7 @@ export const handlers = [
       mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
       return res(ctx.delay(300), ctx.status(200));
     }
-  ),
+  )
 ];
 
 let mockedTodos: Todo[] = [
@@ -69,32 +69,32 @@ let mockedTodos: Todo[] = [
     id: "1",
     text: "君も今日もっとこの推薦性という事のためが参りですん。",
     isCompleted: true,
-    color: TODO_COLOR.Red,
+    color: TODO_COLOR.Red
   },
   {
     id: "2",
     text: "主義を説きないのは無論事実でどうしてもたなた。",
     isCompleted: false,
-    color: TODO_COLOR.Green,
+    color: TODO_COLOR.Green
   },
   {
     id: "3",
     text: "場合をはできるだけありて違ったんたでし",
     isCompleted: true,
-    color: TODO_COLOR.Blue,
+    color: TODO_COLOR.Blue
   },
   {
     id: "4",
     text: "引用欠くて、これらの.も色濃くでも係るますませ。",
     isCompleted: true,
-    color: TODO_COLOR.Green,
+    color: TODO_COLOR.Green
   },
   {
     id: "5",
     text: "あるいは、ここを問題にすることを「侵害権」の投稿ある。",
     isCompleted: false,
-    color: TODO_COLOR.None,
-  },
+    color: TODO_COLOR.None
+  }
 ];
 
 export function setMockedTodo(todos: Todo[]) {
@@ -117,7 +117,7 @@ export const createMockedTodos = (
       id: number.toString(),
       text,
       isCompleted,
-      color,
+      color
     };
     todos = [...todos, newTodo];
   }
