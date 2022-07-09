@@ -16,6 +16,7 @@ export class RestClient implements HttpClient {
           const { errorMessage } = err.response.data as {
             errorMessage: string;
           };
+          console.log(err);
           throw new Error(
             `HTTPステータス: ${err.response.status}: ${errorMessage}`
           );
