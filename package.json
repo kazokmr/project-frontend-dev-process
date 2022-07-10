@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "16.x"
+  },
   "packageManager": "yarn@1.22.19",
   "dependencies": {
     "@emotion/react": "^11.9.3",
