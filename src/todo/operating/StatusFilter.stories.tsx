@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import StatusFilter from "./StatusFilter";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 
 export default {
@@ -12,8 +12,8 @@ export default {
           {story()}
         </QueryClientProvider>
       </RecoilRoot>
-    ),
-  ],
+    )
+  ]
 } as ComponentMeta<typeof StatusFilter>;
 
 export const Default: ComponentStoryObj<typeof StatusFilter> = {};

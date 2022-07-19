@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "../App";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 
 describe("Todoアプリ画面の初期レンダリング", () => {
@@ -26,7 +26,7 @@ describe("Todoアプリ画面の初期レンダリング", () => {
       "Actions",
       "Remaining Todos",
       "Filter by Status",
-      "Filter by Color",
+      "Filter by Color"
     ];
     (await screen.findAllByRole("heading", { level: 6 })).forEach(
       (value, index) => {

@@ -1,19 +1,19 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
 import RemainingTodos from "./RemainingTodos";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
 export default {
-  component: RemainingTodos,
+  component: RemainingTodos
 } as ComponentMeta<typeof RemainingTodos>;
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
-    },
-  },
+      staleTime: Infinity
+    }
+  }
 });
 
 export const Default: ComponentStoryObj<typeof RemainingTodos> = {
@@ -28,8 +28,8 @@ export const Default: ComponentStoryObj<typeof RemainingTodos> = {
             id: "1",
             text: "hogehoge",
             isCompleted: false,
-            color: TODO_COLOR.None,
-          },
+            color: TODO_COLOR.None
+          }
         ]
       );
       return (
@@ -37,8 +37,8 @@ export const Default: ComponentStoryObj<typeof RemainingTodos> = {
           {story()}
         </QueryClientProvider>
       );
-    },
-  ],
+    }
+  ]
 };
 
 export const NoActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
@@ -52,8 +52,8 @@ export const NoActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
           {story()}
         </QueryClientProvider>
       );
-    },
-  ],
+    }
+  ]
 };
 
 export const MultiActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
@@ -68,14 +68,14 @@ export const MultiActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
             id: "1",
             text: "hogehoge",
             isCompleted: false,
-            color: TODO_COLOR.None,
+            color: TODO_COLOR.None
           },
           {
             id: "2",
             text: "hogehoge",
             isCompleted: false,
-            color: TODO_COLOR.None,
-          },
+            color: TODO_COLOR.None
+          }
         ]
       );
       return (
@@ -83,6 +83,6 @@ export const MultiActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
           {story()}
         </QueryClientProvider>
       );
-    },
-  ],
+    }
+  ]
 };
