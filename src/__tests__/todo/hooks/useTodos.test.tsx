@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider, UseQueryResult } from "react-query";
+import { QueryClient, QueryClientProvider, UseQueryResult } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import {
   useMutationCompleteAllTodos,

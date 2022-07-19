@@ -6,7 +6,7 @@ import { TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { createMockedTodos, setMockedTodo } from "../../../mocks/handlers";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 
 export class TodoListPage {
@@ -19,9 +19,9 @@ export class TodoListPage {
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {
-          staleTime: Infinity,
-        },
-      },
+          staleTime: Infinity
+        }
+      }
     });
     render(
       <RecoilRoot>
@@ -76,7 +76,7 @@ export class TodoListPage {
 
   writeTodo = async (inputText: string): Promise<void> => {
     const todoTextBox = await screen.findByRole("textbox", {
-      name: "input-todo",
+      name: "input-todo"
     });
     await this.user.click(todoTextBox);
     await this.user.keyboard(inputText);
@@ -128,7 +128,7 @@ export class TodoListPage {
     expect(
       await screen.findByRole("radio", {
         name: new RegExp("^" + status + "$", "i"),
-        checked: true,
+        checked: true
       })
     ).toBeInTheDocument();
     // TodoListの表示数が期待通りになるのを待つ
@@ -160,7 +160,7 @@ export class TodoListPage {
     // 全ての完了チェックが付くまで待つ
     await waitFor(() => {
       const elements: HTMLInputElement[] = screen.queryAllByRole("checkbox", {
-        name: "todo-isCompleted",
+        name: "todo-isCompleted"
       });
       elements.forEach((value: HTMLInputElement) =>
         expect(value.checked).toBeTruthy()
@@ -216,7 +216,7 @@ export class TodoListPage {
     const completedArray: HTMLInputElement[] = await screen.findAllByRole(
       "checkbox",
       {
-        name: "todo-isCompleted",
+        name: "todo-isCompleted"
       }
     );
     return completedArray[index];
@@ -245,7 +245,7 @@ export class TodoListPage {
     index: number
   ): Promise<HTMLButtonElement> => {
     const buttons: HTMLButtonElement[] = await screen.findAllByRole("button", {
-      name: "delete-todo",
+      name: "delete-todo"
     });
     return buttons[index];
   };
@@ -254,7 +254,7 @@ export class TodoListPage {
     todoStatus: TodoStatus
   ): Promise<HTMLInputElement> => {
     return await screen.findByRole("radio", {
-      name: new RegExp("^" + todoStatus + "$", "i"),
+      name: new RegExp("^" + todoStatus + "$", "i")
     });
   };
 
@@ -282,16 +282,16 @@ export class TodoListPage {
       this.filteredStatus === TODO_STATUS.ALL
         ? this.refTodos
         : this.refTodos.filter((todo: Todo) =>
-            this.filteredStatus === TODO_STATUS.COMPLETED
-              ? todo.isCompleted
-              : !todo.isCompleted
-          );
+          this.filteredStatus === TODO_STATUS.COMPLETED
+            ? todo.isCompleted
+            : !todo.isCompleted
+        );
     const expectedNumOfTodos =
       this.filteredColors.length === 0
         ? filtered.length
         : filtered.filter((todo: Todo) =>
-            this.filteredColors.includes(todo.color)
-          ).length;
+          this.filteredColors.includes(todo.color)
+        ).length;
 
     await waitFor(async () => {
       expect(await this.countTodos()).toBe(expectedNumOfTodos);

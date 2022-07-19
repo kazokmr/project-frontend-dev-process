@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import RemainingTodos from "../../../todo/operating/RemainingTodos";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
 import { Todo } from "../../../todo/model/todo/Todo";
 
@@ -8,28 +8,28 @@ const activeTodo1: Todo = {
   id: "1",
   text: "text",
   isCompleted: false,
-  color: TODO_COLOR.None,
+  color: TODO_COLOR.None
 };
 const activeTodo2: Todo = {
   id: "2",
   text: "text2",
   isCompleted: false,
-  color: TODO_COLOR.Red,
+  color: TODO_COLOR.Red
 };
 const completeTodo: Todo = {
   id: "3",
   text: "text3",
   isCompleted: true,
-  color: TODO_COLOR.Orange,
+  color: TODO_COLOR.Orange
 };
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      staleTime: Infinity,
-    },
-  },
+      staleTime: Infinity
+    }
+  }
 });
 
 beforeEach(() => queryClient.clear());
