@@ -49,14 +49,14 @@ describe("Todoリストの操作テスト", () => {
           id: "1",
           text: "test1",
           isCompleted: false,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         },
         {
           id: "2",
           text: "test2",
           isCompleted: false,
-          color: TODO_COLOR.None,
-        },
+          color: TODO_COLOR.None
+        }
       ]);
 
       // When: ２番目のTodoを完了にする
@@ -74,14 +74,14 @@ describe("Todoリストの操作テスト", () => {
           id: "1",
           text: "test1",
           isCompleted: false,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         },
         {
           id: "2",
           text: "test2",
           isCompleted: true,
-          color: TODO_COLOR.None,
-        },
+          color: TODO_COLOR.None
+        }
       ]);
 
       // When: ２番目のTodoの完了操作を行う
@@ -100,20 +100,20 @@ describe("Todoリストの操作テスト", () => {
           id: "1",
           text: "test1",
           isCompleted: false,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         },
         {
           id: "2",
           text: "test2",
           isCompleted: false,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         },
         {
           id: "3",
           text: "test3",
           isCompleted: false,
-          color: TODO_COLOR.None,
-        },
+          color: TODO_COLOR.None
+        }
       ]);
 
       // When: ２つ目のTodoのタグを更新する
@@ -158,9 +158,9 @@ describe("Todoリストの操作テスト", () => {
     `(
       "TodoのColorタグを$beforeColorから$afterColorに変更できること",
       async ({
-        beforeColor,
-        afterColor,
-      }: {
+               beforeColor,
+               afterColor
+             }: {
         beforeColor: TodoColor;
         afterColor: TodoColor;
       }) => {
@@ -170,8 +170,8 @@ describe("Todoリストの操作テスト", () => {
             id: "1",
             text: "test1",
             isCompleted: false,
-            color: beforeColor,
-          },
+            color: beforeColor
+          }
         ]);
 
         // When:Todoのタグを変更する
@@ -190,20 +190,20 @@ describe("Todoリストの操作テスト", () => {
           id: "test-1",
           text: "１つ目のTodoです",
           isCompleted: false,
-          color: TODO_COLOR.Green,
+          color: TODO_COLOR.Green
         },
         {
           id: "test-2",
           text: "２つ目のTodoです",
           isCompleted: true,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         },
         {
           id: "test-3",
           text: "３つ目のTodoです",
           isCompleted: false,
-          color: TODO_COLOR.Blue,
-        },
+          color: TODO_COLOR.Blue
+        }
       ];
 
       test.each`
@@ -214,10 +214,10 @@ describe("Todoリストの操作テスト", () => {
       `(
         "$numOfDel列目を削除したら、$willBeFirstRow列目が1列目、 $willBeSecondRow列目が２列目になること",
         async ({
-          numOfDel,
-          willBeFirstRow,
-          willBeSecondRow,
-        }: {
+                 numOfDel,
+                 willBeFirstRow,
+                 willBeSecondRow
+               }: {
           numOfDel: number;
           willBeFirstRow: number;
           willBeSecondRow: number;
@@ -340,20 +340,20 @@ describe("Todoリストの操作テスト", () => {
             id: "1",
             text: "test1",
             isCompleted: true,
-            color: TODO_COLOR.None,
+            color: TODO_COLOR.None
           },
           {
             id: "2",
             text: "test2",
             isCompleted: true,
-            color: TODO_COLOR.None,
+            color: TODO_COLOR.None
           },
           {
             id: "3",
             text: "test3",
             isCompleted: false,
-            color: TODO_COLOR.None,
-          },
+            color: TODO_COLOR.None
+          }
         ]);
         expect(await page.isContentRemainingTodos(initCount - 2)).toBeTruthy();
 
@@ -373,26 +373,26 @@ describe("Todoリストの操作テスト", () => {
         id: "1",
         text: "これは完了済みのTodo１です",
         isCompleted: true,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       },
       {
         id: "2",
         text: "これは未完了のTodo２です",
         isCompleted: false,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       },
       {
         id: "3",
         text: "これは完了済みのTodo３です",
         isCompleted: true,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       },
       {
         id: "4",
         text: "これは未完了のTodo４です",
         isCompleted: false,
-        color: TODO_COLOR.None,
-      },
+        color: TODO_COLOR.None
+      }
     ];
 
     test.each`
@@ -403,11 +403,11 @@ describe("Todoリストの操作テスト", () => {
     `(
       "$clickedStatusが選択状況になっていること",
       async ({
-        clickedStatus,
-        isAllPressed,
-        isActivePressed,
-        isCompletedPressed,
-      }: {
+               clickedStatus,
+               isAllPressed,
+               isActivePressed,
+               isCompletedPressed
+             }: {
         clickedStatus: TodoStatus;
         isAllPressed: boolean;
         isActivePressed: boolean;
@@ -570,27 +570,28 @@ describe("Todoリストの操作テスト", () => {
         id: "1",
         text: "色未選択のTodoです",
         isCompleted: true,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       },
       {
         id: "2",
         text: "GreenタグのTodoです",
         isCompleted: false,
-        color: TODO_COLOR.Green,
+        color: TODO_COLOR.Green
       },
       {
         id: "3",
         text: "OrangeタグのTodoです",
         isCompleted: false,
-        color: TODO_COLOR.Orange,
+        color: TODO_COLOR.Orange
       },
       {
         id: "4",
         text: "BlueタグのTodoです",
         isCompleted: true,
-        color: TODO_COLOR.Blue,
-      },
+        color: TODO_COLOR.Blue
+      }
     ];
+
     test("Greenだけを選択したらColorタグがGreenのTodoだけを抽出する", async () => {
       // Given: コンポーネントを出力しTodoを４件を表示する
       const page = await TodoListPage.printByTodos(todos);
@@ -667,38 +668,38 @@ describe("Todoリストの操作テスト", () => {
         id: "1",
         text: "色未選択の完了済みTodoです",
         isCompleted: true,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       },
       {
         id: "2",
         text: "Greenタグの未完了Todoです",
         isCompleted: false,
-        color: TODO_COLOR.Green,
+        color: TODO_COLOR.Green
       },
       {
         id: "3",
         text: "Orangeタグの未完了Todoです",
         isCompleted: false,
-        color: TODO_COLOR.Orange,
+        color: TODO_COLOR.Orange
       },
       {
         id: "4",
         text: "Blueタグの完了済みTodoです",
         isCompleted: true,
-        color: TODO_COLOR.Blue,
+        color: TODO_COLOR.Blue
       },
       {
         id: "5",
         text: "Orangeタグの完了済みTodoです",
         isCompleted: true,
-        color: TODO_COLOR.Orange,
+        color: TODO_COLOR.Orange
       },
       {
         id: "6",
         text: "Blueタグの未完了Todoです",
         isCompleted: false,
-        color: TODO_COLOR.Blue,
-      },
+        color: TODO_COLOR.Blue
+      }
     ];
 
     test("完了済みのBlueのTodoだけを表示する", async () => {
@@ -740,32 +741,32 @@ describe("Todoリストの操作テスト", () => {
         id: "1",
         text: "色未選択の完了済みTodoです",
         isCompleted: false,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       },
       {
         id: "2",
         text: "Greenタグの未完了Todoです",
         isCompleted: false,
-        color: TODO_COLOR.Green,
+        color: TODO_COLOR.Green
       },
       {
         id: "3",
         text: "Orangeタグの未完了Todoです",
         isCompleted: false,
-        color: TODO_COLOR.Orange,
+        color: TODO_COLOR.Orange
       },
       {
         id: "4",
         text: "Blueタグの完了済みTodoです",
         isCompleted: true,
-        color: TODO_COLOR.Blue,
+        color: TODO_COLOR.Blue
       },
       {
         id: "5",
         text: "Orangeタグの完了済みTodoです",
         isCompleted: true,
-        color: TODO_COLOR.Orange,
-      },
+        color: TODO_COLOR.Orange
+      }
     ];
 
     test("全てのTodoを完了済みにできること", async () => {
