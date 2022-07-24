@@ -6,8 +6,11 @@ import { UserEvent } from "@testing-library/user-event/dist/types/setup";
 // useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
 const mockedMutate: jest.Mock = jest.fn();
 jest.mock("../../../todo/hooks/useTodos", () => ({
-  useMutationTodoAdded: () => ({ mutate: mockedMutate }),
+  useMutationTodoAdded: () => ({ mutate: mockedMutate })
 }));
+
+// mockに格納されている情報をクリアする
+beforeEach(() => mockedMutate.mockClear());
 
 test.each`
   text

@@ -8,12 +8,18 @@ const mockedMutateDeleteCompletedTodos: jest.Mock = jest.fn();
 
 jest.mock("../../../todo/hooks/useTodos", () => ({
   useMutationCompleteAllTodos: () => ({
-    mutate: mockedMutateCompleteAllTodos,
+    mutate: mockedMutateCompleteAllTodos
   }),
   useMutationDeleteCompletedTodos: () => ({
-    mutate: mockedMutateDeleteCompletedTodos,
-  }),
+    mutate: mockedMutateDeleteCompletedTodos
+  })
 }));
+
+// Mockの情報をクリアする
+afterEach(() => {
+  mockedMutateCompleteAllTodos.mockClear();
+  mockedMutateDeleteCompletedTodos.mockClear();
+});
 
 describe("アクション操作の呼び出しテスト", () => {
   test("MarkAllCompletedを押したらServerAPIをコールするMutationを実行すること", async () => {

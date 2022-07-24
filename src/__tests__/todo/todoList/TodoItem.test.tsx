@@ -12,8 +12,15 @@ const mockedMutateTodoDeleted: jest.Mock = jest.fn();
 jest.mock("../../../todo/hooks/useTodos", () => ({
   useMutationTodoCompleted: () => ({ mutate: mockedMutateTodoCompleted }),
   useMutationTodoChangedColor: () => ({ mutate: mockedMutateTodoChangedColor }),
-  useMutationTodoDeleted: () => ({ mutate: mockedMutateTodoDeleted }),
+  useMutationTodoDeleted: () => ({ mutate: mockedMutateTodoDeleted })
 }));
+
+// Mockの情報をクリアする
+beforeEach(() => {
+  mockedMutateTodoCompleted.mockClear();
+  mockedMutateTodoChangedColor.mockClear();
+  mockedMutateTodoDeleted.mockClear();
+});
 
 describe("初期選択状態のテスト", () => {
   test.each`
@@ -29,7 +36,7 @@ describe("初期選択状態のテスト", () => {
             id: "dummy-id",
             text: "Test whether todo is checked or not",
             isCompleted: isCompleted,
-            color: TODO_COLOR.None,
+            color: TODO_COLOR.None
           }}
         />
       );
@@ -50,9 +57,9 @@ describe("初期選択状態のテスト", () => {
   `(
     "TodoColorが $todoColor なら SelectBoxは $displayValue が選択される",
     ({
-      todoColor,
-      displayValue,
-    }: {
+       todoColor,
+       displayValue
+     }: {
       todoColor: TodoColor;
       displayValue: string;
     }) => {
@@ -62,7 +69,7 @@ describe("初期選択状態のテスト", () => {
             id: "dummy-id",
             text: "Test SelectBox",
             isCompleted: false,
-            color: todoColor,
+            color: todoColor
           }}
         />
       );
@@ -86,7 +93,7 @@ describe("初期選択状態のテスト", () => {
           id: "dummy-id",
           text: text,
           isCompleted: false,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         }}
       />
     );
@@ -113,7 +120,7 @@ describe("Todoのイベントハンドラのテスト", () => {
               id: id,
               text: "update isSelected",
               isCompleted: isCompleted,
-              color: TODO_COLOR.None,
+              color: TODO_COLOR.None
             }}
           />
         );
@@ -121,13 +128,13 @@ describe("Todoのイベントハンドラのテスト", () => {
         // When: Todoの完了状況を変更する
         const user = userEvent.setup();
         const completeCheckbox = screen.getByRole("checkbox", {
-          name: "todo-isCompleted",
+          name: "todo-isCompleted"
         });
         await user.click(completeCheckbox);
 
         // Then: Todoを完了状況を更新する
         expect(mockedMutateTodoCompleted.mock.calls[0][0]).toStrictEqual({
-          id,
+          id
         });
         expect(mockedMutateTodoCompleted).toHaveBeenCalledTimes(1);
       }
@@ -151,7 +158,7 @@ describe("Todoのイベントハンドラのテスト", () => {
           id,
           text: "Colorタグの変更",
           isCompleted: false,
-          color: TODO_COLOR.None,
+          color: TODO_COLOR.None
         };
         render(<TodoItem todo={todo} />);
 
@@ -163,7 +170,7 @@ describe("Todoのイベントハンドラのテスト", () => {
         // Then: TodoのIDと変更するColorを渡して関数を1回呼び出すこと
         expect(mockedMutateTodoChangedColor.mock.calls[0][0]).toStrictEqual({
           id,
-          color: changingColor,
+          color: changingColor
         });
         expect(mockedMutateTodoChangedColor).toHaveBeenCalledTimes(1);
       }
@@ -178,7 +185,7 @@ describe("Todoのイベントハンドラのテスト", () => {
         id,
         text: "削除ボタンの操作イベントをテストする",
         isCompleted: false,
-        color: TODO_COLOR.None,
+        color: TODO_COLOR.None
       };
       render(<TodoItem todo={todo} />);
 
