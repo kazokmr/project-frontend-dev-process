@@ -3,6 +3,9 @@ import axios from "axios";
 import { Todo } from "../../model/todo/Todo";
 import { TodoColor } from "../../model/filter/TodoColors";
 
+export const baseUrl = "https://example.com";
+axios.defaults.baseURL = baseUrl;
+
 export class RestClient implements HttpClient {
   queryTodos = async (): Promise<Todo[]> => {
     try {

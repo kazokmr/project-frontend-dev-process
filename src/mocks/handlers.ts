@@ -1,24 +1,29 @@
-import { DefaultBodyType, PathParams, ResponseComposition, rest } from "msw";
+import { DefaultBodyType, PathParams, rest } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
 import {
   TODO_COLOR,
   TodoColor,
   TodoColors
 } from "../todo/model/filter/TodoColors";
+import { baseUrl } from "../todo/client/impl/RestClient";
 
 export const handlers = [
-  rest.get<DefaultBodyType, PathParams, Todo[]>("/todos", (req, res: ResponseComposition<Todo[]>, ctx) => {
-    return res(ctx.status(200), ctx.json(mockedTodos), ctx.delay(300));
+  rest.get<DefaultBodyType, PathParams, Todo[]>(`${baseUrl}/todos`, (req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.status(200),
+      ctx.json(mockedTodos)
+    );
   }),
-  rest.post<{ text: string }, PathParams, Todo>("/todo", (req, res, ctx) => {
-    const todo = new Todo(req.body.text);
+  rest.post<{ text: string }, PathParams, Todo>(`${baseUrl}/todo`, async (req, res, ctx) => {
+    const { text } = await req.json();
+    const todo = new Todo(text);
     mockedTodos = [...mockedTodos, todo];
     return res(ctx.delay(300), ctx.status(200), ctx.json(todo));
   }),
   rest.put<{ id: string }, PathParams, Todo>(
-    "/todo/:id/complete",
-    (req, res, ctx) => {
-      const { id } = req.params;
+    `${baseUrl}/todo/:id/complete`, (req, res, ctx) => {
+      const id = req.params.id;
       mockedTodos = mockedTodos.map((todo: Todo) =>
         todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted }
       );
@@ -27,27 +32,25 @@ export const handlers = [
     }
   ),
   rest.put<{ id: string; color: TodoColor }, PathParams, Todo>(
-    "/todo/:id/changeColor",
-    (req, res, ctx) => {
-      const { id } = req.params;
+    `${baseUrl}/todo/:id/changeColor`, async (req, res, ctx) => {
+      const id = req.params.id;
+      const { color } = await req.json();
       mockedTodos = mockedTodos.map((todo: Todo) =>
-        todo.id !== id ? todo : { ...todo, color: req.body.color }
+        todo.id !== id ? todo : { ...todo, color: color }
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
       return res(ctx.delay(300), ctx.status(200));
     }
   ),
   rest.delete<{ id: string }, PathParams, DefaultBodyType>(
-    "/todo/:id",
-    (req, res, ctx) => {
-      const { id } = req.params;
+    `${baseUrl}/todo/:id`, (req, res, ctx) => {
+      const id = req.params.id;
       mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
       return res(ctx.delay(300), ctx.status(204));
     }
   ),
   rest.put<DefaultBodyType, PathParams, DefaultBodyType>(
-    "/todo/completeAll",
-    (req, res, ctx) => {
+    `${baseUrl}/todo/completeAll`, (req, res, ctx) => {
       mockedTodos = mockedTodos.map((todo: Todo) => ({
         ...todo,
         isCompleted: true
@@ -56,8 +59,7 @@ export const handlers = [
     }
   ),
   rest.put<DefaultBodyType, PathParams, DefaultBodyType>(
-    "/todo/deleteCompleted",
-    (req, res, ctx) => {
+    `${baseUrl}/todo/deleteCompleted`, (req, res, ctx) => {
       mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
       return res(ctx.delay(300), ctx.status(200));
     }
