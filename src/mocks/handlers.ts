@@ -19,9 +19,13 @@ export const handlers = [
     const { text } = await req.json();
     const todo = new Todo(text);
     mockedTodos = [...mockedTodos, todo];
-    return res(ctx.delay(300), ctx.status(200), ctx.json(todo));
+    return res(
+      ctx.delay(300),
+      ctx.status(200),
+      ctx.json(todo)
+    );
   }),
-  rest.put<{ id: string }, PathParams, Todo>(
+  rest.put<DefaultBodyType, { id: string }, Todo>(
     `${baseUrl}/todo/:id/complete`, (req, res, ctx) => {
       const id = req.params.id;
       mockedTodos = mockedTodos.map((todo: Todo) =>
@@ -31,7 +35,7 @@ export const handlers = [
       return res(ctx.delay(300), ctx.status(200));
     }
   ),
-  rest.put<{ id: string; color: TodoColor }, PathParams, Todo>(
+  rest.put<{ color: TodoColor }, { id: string }, Todo>(
     `${baseUrl}/todo/:id/changeColor`, async (req, res, ctx) => {
       const id = req.params.id;
       const { color } = await req.json();
@@ -42,7 +46,7 @@ export const handlers = [
       return res(ctx.delay(300), ctx.status(200));
     }
   ),
-  rest.delete<{ id: string }, PathParams, DefaultBodyType>(
+  rest.delete<DefaultBodyType, { id: string }, DefaultBodyType>(
     `${baseUrl}/todo/:id`, (req, res, ctx) => {
       const id = req.params.id;
       mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);

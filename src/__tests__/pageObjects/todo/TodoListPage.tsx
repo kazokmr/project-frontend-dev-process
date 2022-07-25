@@ -142,7 +142,7 @@ export class TodoListPage {
     // Colorフィルタの操作
     for (const color of colors) {
       const colorFilter = await this.getColorFilter(color);
-      this.user.click(colorFilter);
+      await this.user.click(colorFilter);
     }
 
     // TodoListの表示数が期待通りになるのを待つ
