@@ -68,7 +68,8 @@
     "eject": "react-scripts eject",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts"
   },
   "eslintConfig": {
     "extends": [

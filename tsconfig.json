@@ -18,12 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "ts-node": {
-      "transpileOnly": true,
-      "compileOptions": {
-        "module": "CommonJSj"
-      }
+    "jsx": "react-jsx"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "CommonJS"
     }
   },
   "include": [
