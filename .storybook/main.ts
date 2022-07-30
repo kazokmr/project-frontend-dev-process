@@ -7,21 +7,16 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "@storybook/preset-create-react-app",
     "@storybook/addon-a11y"
   ],
   typescript: {
     check: false,
     checkOptions: {},
-    reactDocgen: "react-docgen-typescript",
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (props) => props.parent ? !/node_modules/.test(props.parent.fileName) : true
-    }
+    reactDocgen: "react-docgen-typescript"
   },
   framework: "@storybook/react",
   core: {
-    builder: "webpack5"
+    builder: "@storybook/builder-vite"
   },
   features: {
     postcss: false
