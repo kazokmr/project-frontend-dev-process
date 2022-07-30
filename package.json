@@ -56,7 +56,8 @@
     "vite": "^3.0.4"
   },
   "resolutions": {
-    "react-test-renderer": "^18.2.0"
+    "react-test-renderer": "^18.2.0",
+    "react-transition-group": "4.4.2"
   },
   "scripts": {
     "dev": "vite",
