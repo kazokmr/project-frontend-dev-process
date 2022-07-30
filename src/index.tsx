@@ -8,12 +8,11 @@ import { createRoot } from "react-dom/client";
 import { RecoilRoot } from "recoil";
 import { CssBaseline } from "@mui/material";
 
-const prepare = () => {
-  if (process.env.NODE_ENV === "development") {
-    const { worker } = require("./mocks/browser");
-    return worker.start();
+const prepare = async () => {
+  if (import.meta.env.DEV) {
+    const { worker } = await import("./mocks/browser");
+    await worker.start();
   }
-  return Promise.resolve();
 };
 
 const queryClient = new QueryClient();
