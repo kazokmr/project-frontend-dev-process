@@ -28,8 +28,9 @@
   },
   "include": [
     "src",
-    "./vite.config.ts",
-    "./jest.setup"
+    ".storybook/*.ts",
+    "**/*.ts",
+    "**/*.js"
   ],
   "references": [
     {

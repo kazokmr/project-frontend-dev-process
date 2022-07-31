@@ -1,2 +1,5 @@
 !.storybook
+/build
+/coverage
+/public
 /storybook-static
