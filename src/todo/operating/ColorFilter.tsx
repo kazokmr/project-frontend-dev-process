@@ -1,14 +1,14 @@
-import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { useRecoilState } from "recoil";
-import { colorsFilterState } from "../TodoApp";
 import {
   Checkbox,
   Container,
   FormControlLabel,
   List,
   ListItem,
-  Typography,
+  Typography
 } from "@mui/material";
+import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
+import { colorsFilterState } from "../hooks/useTodos";
 
 const ColorFilter = (): JSX.Element => {
   const [colors, setColors] = useRecoilState<TodoColor[]>(colorsFilterState);
@@ -21,23 +21,23 @@ const ColorFilter = (): JSX.Element => {
   };
 
   return (
-    <Container maxWidth={"md"}>
-      <Typography variant={"subtitle1"} gutterBottom={true}>
+    <Container maxWidth="md">
+      <Typography variant="subtitle1" gutterBottom>
         Filter by Color
       </Typography>
-      <List dense={true}>
+      <List dense>
         {TodoColors.filter((color) => color !== TODO_COLOR.None).map(
           (color) => (
-            <ListItem key={color} disablePadding={true}>
+            <ListItem key={color} disablePadding>
               <FormControlLabel
                 control={
                   <Checkbox
                     sx={{
-                      color: color,
-                      "&.Mui-checked": { color: color },
+                      color,
+                      "&.Mui-checked": { color }
                     }}
                     name={color}
-                    checked={colors ? colors.includes(color) : false}
+                    checked={colors.includes(color)}
                     onChange={(event) =>
                       updateColors(color, event.target.checked)
                     }

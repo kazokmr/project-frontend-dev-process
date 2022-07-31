@@ -1,23 +1,23 @@
-import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 import { useRecoilState } from "recoil";
-import { statusFilterState } from "../TodoApp";
 import {
   Container,
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
-  Typography,
+  Typography
 } from "@mui/material";
 import { ChangeEvent } from "react";
+import { statusFilterState } from "../hooks/useTodos";
+import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 
 const StatusFilter = (): JSX.Element => {
   const [status, setStatus] = useRecoilState<TodoStatus>(statusFilterState);
 
   return (
-    <Container maxWidth={"md"}>
+    <Container maxWidth="md">
       <FormControl>
-        <Typography variant={"subtitle1"} gutterBottom={true}>
+        <Typography variant="subtitle1" gutterBottom>
           Filter by Status
         </Typography>
         <RadioGroup

@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MutableSnapshot, RecoilRoot } from "recoil";
+import { ReactNode } from "react";
 import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import { MutableSnapshot, RecoilRoot } from "recoil";
-import { colorsFilterState, statusFilterState } from "../../../todo/TodoApp";
-import { ReactNode } from "react";
+import { colorsFilterState, statusFilterState } from "../../../todo/hooks/useTodos";
 import { setMockedTodo } from "../../../mocks/handlers";
 
 const stateInitializer =
@@ -54,7 +54,7 @@ describe("Todoの件数による表示テスト", () => {
         const todos: Todo[] = [
           {
             id: "dummy",
-            text: text,
+            text,
             isCompleted: false,
             color: TODO_COLOR.None
           }

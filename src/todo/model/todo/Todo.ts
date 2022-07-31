@@ -1,10 +1,13 @@
-import { TODO_COLOR, TodoColor } from "../filter/TodoColors";
 import { ulid } from "ulid";
+import { TODO_COLOR, TodoColor } from "../filter/TodoColors";
 
 export class Todo {
   readonly id: string = ulid();
+
   readonly text: string;
-  isCompleted: boolean = false;
+
+  isCompleted = false;
+
   color: TodoColor = TODO_COLOR.None;
 
   constructor(text: string) {

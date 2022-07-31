@@ -1,24 +1,24 @@
 import { ReactNode } from "react";
-import ColorFilter from "../../../todo/operating/ColorFilter";
-import { TODO_COLOR, TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
-import { colorsFilterState } from "../../../todo/TodoApp";
+import { TODO_COLOR, TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
+import ColorFilter from "../../../todo/operating/ColorFilter";
+import { colorsFilterState } from "../../../todo/hooks/useTodos";
 
 // Recoilの初期Stateを渡す関数
 const stateInitializer =
   (initialColors: TodoColor[]) =>
-  ({ set }: MutableSnapshot) =>
-    set<TodoColor[]>(colorsFilterState, initialColors);
+    ({ set }: MutableSnapshot) =>
+      set<TodoColor[]>(colorsFilterState, initialColors);
 
 // テストコンポーネントに状態管理をセットするWrapper
 const ProviderWrapper = ({
-  children,
-  initialColors = [],
-}: {
+                           children,
+                           initialColors
+                         }: {
   children: ReactNode;
-  initialColors?: TodoColor[];
+  initialColors: TodoColor[];
 }) => (
   <RecoilRoot initializeState={stateInitializer(initialColors)}>
     {children}
@@ -29,7 +29,7 @@ describe("カラーフィルターの初期値", () => {
   test("Noneを除く全ての色が表示され選択できること", () => {
     // Given: コンポーネントをレンダリングする
     render(
-      <ProviderWrapper>
+      <ProviderWrapper initialColors={[]}>
         <ColorFilter />
       </ProviderWrapper>
     );
@@ -49,7 +49,7 @@ describe("カラーフィルターの初期値", () => {
 
   test("Noneを除く全てが未選択であること", () => {
     render(
-      <ProviderWrapper>
+      <ProviderWrapper initialColors={[]}>
         <ColorFilter />
       </ProviderWrapper>
     );
@@ -60,8 +60,6 @@ describe("カラーフィルターの初期値", () => {
 
   test("Stateにセットされている色が初期選択されること", () => {
     const colors: TodoColor[] = [TODO_COLOR.Green, TODO_COLOR.Purple];
-    // const initializeState = ({ set }: MutableSnapshot) =>
-    //   set(colorsFilterState, colors);
     render(
       <ProviderWrapper initialColors={colors}>
         <ColorFilter />
@@ -82,7 +80,7 @@ describe("カラーフィルターの初期値", () => {
 
   test("Stateが未設定ならNoneを除く全てが未選択であること", () => {
     render(
-      <ProviderWrapper>
+      <ProviderWrapper initialColors={[]}>
         <ColorFilter />
       </ProviderWrapper>
     );
@@ -108,9 +106,9 @@ describe("checkboxの状態管理のテスト", () => {
   `(
     "選択状況が$isSelectedの$checkColorを選択したら選択状況が変わること",
     async ({
-      checkColor,
-      isSelected,
-    }: {
+             checkColor,
+             isSelected
+           }: {
       checkColor: TodoColor;
       isSelected: boolean;
     }) => {
@@ -131,7 +129,7 @@ describe("checkboxの状態管理のテスト", () => {
       expect(
         await screen.findByRole("checkbox", {
           name: checkColor,
-          checked: !isSelected,
+          checked: !isSelected
         })
       ).toBeInTheDocument();
     }

@@ -1,9 +1,9 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RecoilRoot } from "recoil";
 import OperatingTodos from "./OperatingTodos";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { TODO_COLOR } from "../model/filter/TodoColors";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RecoilRoot } from "recoil";
 
 export default {
   component: OperatingTodos

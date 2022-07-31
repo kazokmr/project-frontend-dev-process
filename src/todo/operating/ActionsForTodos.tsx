@@ -1,21 +1,21 @@
+import { Button, Container, Stack, Typography } from "@mui/material";
 import {
   useMutationCompleteAllTodos,
   useMutationDeleteCompletedTodos,
 } from "../hooks/useTodos";
-import { Button, Container, Stack, Typography } from "@mui/material";
 
 const ActionsForTodos = (): JSX.Element => {
   const completeAllTodos = useMutationCompleteAllTodos();
   const deleteCompletedTodos = useMutationDeleteCompletedTodos();
 
   return (
-    <Container maxWidth={"md"}>
-      <Typography variant={"subtitle1"} gutterBottom={true}>
+    <Container maxWidth="md">
+      <Typography variant="subtitle1" gutterBottom>
         Actions
       </Typography>
-      <Stack direction={"column"} spacing={2}>
+      <Stack direction="column" spacing={2}>
         <Button
-          variant={"contained"}
+          variant="contained"
           sx={{
             typography: "button",
             textTransform: "capitalize",
@@ -25,7 +25,7 @@ const ActionsForTodos = (): JSX.Element => {
           Mark All Completed
         </Button>
         <Button
-          variant={"contained"}
+          variant="contained"
           sx={{
             typography: "button",
             textTransform: "capitalize",

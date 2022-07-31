@@ -1,7 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import NewTodo from "../../../todo/todoList/NewTodo";
 import { UserEvent } from "@testing-library/user-event/dist/types/setup";
+import NewTodo from "../../../todo/todoList/NewTodo";
+
+const typeTodo = async (
+  user: UserEvent,
+  textBox: HTMLElement,
+  todoText: string
+) => {
+  await user.click(textBox);
+  await user.keyboard(todoText);
+};
+
+const submitInputTodo = async (
+  user: UserEvent,
+  textBox: HTMLElement,
+  todoText: string
+) => {
+  await user.click(textBox);
+  await user.keyboard(todoText);
+  await user.keyboard("[Enter]");
+};
 
 // useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
 const mockedMutate: jest.Mock = jest.fn();
@@ -48,6 +67,7 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
       // Then: useMutation.mutate()を呼び出すこと。
       expect(mockedMutate).toHaveBeenCalledTimes(1);
       // useMutation.mutate()のパラメータに入力したテキストオブジェクトが渡される
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(mockedMutate.mock.calls[0][0]).toStrictEqual({ text });
       // Enterキーを押したらTextBoxの値はクリアされる
       expect(textBox).toHaveValue("");
@@ -69,22 +89,3 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
     expect(textBox).toHaveValue(text);
   });
 });
-
-const typeTodo = async (
-  user: UserEvent,
-  textBox: HTMLElement,
-  todoText: string
-) => {
-  await user.click(textBox);
-  await user.keyboard(todoText);
-};
-
-const submitInputTodo = async (
-  user: UserEvent,
-  textBox: HTMLElement,
-  todoText: string
-) => {
-  await user.click(textBox);
-  await user.keyboard(todoText);
-  await user.keyboard("[Enter]");
-};

@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
-import StatusFilter from "./StatusFilter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
+import StatusFilter from "./StatusFilter";
 
 export default {
   component: StatusFilter,

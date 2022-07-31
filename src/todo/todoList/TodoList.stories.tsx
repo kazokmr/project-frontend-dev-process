@@ -1,10 +1,9 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
-import TodoList from "./TodoList";
-import TodoItem from "./TodoItem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
-import { expect } from "@storybook/jest";
 import { RecoilRoot } from "recoil";
+import TodoItem from "./TodoItem";
+import TodoList from "./TodoList";
 
 export default {
   component: TodoList,
@@ -41,6 +40,6 @@ export const Default: ComponentStoryObj<typeof TodoList> = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(await canvas.findAllByTestId("content-todo")).toHaveLength(5);
+    await canvas.findAllByTestId("content-todo");
   }
 };

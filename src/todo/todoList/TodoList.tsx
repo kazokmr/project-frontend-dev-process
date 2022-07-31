@@ -1,12 +1,12 @@
+import { List } from "@mui/material";
 import TodoItem from "./TodoItem";
 import { useFilteredTodos } from "../hooks/useTodos";
-import { List } from "@mui/material";
 
 const TodoList = (): JSX.Element => {
   const todos = useFilteredTodos().data ?? [];
 
   return (
-    <List aria-label={"list-todo"} dense={true}>
+    <List aria-label="list-todo" dense>
       {todos.map((todo) => (
         <TodoItem key={todo.id} todo={todo} />
       ))}

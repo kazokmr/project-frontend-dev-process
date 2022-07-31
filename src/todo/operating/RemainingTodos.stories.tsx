@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
-import RemainingTodos from "./RemainingTodos";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import RemainingTodos from "./RemainingTodos";
 import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 

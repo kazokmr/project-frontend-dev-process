@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
-import ActionsForTodos from "./ActionsForTodos";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ActionsForTodos from "./ActionsForTodos";
 
 export default {
   component: ActionsForTodos,

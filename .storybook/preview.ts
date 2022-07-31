@@ -1,5 +1,3 @@
-/* jshint esversion: 6 */
-"use strict";
 import "../src/index.css";
 import "../src/App.css";
 import "../src/todo/TodoApp.css";
@@ -15,14 +13,14 @@ export const parameters = {
   controls: {
     matchers: {
       color: /(background|color)$/i,
-      date: /Date$/,
+      date: /Date$/
     },
-    expanded: true,
+    expanded: true
   },
   msw: {
     handlers: {
-      todos: handlers,
-    },
-  },
+      todos: handlers
+    }
+  }
 };
 
