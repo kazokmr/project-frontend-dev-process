@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: '16.x'
           cache: yarn
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
 
       - name: Install dependencies
         run: yarn install
