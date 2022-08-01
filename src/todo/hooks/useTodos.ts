@@ -1,11 +1,19 @@
-import { Todo } from "../model/todo/Todo";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { atom, useRecoilValue } from "recoil";
+import { Todo } from "../model/todo/Todo";
 import { TodoColor } from "../model/filter/TodoColors";
-import { TODO_STATUS } from "../model/filter/TodoStatus";
-import { useRecoilValue } from "recoil";
-import { colorsFilterState, statusFilterState } from "../TodoApp";
+import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 import { RestClient } from "../client/impl/RestClient";
 import { HttpClient } from "../client/HttpClient";
+
+export const statusFilterState = atom<TodoStatus>({
+  key: "status",
+  default: TODO_STATUS.ALL
+});
+export const colorsFilterState = atom<TodoColor[]>({
+  key: "colors",
+  default: []
+});
 
 const client: HttpClient = new RestClient();
 
@@ -37,7 +45,7 @@ export const useFilteredTodos = () => {
 
 export const useRemainingTodos = () =>
   useQueryTodos<number>((todos: Todo[]) =>
-    todos ? todos.filter((todo: Todo) => !todo.isCompleted).length : 0
+    todos.filter((todo: Todo) => !todo.isCompleted).length
   );
 
 export const useMutationTodoAdded = () => {

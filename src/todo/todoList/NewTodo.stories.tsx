@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
-import NewTodo from "./NewTodo";
 import { userEvent, within } from "@storybook/testing-library";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import NewTodo from "./NewTodo";
 
 export default {
   component: NewTodo,
@@ -30,7 +30,9 @@ export const Interaction: ComponentStoryObj<typeof NewTodo> = {
   storyName: "Todoを入力してEnter",
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("textbox", { name: "input-todo" }));
+    const textBox = canvas.getByRole("textbox", { name: "input-todo" });
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await userEvent.click(textBox);
     await userEvent.keyboard("インタラクションテスト", { delay: 100 });
     setTimeout(() => userEvent.keyboard("{Enter}"), 1000);
   }

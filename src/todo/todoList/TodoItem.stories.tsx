@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TodoItem from "./TodoItem";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default {
   component: TodoItem,
@@ -36,6 +36,7 @@ export const CompletedTodo: ComponentStoryObj<typeof TodoItem> = {
   storyName: "完了済みのTodo",
   args: {
     todo: {
+      // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
       ...(Default.args?.todo as Todo),
       isCompleted: true
     }

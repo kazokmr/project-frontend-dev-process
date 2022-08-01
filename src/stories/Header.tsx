@@ -3,11 +3,12 @@ import React from "react";
 import { Button } from "./Button";
 import "./header.css";
 
-type User = {
+interface User {
   name: string;
-};
+}
 
-interface HeaderProps {
+export interface HeaderProps {
+  // eslint-disable-next-line react/require-default-props
   user?: User;
   onLogin: () => void;
   onLogout: () => void;

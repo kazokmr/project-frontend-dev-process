@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import StatusFilter from "../../../todo/operating/StatusFilter";
-import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
-import { statusFilterState } from "../../../todo/TodoApp";
+import StatusFilter from "../../../todo/operating/StatusFilter";
+import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
+import { statusFilterState } from "../../../todo/hooks/useTodos";
 
 const stateInitializer =
   (initialState: TodoStatus = TODO_STATUS.ALL) =>
-  ({ set }: MutableSnapshot) =>
-    set<TodoStatus>(statusFilterState, initialState);
+    ({ set }: MutableSnapshot) =>
+      set<TodoStatus>(statusFilterState, initialState);
 
 describe("Radioボタンの初期状態をテストする", () => {
   test.each`
@@ -20,11 +20,11 @@ describe("Radioボタンの初期状態をテストする", () => {
   `(
     "現在の検索状況が $status なら、All: $isAll Active: $isActive Completed $isCompleted であること",
     ({
-      status,
-      isAll,
-      isActive,
-      isCompleted,
-    }: {
+       status,
+       isAll,
+       isActive,
+       isCompleted
+     }: {
       status: TodoStatus;
       isAll: boolean;
       isActive: boolean;
@@ -40,15 +40,15 @@ describe("Radioボタンの初期状態をテストする", () => {
       // When: Buttonを検索する
       const buttonAll = screen.getByRole("radio", {
         name: TODO_STATUS.ALL,
-        checked: isAll,
+        checked: isAll
       });
       const buttonActive = screen.getByRole("radio", {
         name: TODO_STATUS.ACTIVE,
-        checked: isActive,
+        checked: isActive
       });
       const buttonCompleted = screen.getByRole("radio", {
         name: TODO_STATUS.COMPLETED,
-        checked: isCompleted,
+        checked: isCompleted
       });
 
       // Then: 設定されたStatusでボタンのPress状態が設定されていること
@@ -68,9 +68,9 @@ describe("ボタンを押した時の動作を確認する", () => {
   `(
     "$filterNameボタンを押したら Statusの状態が $statusとなること",
     async ({
-      filterName,
-      status,
-    }: {
+             filterName,
+             status
+           }: {
       filterName: string;
       status: TodoStatus;
     }) => {

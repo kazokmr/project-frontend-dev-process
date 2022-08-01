@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-import-module-exports
 import type { StorybookConfig } from "@storybook/core-common";
 
 const config: StorybookConfig = {
@@ -7,7 +8,6 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "@storybook/preset-create-react-app",
     "@storybook/addon-a11y"
   ],
   typescript: {
@@ -16,12 +16,12 @@ const config: StorybookConfig = {
     reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (props) => props.parent ? !/node_modules/.test(props.parent.fileName) : true
+      propFilter: (prop: { parent: { fileName: string; }; }) => (!prop.parent.fileName.includes("node_modules"))
     }
   },
   framework: "@storybook/react",
   core: {
-    builder: "webpack5"
+    builder: "@storybook/builder-vite"
   },
   features: {
     postcss: false

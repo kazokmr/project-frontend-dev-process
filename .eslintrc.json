@@ -1,0 +1,70 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)"
+      ],
+      "extends": [
+        "plugin:storybook/recommended"
+      ],
+      "rules": {
+        "storybook/hierarchy-separator": "error",
+        "storybook/default-exports": "off"
+      }
+    },
+    {
+      "files": [
+        "**/__tests__/**/*"
+      ],
+      "plugins": [
+        "jest",
+        "testing-library"
+      ],
+      "extends": [
+        "plugin:jest/recommended",
+        "plugin:testing-library/react"
+      ],
+      "env": {
+        "jest": true,
+        "jest/globals": true
+      }
+    }
+  ]
+}

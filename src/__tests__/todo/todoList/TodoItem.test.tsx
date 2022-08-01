@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import TodoItem from "../../../todo/todoList/TodoItem";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { capitalize } from "../../../todo/model/filter/StringCapitalization";
-import userEvent from "@testing-library/user-event";
 import { Todo } from "../../../todo/model/todo/Todo";
 
 // useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
@@ -35,7 +36,7 @@ describe("初期選択状態のテスト", () => {
           todo={{
             id: "dummy-id",
             text: "Test whether todo is checked or not",
-            isCompleted: isCompleted,
+            isCompleted,
             color: TODO_COLOR.None
           }}
         />
@@ -91,7 +92,7 @@ describe("初期選択状態のテスト", () => {
       <TodoItem
         todo={{
           id: "dummy-id",
-          text: text,
+          text,
           isCompleted: false,
           color: TODO_COLOR.None
         }}
@@ -117,9 +118,9 @@ describe("Todoのイベントハンドラのテスト", () => {
         render(
           <TodoItem
             todo={{
-              id: id,
+              id,
               text: "update isSelected",
-              isCompleted: isCompleted,
+              isCompleted,
               color: TODO_COLOR.None
             }}
           />
@@ -153,7 +154,7 @@ describe("Todoのイベントハンドラのテスト", () => {
       "Colorタグを $changingColor に変更したら onChangeColorHandler関数を呼ぶこと",
       async ({ changingColor }: { changingColor: TodoColor }) => {
         // Given: Todoコンポーネントをレンダリングする
-        const id: string = "dummy-id";
+        const id = "dummy-id";
         const todo: Todo = {
           id,
           text: "Colorタグの変更",

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -28,6 +28,13 @@
   },
   "include": [
     "src",
-    "./jest.setup"
+    ".storybook/*.ts",
+    "**/*.ts",
+    "**/*.js"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }
