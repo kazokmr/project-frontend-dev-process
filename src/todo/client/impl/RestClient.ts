@@ -9,6 +9,7 @@ axios.defaults.baseURL = baseUrl;
 
 export class RestClient implements HttpClient {
   queryTodos = async (): Promise<Todo[]> => {
+
     try {
       const response = await axios.get("/todos");
       return response.data as Todo[];
@@ -17,12 +18,8 @@ export class RestClient implements HttpClient {
       if (axios.isAxiosError(err)) {
         // レスポンスが返ってきた場合
         if (err.response) {
-          const { errorMessage } = err.response.data as {
-            errorMessage: string;
-          };
-          throw new Error(
-            `HTTPステータス: ${err.response.status}: ${errorMessage}`
-          );
+          const { errorMessage } = err.response.data as { errorMessage: string; };
+          throw new Error(`HTTPステータス: ${err.response.status}: ${errorMessage}`);
         } else {
           throw new Error(`サーバーエラー: ${err.message}`);
         }
