@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
 import { RecoilRoot } from "recoil";
 import TodoApp from "./TodoApp";
+import { baseUrl } from "./client/impl/RestClient";
 
 export default {
   component: TodoApp,
@@ -50,7 +51,7 @@ export const Error: ComponentStoryObj<typeof TodoApp> = {
   parameters: {
     msw: {
       handlers: {
-        todos: rest.get("/todos", (req, res, ctx) =>
+        todos: rest.get(`${baseUrl}/todos`, (req, res, ctx) =>
           // return:BAD_REQUEST,
            res(
             ctx.delay(0),
