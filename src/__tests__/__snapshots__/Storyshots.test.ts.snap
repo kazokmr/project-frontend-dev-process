@@ -485,7 +485,7 @@ exports[`Storyshots todo/operating/ActionsForTodos Default 1`] = `
     className="css-1p5q5e5-MuiStack-root"
   >
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1p22tvn-MuiButtonBase-root-MuiButton-root"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1p22tvn-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -506,7 +506,7 @@ exports[`Storyshots todo/operating/ActionsForTodos Default 1`] = `
       Mark All Completed
     </button>
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1p22tvn-MuiButtonBase-root-MuiButton-root"
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1p22tvn-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -550,7 +550,7 @@ exports[`Storyshots todo/operating/ColorFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-h3vrcz-MuiFormControlLabel-root"
       >
         <span
-          className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-1kxv3be-MuiButtonBase-root-MuiCheckbox-root"
+          className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-1kxv3be-MuiButtonBase-root-MuiCheckbox-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -600,7 +600,7 @@ exports[`Storyshots todo/operating/ColorFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-1a33zdu-MuiFormControlLabel-root"
       >
         <span
-          className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-r91mlk-MuiButtonBase-root-MuiCheckbox-root"
+          className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-r91mlk-MuiButtonBase-root-MuiCheckbox-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -650,7 +650,7 @@ exports[`Storyshots todo/operating/ColorFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-fakkzc-MuiFormControlLabel-root"
       >
         <span
-          className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-1mj25ft-MuiButtonBase-root-MuiCheckbox-root"
+          className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-1mj25ft-MuiButtonBase-root-MuiCheckbox-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -700,7 +700,7 @@ exports[`Storyshots todo/operating/ColorFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-a309c5-MuiFormControlLabel-root"
       >
         <span
-          className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-2x7ask-MuiButtonBase-root-MuiCheckbox-root"
+          className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-2x7ask-MuiButtonBase-root-MuiCheckbox-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -750,7 +750,7 @@ exports[`Storyshots todo/operating/ColorFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-4m9n3e-MuiFormControlLabel-root"
       >
         <span
-          className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-pkm4zg-MuiButtonBase-root-MuiCheckbox-root"
+          className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-pkm4zg-MuiButtonBase-root-MuiCheckbox-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -815,7 +815,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
         className="css-1p5q5e5-MuiStack-root"
       >
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1p22tvn-MuiButtonBase-root-MuiButton-root"
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1p22tvn-MuiButtonBase-root-MuiButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -836,7 +836,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
           Mark All Completed
         </button>
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1p22tvn-MuiButtonBase-root-MuiButton-root"
+          className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1p22tvn-MuiButtonBase-root-MuiButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -900,7 +900,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              className="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -961,7 +961,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              className="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1022,7 +1022,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              className="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1105,7 +1105,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-h3vrcz-MuiFormControlLabel-root"
           >
             <span
-              className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-1kxv3be-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-1kxv3be-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1155,7 +1155,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-1a33zdu-MuiFormControlLabel-root"
           >
             <span
-              className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-r91mlk-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-r91mlk-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1205,7 +1205,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-fakkzc-MuiFormControlLabel-root"
           >
             <span
-              className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-1mj25ft-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-1mj25ft-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1255,7 +1255,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-a309c5-MuiFormControlLabel-root"
           >
             <span
-              className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-2x7ask-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-2x7ask-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1305,7 +1305,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-4m9n3e-MuiFormControlLabel-root"
           >
             <span
-              className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-pkm4zg-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-pkm4zg-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -1427,7 +1427,7 @@ exports[`Storyshots todo/operating/StatusFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
-          className="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+          className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -1488,7 +1488,7 @@ exports[`Storyshots todo/operating/StatusFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
-          className="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+          className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -1549,7 +1549,7 @@ exports[`Storyshots todo/operating/StatusFilter Default 1`] = `
         className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
-          className="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+          className="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -1619,7 +1619,7 @@ exports[`Storyshots todo/todoList/NewTodo Todoを入力してEnter 1`] = `
   onKeyDown={[Function]}
 >
   <div
-    className="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-gjbq6i-MuiInputBase-root-MuiFilledInput-root"
+    className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-gjbq6i-MuiInputBase-root-MuiFilledInput-root"
     onClick={[Function]}
   >
     <input
@@ -1627,7 +1627,7 @@ exports[`Storyshots todo/todoList/NewTodo Todoを入力してEnter 1`] = `
       aria-invalid={false}
       aria-label="input-todo"
       autoFocus={false}
-      className="MuiFilledInput-input MuiInputBase-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
+      className="MuiInputBase-input MuiFilledInput-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
       disabled={false}
       id=":r3:"
       onAnimationStart={[Function]}
@@ -1657,7 +1657,7 @@ exports[`Storyshots todo/todoList/NewTodo 標準 1`] = `
   onKeyDown={[Function]}
 >
   <div
-    className="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-gjbq6i-MuiInputBase-root-MuiFilledInput-root"
+    className="MuiInputBase-root MuiFilledInput-root MuiFilledInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-gjbq6i-MuiInputBase-root-MuiFilledInput-root"
     onClick={[Function]}
   >
     <input
@@ -1665,7 +1665,7 @@ exports[`Storyshots todo/todoList/NewTodo 標準 1`] = `
       aria-invalid={false}
       aria-label="input-todo"
       autoFocus={false}
-      className="MuiFilledInput-input MuiInputBase-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
+      className="MuiInputBase-input MuiFilledInput-input css-10botns-MuiInputBase-input-MuiFilledInput-input"
       disabled={false}
       id=":r2:"
       onAnimationStart={[Function]}
@@ -1696,7 +1696,7 @@ exports[`Storyshots todo/todoList/TodoItem 完了済みのTodo 1`] = `
     className="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
   >
     <span
-      className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked PrivateSwitchBase-edgeStart css-8l0d08-MuiButtonBase-root-MuiCheckbox-root"
+      className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked PrivateSwitchBase-edgeStart css-8l0d08-MuiButtonBase-root-MuiCheckbox-root"
       onBlur={[Function]}
       onContextMenu={[Function]}
       onDragLeave={[Function]}
@@ -1743,12 +1743,12 @@ exports[`Storyshots todo/todoList/TodoItem 完了済みのTodo 1`] = `
     </span>
   </div>
   <div
-    className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiNativeSelect-root css-1lcfdtv-MuiInputBase-root-MuiInput-root"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1lcfdtv-MuiInputBase-root-MuiInput-root"
     onClick={[Function]}
   >
     <select
       aria-label="select-todo-color"
-      className="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+      className="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
@@ -1844,7 +1844,7 @@ exports[`Storyshots todo/todoList/TodoItem 標準 1`] = `
     className="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
   >
     <span
-      className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root PrivateSwitchBase-edgeStart css-8l0d08-MuiButtonBase-root-MuiCheckbox-root"
+      className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-edgeStart css-8l0d08-MuiButtonBase-root-MuiCheckbox-root"
       onBlur={[Function]}
       onContextMenu={[Function]}
       onDragLeave={[Function]}
@@ -1891,12 +1891,12 @@ exports[`Storyshots todo/todoList/TodoItem 標準 1`] = `
     </span>
   </div>
   <div
-    className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiNativeSelect-root css-1lcfdtv-MuiInputBase-root-MuiInput-root"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1lcfdtv-MuiInputBase-root-MuiInput-root"
     onClick={[Function]}
   >
     <select
       aria-label="select-todo-color"
-      className="MuiNativeSelect-select MuiNativeSelect-standard MuiInput-input MuiInputBase-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+      className="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
