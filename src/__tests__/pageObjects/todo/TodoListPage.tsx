@@ -1,9 +1,9 @@
 /* eslint-disable jest/no-standalone-expect */
-import { UserEvent } from "@testing-library/user-event/dist/types/setup";
 import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
+import { UserEvent } from "@testing-library/user-event/setup/index";
 import TodoApp from "../../../todo/TodoApp";
 import { TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import { Todo } from "../../../todo/model/todo/Todo";
