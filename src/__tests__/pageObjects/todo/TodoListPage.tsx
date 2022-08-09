@@ -3,7 +3,7 @@ import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-lib
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
-import { UserEvent } from "@testing-library/user-event/setup/index";
+import { UserEvent } from "@testing-library/user-event/setup/setup";
 import TodoApp from "../../../todo/TodoApp";
 import { TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import { Todo } from "../../../todo/model/todo/Todo";

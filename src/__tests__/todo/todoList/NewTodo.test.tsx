@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UserEvent } from "@testing-library/user-event/setup/index";
+import { UserEvent } from "@testing-library/user-event/setup/setup";
 import NewTodo from "../../../todo/todoList/NewTodo";
 
 const typeTodo = async (
