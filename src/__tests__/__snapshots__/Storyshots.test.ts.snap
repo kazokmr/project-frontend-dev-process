@@ -4,7 +4,7 @@ exports[`Storyshots Example/Button Large 1`] = `
 <button
   className="storybook-button storybook-button--large storybook-button--secondary"
   style={
-    Object {
+    {
       "backgroundColor": undefined,
     }
   }
@@ -18,7 +18,7 @@ exports[`Storyshots Example/Button Primary 1`] = `
 <button
   className="storybook-button storybook-button--medium storybook-button--primary"
   style={
-    Object {
+    {
       "backgroundColor": undefined,
     }
   }
@@ -32,7 +32,7 @@ exports[`Storyshots Example/Button Secondary 1`] = `
 <button
   className="storybook-button storybook-button--medium storybook-button--secondary"
   style={
-    Object {
+    {
       "backgroundColor": undefined,
     }
   }
@@ -46,7 +46,7 @@ exports[`Storyshots Example/Button Small 1`] = `
 <button
   className="storybook-button storybook-button--small storybook-button--secondary"
   style={
-    Object {
+    {
       "backgroundColor": undefined,
     }
   }
@@ -103,7 +103,7 @@ exports[`Storyshots Example/Header Logged In 1`] = `
       <button
         className="storybook-button storybook-button--small storybook-button--secondary"
         style={
-          Object {
+          {
             "backgroundColor": undefined,
           }
         }
@@ -154,7 +154,7 @@ exports[`Storyshots Example/Header Logged Out 1`] = `
       <button
         className="storybook-button storybook-button--small storybook-button--secondary"
         style={
-          Object {
+          {
             "backgroundColor": undefined,
           }
         }
@@ -165,7 +165,7 @@ exports[`Storyshots Example/Header Logged Out 1`] = `
       <button
         className="storybook-button storybook-button--small storybook-button--primary"
         style={
-          Object {
+          {
             "backgroundColor": undefined,
           }
         }
@@ -218,7 +218,7 @@ exports[`Storyshots Example/Page Logged In 1`] = `
           className="storybook-button storybook-button--small storybook-button--secondary"
           onClick={[Function]}
           style={
-            Object {
+            {
               "backgroundColor": undefined,
             }
           }
@@ -230,7 +230,7 @@ exports[`Storyshots Example/Page Logged In 1`] = `
           className="storybook-button storybook-button--small storybook-button--primary"
           onClick={[Function]}
           style={
-            Object {
+            {
               "backgroundColor": undefined,
             }
           }
@@ -365,7 +365,7 @@ exports[`Storyshots Example/Page Logged Out 1`] = `
           className="storybook-button storybook-button--small storybook-button--secondary"
           onClick={[Function]}
           style={
-            Object {
+            {
               "backgroundColor": undefined,
             }
           }
@@ -377,7 +377,7 @@ exports[`Storyshots Example/Page Logged Out 1`] = `
           className="storybook-button storybook-button--small storybook-button--primary"
           onClick={[Function]}
           style={
-            Object {
+            {
               "backgroundColor": undefined,
             }
           }
