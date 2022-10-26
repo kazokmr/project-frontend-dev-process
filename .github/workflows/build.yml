@@ -39,4 +39,4 @@ jobs:
         with:
           projectToken: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
         env:
-          NODE_OPTIONS: "--max-old-space-size=15360"
+          NODE_OPTIONS: "--max-old-space-size=15360 --openssl-legacy-provider"
