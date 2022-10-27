@@ -15,14 +15,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.5.0
         with:
           fetch-depth: 0
 
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3.5.1
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           cache: yarn
 
       - name: Install dependencies
@@ -34,9 +34,9 @@ jobs:
       - name: Run Jest
         run: yarn test --collectCoverage --silent
 
-      - name: Run Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
-        env:
-          NODE_OPTIONS: "--max-old-space-size=15360"
+#      - name: Run Chromatic
+#        uses: chromaui/action@v1
+#        with:
+#          projectToken: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
+#        env:
+#          NODE_OPTIONS: "--max-old-space-size=15360 --openssl-legacy-provider"
