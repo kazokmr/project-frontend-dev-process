@@ -125,7 +125,7 @@ describe("React QueryによるServerState管理", () => {
         { wrapper }
       );
       const text = "new todo";
-      act(() => resultMutation.current.mutate({ text }));
+      await act(() => resultMutation.current.mutate({ text }));
       await waitFor(() =>
         expect(resultMutation.current.isSuccess).toBeTruthy()
       );
@@ -160,7 +160,7 @@ describe("React QueryによるServerState管理", () => {
         () => useMutationTodoCompleted(),
         { wrapper }
       );
-      act(() => resultMutation.current.mutate({ id: "3" }));
+      await act(() => resultMutation.current.mutate({ id: "3" }));
       await waitFor(() =>
         expect(resultMutation.current.isSuccess).toBeTruthy()
       );
@@ -189,7 +189,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationTodoChangedColor(),
       { wrapper }
     );
-    act(() =>
+    await act(() =>
       resultMutation.current.mutate({ id: "2", color: TODO_COLOR.Purple })
     );
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
@@ -216,7 +216,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationTodoDeleted(),
       { wrapper }
     );
-    act(() => resultMutation.current.mutate({ id: "4" }));
+    await act(() => resultMutation.current.mutate({ id: "4" }));
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: queryデータが再FetchされTodoが６件になっていること
@@ -241,7 +241,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationCompleteAllTodos(),
       { wrapper }
     );
-    act(() => resultMutation.current.mutate());
+    await act(() => resultMutation.current.mutate());
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: TodoListの件数は最初と変わらず、全て完了になっていること
@@ -265,7 +265,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationDeleteCompletedTodos(),
       { wrapper }
     );
-    act(() => resultMutation.current.mutate());
+    await act(() => resultMutation.current.mutate());
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: TodoListには未完了のTodoだけが残る
