@@ -69,13 +69,6 @@ const queryClient = new QueryClient({
       cacheTime: Infinity,
       staleTime: Infinity
     }
-  },
-  logger: {
-    /* eslint-disable no-console */
-    log: console.log,
-    warn: console.warn,
-    error: console.error
-    /* eslint-enable no-console */
   }
 });
 
