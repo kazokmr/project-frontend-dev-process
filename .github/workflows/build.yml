@@ -34,9 +34,7 @@ jobs:
       - name: Run Jest
         run: yarn test --silent
 
-      - name: Run Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
-        env:
-          NODE_OPTIONS: "--max-old-space-size=15360"
+#      - name: Run Chromatic
+#        uses: chromaui/action@v1
+#        with:
+#          projectToken: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
