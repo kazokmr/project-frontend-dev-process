@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-import-module-exports
-import type { StorybookConfig } from "@storybook/core-common";
+import type { StorybookViteConfig } from "@storybook/builder-vite";
 
-const config: StorybookConfig = {
+const config: StorybookViteConfig = {
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   staticDirs: ["../public"],
   addons: [
@@ -25,6 +25,9 @@ const config: StorybookConfig = {
   },
   features: {
     postcss: false
+  },
+  viteFinal(inlineConfig) {
+    return inlineConfig;
   }
 };
 module.exports = config;
