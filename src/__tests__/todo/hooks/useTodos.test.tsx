@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider, UseQueryResult } from "@tanstack/react-query";
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import {
   useMutationCompleteAllTodos,
@@ -118,7 +118,7 @@ describe("React QueryによるServerState管理", () => {
         { wrapper }
       );
       const text = "new todo";
-      await act(() => resultMutation.current.mutate({ text }));
+      resultMutation.current.mutate({ text });
       await waitFor(() =>
         expect(resultMutation.current.isSuccess).toBeTruthy()
       );
@@ -153,7 +153,7 @@ describe("React QueryによるServerState管理", () => {
         () => useMutationTodoCompleted(),
         { wrapper }
       );
-      await act(() => resultMutation.current.mutate({ id: "3" }));
+      resultMutation.current.mutate({ id: "3" });
       await waitFor(() =>
         expect(resultMutation.current.isSuccess).toBeTruthy()
       );
@@ -182,9 +182,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationTodoChangedColor(),
       { wrapper }
     );
-    await act(() =>
-      resultMutation.current.mutate({ id: "2", color: TODO_COLOR.Purple })
-    );
+    resultMutation.current.mutate({ id: "2", color: TODO_COLOR.Purple });
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: queryデータが再FetchされTodoの完了状況が更新される
@@ -209,7 +207,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationTodoDeleted(),
       { wrapper }
     );
-    await act(() => resultMutation.current.mutate({ id: "4" }));
+    resultMutation.current.mutate({ id: "4" });
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: queryデータが再FetchされTodoが６件になっていること
@@ -234,7 +232,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationCompleteAllTodos(),
       { wrapper }
     );
-    await act(() => resultMutation.current.mutate());
+    resultMutation.current.mutate();
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: TodoListの件数は最初と変わらず、全て完了になっていること
@@ -258,7 +256,7 @@ describe("React QueryによるServerState管理", () => {
       () => useMutationDeleteCompletedTodos(),
       { wrapper }
     );
-    await act(() => resultMutation.current.mutate());
+    resultMutation.current.mutate();
     await waitFor(() => expect(resultMutation.current.isSuccess).toBeTruthy());
 
     // Then: TodoListには未完了のTodoだけが残る
