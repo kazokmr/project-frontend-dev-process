@@ -77,8 +77,8 @@
     "preview": "vite preview",
     "test": "jest --coverage",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
+    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
     "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts"
   },
   "browserslist": {
