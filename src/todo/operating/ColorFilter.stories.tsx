@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import ColorFilter from "./ColorFilter";
@@ -14,6 +14,6 @@ export default {
       </RecoilRoot>
     )
   ]
-} as ComponentMeta<typeof ColorFilter>;
+} as Meta<typeof ColorFilter>;
 
-export const Default: ComponentStoryObj<typeof ColorFilter> = {};
+export const Default: StoryObj<typeof ColorFilter> = {};

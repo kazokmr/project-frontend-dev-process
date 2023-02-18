@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import OperatingTodos from "./OperatingTodos";
@@ -7,9 +7,9 @@ import { TODO_COLOR } from "../model/filter/TodoColors";
 
 export default {
   component: OperatingTodos
-} as ComponentMeta<typeof OperatingTodos>;
+} as Meta<typeof OperatingTodos>;
 
-export const Default: ComponentStoryObj<typeof OperatingTodos> = {
+export const Default: StoryObj<typeof OperatingTodos> = {
   decorators: [
     (story) => (
       <RecoilRoot>

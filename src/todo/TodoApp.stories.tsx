@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { rest } from "msw";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
@@ -35,9 +35,9 @@ export default {
       );
     }
   ]
-} as ComponentMeta<typeof TodoApp>;
+} as Meta<typeof TodoApp>;
 
-export const Default: ComponentStoryObj<typeof TodoApp> = {
+export const Default: StoryObj<typeof TodoApp> = {
   parameters: {
     storyshots: { disable: true }
   },
@@ -47,13 +47,13 @@ export const Default: ComponentStoryObj<typeof TodoApp> = {
   }
 };
 
-export const Error: ComponentStoryObj<typeof TodoApp> = {
+export const Error: StoryObj<typeof TodoApp> = {
   parameters: {
     msw: {
       handlers: {
         todos: rest.get(`${baseUrl}/todos`, (req, res, ctx) =>
           // return:BAD_REQUEST,
-           res(
+          res(
             ctx.delay(0),
             ctx.status(400),
             ctx.json({ errorMessage: "これはエラーです" })

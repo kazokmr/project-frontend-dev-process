@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
 import { RecoilRoot } from "recoil";
@@ -32,9 +32,9 @@ export default {
       );
     }
   ]
-} as ComponentMeta<typeof TodoList>;
+} as Meta<typeof TodoList>;
 
-export const Default: ComponentStoryObj<typeof TodoList> = {
+export const Default: StoryObj<typeof TodoList> = {
   parameters: {
     storyshots: { disable: true }
   },
