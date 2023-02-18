@@ -39,8 +39,8 @@ export const CompletedTodo: Story = {
   name: "完了済みのTodo",
   args: {
     todo: {
-      // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-      ...(Default.args?.todo as Todo),
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      ...Default.args.todo as Todo,
       isCompleted: true
     }
   }

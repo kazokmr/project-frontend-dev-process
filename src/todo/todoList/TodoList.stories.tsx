@@ -3,14 +3,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
 import { RecoilRoot } from "recoil";
 import TodoList from "./TodoList";
-import TodoItem from "./TodoItem";
 
 const meta = {
   component: TodoList,
-  // FIXME: [公式ドキュメント](https://storybook.js.org/docs/7.0/react/writing-stories/stories-for-multiple-components) ではこのように書かれているがエラーが出る。
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-  subcomponents: { TodoItem },
   parameters: {
     actions: {
       handles: ["click", "change"]
