@@ -1,13 +1,11 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
 import { RecoilRoot } from "recoil";
-import TodoItem from "./TodoItem";
 import TodoList from "./TodoList";
 
-export default {
+const meta = {
   component: TodoList,
-  subcomponents: { TodoItem },
   parameters: {
     actions: {
       handles: ["click", "change"]
@@ -32,9 +30,12 @@ export default {
       );
     }
   ]
-} as ComponentMeta<typeof TodoList>;
+} satisfies Meta<typeof TodoList>;
 
-export const Default: ComponentStoryObj<typeof TodoList> = {
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
   parameters: {
     storyshots: { disable: true }
   },

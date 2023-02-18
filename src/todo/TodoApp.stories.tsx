@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { rest } from "msw";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
@@ -6,7 +6,7 @@ import { RecoilRoot } from "recoil";
 import TodoApp from "./TodoApp";
 import { baseUrl } from "./client/impl/RestClient";
 
-export default {
+const meta = {
   component: TodoApp,
   parameters: {
     controls: {
@@ -35,9 +35,12 @@ export default {
       );
     }
   ]
-} as ComponentMeta<typeof TodoApp>;
+} satisfies Meta<typeof TodoApp>;
 
-export const Default: ComponentStoryObj<typeof TodoApp> = {
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
   parameters: {
     storyshots: { disable: true }
   },
@@ -47,13 +50,13 @@ export const Default: ComponentStoryObj<typeof TodoApp> = {
   }
 };
 
-export const Error: ComponentStoryObj<typeof TodoApp> = {
+export const Error: Story = {
   parameters: {
     msw: {
       handlers: {
         todos: rest.get(`${baseUrl}/todos`, (req, res, ctx) =>
           // return:BAD_REQUEST,
-           res(
+          res(
             ctx.delay(0),
             ctx.status(400),
             ctx.json({ errorMessage: "これはエラーです" })

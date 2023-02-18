@@ -1,9 +1,9 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within } from "@storybook/testing-library";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NewTodo from "./NewTodo";
 
-export default {
+const meta = {
   component: NewTodo,
   parameters: {
     controls: {
@@ -20,14 +20,17 @@ export default {
       </QueryClientProvider>
     )
   ]
-} as ComponentMeta<typeof NewTodo>;
+} satisfies Meta<typeof NewTodo>;
 
-export const Default: ComponentStoryObj<typeof NewTodo> = {
-  storyName: "標準"
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  name: "標準"
 };
 
-export const Interaction: ComponentStoryObj<typeof NewTodo> = {
-  storyName: "Todoを入力してEnter",
+export const Interaction: Story = {
+  name: "Todoを入力してEnter",
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textBox = canvas.getByRole("textbox", { name: "input-todo" });

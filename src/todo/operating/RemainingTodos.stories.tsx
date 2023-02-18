@@ -1,12 +1,15 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RemainingTodos from "./RemainingTodos";
 import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
-export default {
+const meta = {
   component: RemainingTodos
-} as ComponentMeta<typeof RemainingTodos>;
+} satisfies Meta<typeof RemainingTodos>;
+
+export default meta;
+type Story = StoryObj<typeof meta>
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,8 +19,8 @@ const queryClient = new QueryClient({
   }
 });
 
-export const Default: ComponentStoryObj<typeof RemainingTodos> = {
-  storyName: "ActiveなTodoが１件",
+export const Default: Story = {
+  name: "ActiveなTodoが１件",
   decorators: [
     (story) => {
       queryClient.clear();
@@ -41,8 +44,8 @@ export const Default: ComponentStoryObj<typeof RemainingTodos> = {
   ]
 };
 
-export const NoActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
-  storyName: "ActiveなTodoが0件",
+export const NoActiveTodo: Story = {
+  name: "ActiveなTodoが0件",
   decorators: [
     (story) => {
       queryClient.clear();
@@ -56,8 +59,8 @@ export const NoActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
   ]
 };
 
-export const MultiActiveTodo: ComponentStoryObj<typeof RemainingTodos> = {
-  storyName: "ActiveなTodoが2件",
+export const MultiActiveTodo: Story = {
+  name: "ActiveなTodoが2件",
   decorators: [
     (story) => {
       queryClient.clear();

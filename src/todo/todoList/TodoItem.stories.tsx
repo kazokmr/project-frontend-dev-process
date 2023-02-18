@@ -1,10 +1,10 @@
-import { ComponentMeta, ComponentStoryObj } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TodoItem from "./TodoItem";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
 
-export default {
+const meta = {
   component: TodoItem,
   decorators: [
     (story) => (
@@ -18,10 +18,13 @@ export default {
       handles: ["click button", "change input", "change select"]
     }
   }
-} as ComponentMeta<typeof TodoItem>;
+} satisfies Meta<typeof TodoItem>;
 
-export const Default: ComponentStoryObj<typeof TodoItem> = {
-  storyName: "標準",
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  name: "標準",
   args: {
     todo: {
       id: "dummy",
@@ -32,12 +35,12 @@ export const Default: ComponentStoryObj<typeof TodoItem> = {
   }
 };
 
-export const CompletedTodo: ComponentStoryObj<typeof TodoItem> = {
-  storyName: "完了済みのTodo",
+export const CompletedTodo: Story = {
+  name: "完了済みのTodo",
   args: {
     todo: {
-      // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-      ...(Default.args?.todo as Todo),
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      ...Default.args.todo as Todo,
       isCompleted: true
     }
   }
