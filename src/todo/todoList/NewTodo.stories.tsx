@@ -3,7 +3,7 @@ import { userEvent, within } from "@storybook/testing-library";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NewTodo from "./NewTodo";
 
-export default {
+const meta = {
   component: NewTodo,
   parameters: {
     controls: {
@@ -20,13 +20,16 @@ export default {
       </QueryClientProvider>
     )
   ]
-} as Meta<typeof NewTodo>;
+} satisfies Meta<typeof NewTodo>;
 
-export const Default: StoryObj<typeof NewTodo> = {
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
   name: "標準"
 };
 
-export const Interaction: StoryObj<typeof NewTodo> = {
+export const Interaction: Story = {
   name: "Todoを入力してEnter",
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

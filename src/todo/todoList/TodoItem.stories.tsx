@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
 
-export default {
+const meta = {
   component: TodoItem,
   decorators: [
     (story) => (
@@ -18,9 +18,12 @@ export default {
       handles: ["click button", "change input", "change select"]
     }
   }
-} as Meta<typeof TodoItem>;
+} satisfies Meta<typeof TodoItem>;
 
-export const Default: StoryObj<typeof TodoItem> = {
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
   name: "標準",
   args: {
     todo: {
@@ -32,7 +35,7 @@ export const Default: StoryObj<typeof TodoItem> = {
   }
 };
 
-export const CompletedTodo: StoryObj<typeof TodoItem> = {
+export const CompletedTodo: Story = {
   name: "完了済みのTodo",
   args: {
     todo: {

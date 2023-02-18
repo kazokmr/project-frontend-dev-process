@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import StatusFilter from "./StatusFilter";
 
-export default {
+const meta = {
   component: StatusFilter,
   decorators: [
     (story) => (
@@ -14,6 +14,9 @@ export default {
       </RecoilRoot>
     )
   ]
-} as Meta<typeof StatusFilter>;
+} satisfies Meta<typeof StatusFilter>;
 
-export const Default: StoryObj<typeof StatusFilter> = {};
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

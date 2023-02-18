@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ActionsForTodos from "./ActionsForTodos";
 
-export default {
+const meta = {
   component: ActionsForTodos,
   decorators: [
     (story) => (
@@ -16,6 +16,9 @@ export default {
       hideNoControlsWarning: true
     }
   }
-} as Meta<typeof ActionsForTodos>;
+} satisfies Meta<typeof ActionsForTodos>;
 
-export const Default: StoryObj<typeof ActionsForTodos> = {};
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

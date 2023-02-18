@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import ColorFilter from "./ColorFilter";
 
-export default {
+const meta = {
   component: ColorFilter,
   decorators: [
     (story) => (
@@ -14,6 +14,9 @@ export default {
       </RecoilRoot>
     )
   ]
-} as Meta<typeof ColorFilter>;
+} satisfies Meta<typeof ColorFilter>;
 
-export const Default: StoryObj<typeof ColorFilter> = {};
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

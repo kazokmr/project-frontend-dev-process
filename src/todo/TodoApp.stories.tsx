@@ -6,7 +6,7 @@ import { RecoilRoot } from "recoil";
 import TodoApp from "./TodoApp";
 import { baseUrl } from "./client/impl/RestClient";
 
-export default {
+const meta = {
   component: TodoApp,
   parameters: {
     controls: {
@@ -35,9 +35,12 @@ export default {
       );
     }
   ]
-} as Meta<typeof TodoApp>;
+} satisfies Meta<typeof TodoApp>;
 
-export const Default: StoryObj<typeof TodoApp> = {
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
   parameters: {
     storyshots: { disable: true }
   },
@@ -47,7 +50,7 @@ export const Default: StoryObj<typeof TodoApp> = {
   }
 };
 
-export const Error: StoryObj<typeof TodoApp> = {
+export const Error: Story = {
   parameters: {
     msw: {
       handlers: {

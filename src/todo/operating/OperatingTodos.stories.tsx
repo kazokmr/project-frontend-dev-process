@@ -5,11 +5,14 @@ import OperatingTodos from "./OperatingTodos";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
-export default {
+const meta = {
   component: OperatingTodos
-} as Meta<typeof OperatingTodos>;
+} satisfies Meta<typeof OperatingTodos>;
 
-export const Default: StoryObj<typeof OperatingTodos> = {
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
   decorators: [
     (story) => (
       <RecoilRoot>

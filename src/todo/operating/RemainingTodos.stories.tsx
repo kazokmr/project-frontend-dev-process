@@ -4,9 +4,12 @@ import RemainingTodos from "./RemainingTodos";
 import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
-export default {
+const meta = {
   component: RemainingTodos
-} as Meta<typeof RemainingTodos>;
+} satisfies Meta<typeof RemainingTodos>;
+
+export default meta;
+type Story = StoryObj<typeof meta>
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,7 +19,7 @@ const queryClient = new QueryClient({
   }
 });
 
-export const Default: StoryObj<typeof RemainingTodos> = {
+export const Default: Story = {
   name: "ActiveなTodoが１件",
   decorators: [
     (story) => {
@@ -41,7 +44,7 @@ export const Default: StoryObj<typeof RemainingTodos> = {
   ]
 };
 
-export const NoActiveTodo: StoryObj<typeof RemainingTodos> = {
+export const NoActiveTodo: Story = {
   name: "ActiveなTodoが0件",
   decorators: [
     (story) => {
@@ -56,7 +59,7 @@ export const NoActiveTodo: StoryObj<typeof RemainingTodos> = {
   ]
 };
 
-export const MultiActiveTodo: StoryObj<typeof RemainingTodos> = {
+export const MultiActiveTodo: Story = {
   name: "ActiveなTodoが2件",
   decorators: [
     (story) => {
