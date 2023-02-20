@@ -1,12 +1,12 @@
 import "../src/index.css";
 import "../src/App.css";
 import "../src/todo/TodoApp.css";
-import { initialize, mswDecorator } from "msw-storybook-addon";
+import { initialize, mswLoader } from "msw-storybook-addon";
 import { handlers } from "../src/mocks/handlers";
 
 initialize();
 
-export const decorators = [mswDecorator];
+export const loaders = [mswLoader];
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
