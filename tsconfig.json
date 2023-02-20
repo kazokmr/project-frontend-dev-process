@@ -20,12 +20,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  },
   "include": [
     "src",
     ".storybook/*.ts",
