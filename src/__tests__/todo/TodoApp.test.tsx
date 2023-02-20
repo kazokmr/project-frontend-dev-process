@@ -60,7 +60,7 @@ describe("Todoリストの操作テスト", () => {
       ]);
 
       // When: ２番目のTodoを完了にする
-      await page.completeTodo(2, true);
+      await page.completeTodo(2);
 
       // Then: ２番目だけが完了になっていること
       expect(await TodoListPage.isCompletedTodoByRow(1)).toBe(false);
@@ -85,7 +85,7 @@ describe("Todoリストの操作テスト", () => {
       ]);
 
       // When: ２番目のTodoの完了操作を行う
-      await page.completeTodo(2, false);
+      await page.completeTodo(2);
 
       // Then: ２番目が未完了に戻る
       expect(await TodoListPage.isCompletedTodoByRow(2)).toBe(false);
@@ -321,7 +321,7 @@ describe("Todoリストの操作テスト", () => {
         );
 
         // When: １番目のTodoを完了済みにする
-        await page.completeTodo(1, true);
+        await page.completeTodo(1);
 
         // Then: Remaining Todoの表示件数はTodoリストの件数から１件少なくなる
         expect(await TodoListPage.countTodos()).toBe(initialCount);
@@ -356,7 +356,7 @@ describe("Todoリストの操作テスト", () => {
         expect(await TodoListPage.isContentRemainingTodos(initCount - 2)).toBeTruthy();
 
         // When: １番目のTodoを未完了に戻す
-        await page.completeTodo(1, false);
+        await page.completeTodo(1);
 
         // Then: Remaining Todoの表示件数は１件増えること
         expect(await TodoListPage.countTodos()).toBe(initCount);
