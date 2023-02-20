@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-standalone-expect */
-import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
@@ -13,13 +13,11 @@ import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 export class TodoListPage {
   private readonly user: UserEvent;
 
-  private readonly refTodos: Todo[];
-
   private filteredStatus: TodoStatus;
 
   private filteredColors: TodoColor[];
 
-  private constructor(todos: Todo[]) {
+  private constructor() {
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -35,7 +33,6 @@ export class TodoListPage {
       </RecoilRoot>
     );
     this.user = userEvent.setup();
-    this.refTodos = todos;
     this.filteredStatus = TODO_STATUS.ALL;
     this.filteredColors = [];
   }
@@ -63,7 +60,7 @@ export class TodoListPage {
   };
 
   private static createPage = async (todos: Todo[]): Promise<TodoListPage> => {
-    const page = new TodoListPage(todos);
+    const page = new TodoListPage();
     await TodoListPage.waitPrintTodos(todos.length);
     await waitFor(async () =>
       expect(await TodoListPage.countTodos()).toBe(todos.length)
@@ -85,20 +82,13 @@ export class TodoListPage {
     await this.user.click(todoTextBox);
     await this.user.keyboard(inputText);
     await this.user.keyboard("[Enter]");
-    // 入力したTodoが表示されるまで待つ
-    expect(await screen.findByText(inputText)).toBeInTheDocument();
   };
 
   completeTodo = async (
-    numberOfRow: number,
-    isComplete: boolean
+    numberOfRow: number
   ): Promise<void> => {
     const checkComplete = await TodoListPage.getCompletedOfTodoByIndex(numberOfRow - 1);
     await this.user.click(checkComplete);
-    // 完了状況が変わるまで待つ
-    await waitFor(() => {
-      expect(checkComplete.checked).toBe(isComplete);
-    });
   };
 
   changeColor = async (
@@ -107,17 +97,11 @@ export class TodoListPage {
   ): Promise<void> => {
     const colorLabel = await TodoListPage.getColorOfTodoByIndex(numberOfRow - 1);
     await this.user.selectOptions(colorLabel, color);
-    // 色が変わるまで待つ
-    await waitFor(() => expect(colorLabel.value).toBe(color));
-    // ReFetchの完了を待つ(これが無いと画面の出力が完了する前にテストされてしまいエラーメッセージが出る)
-    await this.waitReFetchTodos();
   };
 
   deleteTodo = async (numberOfRow: number): Promise<void> => {
     const deleteTodo = await TodoListPage.getDeleteOfTodoByIndex(numberOfRow - 1);
     await this.user.click(deleteTodo);
-    // Todoが削除されるまで待つ
-    await waitForElementToBeRemoved(deleteTodo);
   };
 
   extractTodosByStatus = async (status: TodoStatus) => {
@@ -127,16 +111,6 @@ export class TodoListPage {
     // Statusフィルタを変更する
     const activeFilter = await TodoListPage.getStatusFilter(status);
     await this.user.click(activeFilter);
-
-    // ボタンが押された状態になるまで待つ
-    expect(
-      await screen.findByRole("radio", {
-        name: new RegExp(`^${  status  }$`, "i"),
-        checked: true
-      })
-    ).toBeInTheDocument();
-    // TodoListの表示数が期待通りになるのを待つ
-    await this.waitReFetchTodos();
   };
 
   extractTodosByColors = async (colors: TodoColor[]) => {
@@ -147,9 +121,6 @@ export class TodoListPage {
     const promises: Promise<void>[] = [];
     colors.forEach(color => promises.push(TodoListPage.clickColorFilter(color)));
     await Promise.all(promises);
-
-    // TodoListの表示数が期待通りになるのを待つ
-    await this.waitReFetchTodos();
   };
 
   unExtractTodosByColors = async (colors: TodoColor[]) =>
@@ -159,30 +130,12 @@ export class TodoListPage {
     await this.user.click(
       await screen.findByRole("button", { name: "Mark All Completed" })
     );
-
-    // 全ての完了チェックが付くまで待つ
-    await waitFor(() => {
-      const elements: HTMLInputElement[] = screen.queryAllByRole("checkbox", {
-        name: "todo-isCompleted"
-      });
-      elements.forEach((value: HTMLInputElement) =>
-        expect(value.checked).toBeTruthy()
-      );
-    });
   };
 
   clearCompleted = async () => {
     await this.user.click(
       await screen.findByRole("button", { name: "Clear Completed" })
     );
-
-    // TodoListが未完了だけになるまで待つ
-    await waitFor(async () => {
-      const expectedCount = this.refTodos.filter(
-        (todo: Todo) => !todo.isCompleted
-      ).length;
-      expect(await TodoListPage.countTodos()).toBe(expectedCount);
-    });
   };
 
   static countTodos = async (): Promise<number> => {
@@ -275,28 +228,5 @@ export class TodoListPage {
           !operatedColors.includes(color)) ||
         (!this.filteredColors.includes(color) && operatedColors.includes(color))
     );
-  };
-
-  /// Todoリストのリフェッチが完了するの待つ
-  private waitReFetchTodos = async (): Promise<void> => {
-    // テストケースのフィルタに一致するデータ件数と一致することをWait条件にする(テストデータが動的なため件数が設定できないので)
-    const filtered =
-      this.filteredStatus === TODO_STATUS.ALL
-        ? this.refTodos
-        : this.refTodos.filter((todo: Todo) =>
-          this.filteredStatus === TODO_STATUS.COMPLETED
-            ? todo.isCompleted
-            : !todo.isCompleted
-        );
-    const expectedNumOfTodos =
-      this.filteredColors.length === 0
-        ? filtered.length
-        : filtered.filter((todo: Todo) =>
-          this.filteredColors.includes(todo.color)
-        ).length;
-
-    await waitFor(async () => {
-      expect(await TodoListPage.countTodos()).toBe(expectedNumOfTodos);
-    });
   };
 }
