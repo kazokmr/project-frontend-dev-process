@@ -20,7 +20,9 @@ const client: HttpClient = new RestClient();
 const fetchTodos = () => client.queryTodos();
 
 export function useQueryTodos<T>(select?: (data: Todo[]) => T) {
-  return useQuery<Todo[], Error, T>(["todos"], fetchTodos, {
+  return useQuery<Todo[], Error, T>({
+    queryKey: ["todos"],
+    queryFn: fetchTodos,
     staleTime: Infinity,
     select
   });
@@ -50,7 +52,8 @@ export const useRemainingTodos = () =>
 
 export const useMutationTodoAdded = () => {
   const queryClient = useQueryClient();
-  return useMutation(({ text }: { text: string }) => client.addTodo(text), {
+  return useMutation({
+    mutationFn: ({ text }: { text: string }) => client.addTodo(text),
     onMutate: async ({ text }: { text: string }) => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
@@ -67,7 +70,8 @@ export const useMutationTodoAdded = () => {
 
 export const useMutationTodoCompleted = () => {
   const queryClient = useQueryClient();
-  return useMutation(({ id }: { id: string }) => client.completeTodo(id), {
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => client.completeTodo(id),
     onMutate: async ({ id }: { id: string }) => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
@@ -86,58 +90,51 @@ export const useMutationTodoCompleted = () => {
 
 export const useMutationTodoChangedColor = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ({ id, color }: { id: string; color: TodoColor }) =>
-      client.changeColor(id, color),
-    {
-      onMutate: async ({ id, color }: { id: string; color: TodoColor }) => {
-        await queryClient.cancelQueries(["todos"]);
-        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
-        const updater = oldTodos.map((todo: Todo) =>
-          todo.id === id ? { ...todo, color } : todo
-        );
-        queryClient.setQueryData(["todos"], updater);
-        return { oldTodos };
-      },
-      onError: (err, variables, context) => {
-        queryClient.setQueryData(["todos"], context?.oldTodos);
-      },
-      onSettled: () => queryClient.invalidateQueries(["todos"])
-    }
-  );
+  return useMutation({
+    mutationFn: ({ id, color }: { id: string; color: TodoColor }) => client.changeColor(id, color),
+    onMutate: async ({ id, color }: { id: string; color: TodoColor }) => {
+      await queryClient.cancelQueries(["todos"]);
+      const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+      const updater = oldTodos.map((todo: Todo) =>
+        todo.id === id ? { ...todo, color } : todo
+      );
+      queryClient.setQueryData(["todos"], updater);
+      return { oldTodos };
+    },
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(["todos"], context?.oldTodos);
+    },
+    onSettled: () => queryClient.invalidateQueries(["todos"])
+  });
 };
 
 export const useMutationTodoDeleted = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ["todoDeleted"],
-    ({ id }: { id: string }) => client.deleteTodo(id),
-    {
-      // Mutateが呼ばれたタイミングでClient Cacheを更新する
-      onMutate: async ({ id }: { id: string }) => {
-        // invalidateQueriesからのreFetchで上書きされないようにキャンセルする
-        await queryClient.cancelQueries(["todos"]);
-        // 更新前データのスナップショットをバックアップする
-        const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
-        // 期待する結果にClient Cacheを更新する(楽観的アップデート)
-        const updater = oldTodos.filter((todo: Todo) => todo.id !== id);
-        queryClient.setQueriesData(["todos"], updater);
-        // Contextにスナップショットをセットする
-        return { oldTodos };
-      },
-      // Errorの場合はContextに退避したスナップショットにCacheを戻す
-      onError: (error, variables, context) => {
-        queryClient.setQueryData(["todos"], context?.oldTodos);
-      },
-      // onSettledで、Success時もError時も最後にreFetchしてサーバーの最新情報に更新する
-      onSettled: () => queryClient.invalidateQueries(["todos"])
-    }
-  );
+  return useMutation({
+    mutationKey: ["todoDeleted"],
+    mutationFn: ({ id }: { id: string }) => client.deleteTodo(id),
+    onMutate: async ({ id }: { id: string }) => {
+      // invalidateQueriesからのreFetchで上書きされないようにキャンセルする
+      await queryClient.cancelQueries(["todos"]);
+      // 更新前データのスナップショットをバックアップする
+      const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
+      // 期待する結果にClient Cacheを更新する(楽観的アップデート)
+      const updater = oldTodos.filter((todo: Todo) => todo.id !== id);
+      queryClient.setQueriesData(["todos"], updater);
+      // Contextにスナップショットをセットする
+      return { oldTodos };
+    },
+    onError: (error, variables, context) => {
+      queryClient.setQueryData(["todos"], context?.oldTodos);
+    },
+    onSettled: () => queryClient.invalidateQueries(["todos"])
+  });
 };
 
 export const useMutationCompleteAllTodos = () => {
   const queryClient = useQueryClient();
-  return useMutation(() => client.completeAllTodos(), {
+  return useMutation({
+    mutationFn: () => client.completeAllTodos(),
     onMutate: async () => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
@@ -157,7 +154,8 @@ export const useMutationCompleteAllTodos = () => {
 
 export const useMutationDeleteCompletedTodos = () => {
   const queryClient = useQueryClient();
-  return useMutation(() => client.deleteCompletedTodos(), {
+  return useMutation({
+    mutationFn: () => client.deleteCompletedTodos(),
     onMutate: async () => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
