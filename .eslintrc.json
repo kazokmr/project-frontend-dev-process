@@ -25,6 +25,7 @@
   "plugins": [
     "react",
     "@typescript-eslint",
+    "react-hooks",
     "@tanstack/query"
   ],
   "rules": {
@@ -37,6 +38,8 @@
         "namedComponents": "arrow-function"
       }
     ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "@tanstack/query/exhaustive-deps": "error",
     "@tanstack/query/prefer-query-object-syntax": "error"
   },
