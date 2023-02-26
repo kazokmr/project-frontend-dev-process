@@ -4,4 +4,4 @@ export const TODO_STATUS = {
   COMPLETED: "completed",
 } as const;
 
-export type TodoStatus = typeof TODO_STATUS[keyof typeof TODO_STATUS];
+export type TodoStatus = (typeof TODO_STATUS)[keyof typeof TODO_STATUS];

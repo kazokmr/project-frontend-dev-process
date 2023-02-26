@@ -5,7 +5,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  NativeSelect
+  NativeSelect,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ChangeEvent } from "react";
@@ -14,7 +14,7 @@ import { Todo } from "../model/todo/Todo";
 import {
   useMutationTodoChangedColor,
   useMutationTodoCompleted,
-  useMutationTodoDeleted
+  useMutationTodoDeleted,
 } from "../hooks/useTodos";
 
 interface TodoItemProps {
@@ -61,7 +61,7 @@ const TodoItem = ({ todo }: TodoItemProps): JSX.Element => {
         onChange={(event: ChangeEvent<HTMLSelectElement>) =>
           mutateTodoChangedColor.mutate({
             id: todo.id,
-            color: event.target.value as TodoColor
+            color: event.target.value as TodoColor,
           })
         }
         sx={{ color: todo.color, width: 100 }}

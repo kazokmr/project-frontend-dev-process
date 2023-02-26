@@ -8,11 +8,11 @@ import { HttpClient } from "../client/HttpClient";
 
 export const statusFilterState = atom<TodoStatus>({
   key: "status",
-  default: TODO_STATUS.ALL
+  default: TODO_STATUS.ALL,
 });
 export const colorsFilterState = atom<TodoColor[]>({
   key: "colors",
-  default: []
+  default: [],
 });
 
 const client: HttpClient = new RestClient();
@@ -24,7 +24,7 @@ export function useQueryTodos<T>(select?: (data: Todo[]) => T) {
     queryKey: ["todos"],
     queryFn: fetchTodos,
     staleTime: Infinity,
-    select
+    select,
   });
 }
 
@@ -46,8 +46,8 @@ export const useFilteredTodos = () => {
 };
 
 export const useRemainingTodos = () =>
-  useQueryTodos<number>((todos: Todo[]) =>
-    todos.filter((todo: Todo) => !todo.isCompleted).length
+  useQueryTodos<number>(
+    (todos: Todo[]) => todos.filter((todo: Todo) => !todo.isCompleted).length
   );
 
 export const useMutationTodoAdded = () => {
@@ -64,7 +64,7 @@ export const useMutationTodoAdded = () => {
     onError: (err, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries(["todos"])
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
 
@@ -84,14 +84,15 @@ export const useMutationTodoCompleted = () => {
     onError: (err, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries(["todos"])
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
 
 export const useMutationTodoChangedColor = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, color }: { id: string; color: TodoColor }) => client.changeColor(id, color),
+    mutationFn: ({ id, color }: { id: string; color: TodoColor }) =>
+      client.changeColor(id, color),
     onMutate: async ({ id, color }: { id: string; color: TodoColor }) => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
@@ -104,7 +105,7 @@ export const useMutationTodoChangedColor = () => {
     onError: (err, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries(["todos"])
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
 
@@ -127,7 +128,7 @@ export const useMutationTodoDeleted = () => {
     onError: (error, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries(["todos"])
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
 
@@ -140,7 +141,7 @@ export const useMutationCompleteAllTodos = () => {
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.map((todo: Todo) => ({
         ...todo,
-        isCompleted: true
+        isCompleted: true,
       }));
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
@@ -148,7 +149,7 @@ export const useMutationCompleteAllTodos = () => {
     onError: (error, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries(["todos"])
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
 
@@ -166,6 +167,6 @@ export const useMutationDeleteCompletedTodos = () => {
     onError: (error, variables, context) => {
       queryClient.setQueryData(["todos"], context?.oldTodos);
     },
-    onSettled: () => queryClient.invalidateQueries(["todos"])
+    onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };

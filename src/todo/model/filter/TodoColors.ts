@@ -9,6 +9,6 @@ export const TODO_COLOR = {
 } as const;
 
 // Union typeを表現する
-export type TodoColor = typeof TODO_COLOR[keyof typeof TODO_COLOR];
+export type TodoColor = (typeof TODO_COLOR)[keyof typeof TODO_COLOR];
 
 export const TodoColors = Object.values(TODO_COLOR);

@@ -10,11 +10,11 @@ const meta = {
   component: TodoApp,
   parameters: {
     controls: {
-      hideNoControlsWarning: true
+      hideNoControlsWarning: true,
     },
     actions: {
-      handles: ["click .btn", "change"]
-    }
+      handles: ["click .btn", "change"],
+    },
   },
   decorators: [
     (story) => {
@@ -22,9 +22,9 @@ const meta = {
       const queryClient = new QueryClient({
         defaultOptions: {
           queries: {
-            retry: false
-          }
-        }
+            retry: false,
+          },
+        },
       });
       return (
         <RecoilRoot>
@@ -33,21 +33,21 @@ const meta = {
           </QueryClientProvider>
         </RecoilRoot>
       );
-    }
-  ]
+    },
+  ],
 } satisfies Meta<typeof TodoApp>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   parameters: {
-    storyshots: { disable: true }
+    storyshots: { disable: true },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await canvas.findByRole("list", { name: "list-todo" });
-  }
+  },
 };
 
 export const Error: Story = {
@@ -61,13 +61,13 @@ export const Error: Story = {
             ctx.status(400),
             ctx.json({ errorMessage: "これはエラーです" })
           )
-        )
-      }
+        ),
+      },
     },
-    storyshots: { disable: true }
+    storyshots: { disable: true },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await canvas.findByText(/^Error!!:.+/);
-  }
+  },
 };

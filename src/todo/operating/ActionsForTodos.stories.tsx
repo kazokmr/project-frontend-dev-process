@@ -9,13 +9,13 @@ const meta = {
       <QueryClientProvider client={new QueryClient()}>
         {story()}
       </QueryClientProvider>
-    )
+    ),
   ],
   parameters: {
     controls: {
-      hideNoControlsWarning: true
-    }
-  }
+      hideNoControlsWarning: true,
+    },
+  },
 } satisfies Meta<typeof ActionsForTodos>;
 
 export default meta;

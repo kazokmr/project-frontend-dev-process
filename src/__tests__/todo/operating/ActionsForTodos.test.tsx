@@ -8,11 +8,11 @@ const mockedMutateDeleteCompletedTodos: jest.Mock = jest.fn();
 
 jest.mock("../../../todo/hooks/useTodos", () => ({
   useMutationCompleteAllTodos: () => ({
-    mutate: mockedMutateCompleteAllTodos
+    mutate: mockedMutateCompleteAllTodos,
   }),
   useMutationDeleteCompletedTodos: () => ({
-    mutate: mockedMutateDeleteCompletedTodos
-  })
+    mutate: mockedMutateDeleteCompletedTodos,
+  }),
 }));
 
 // Mockの情報をクリアする

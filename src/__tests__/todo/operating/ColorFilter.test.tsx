@@ -2,21 +2,25 @@ import { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
-import { TODO_COLOR, TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
+import {
+  TODO_COLOR,
+  TodoColor,
+  TodoColors,
+} from "../../../todo/model/filter/TodoColors";
 import ColorFilter from "../../../todo/operating/ColorFilter";
 import { colorsFilterState } from "../../../todo/hooks/useTodos";
 
 // Recoilの初期Stateを渡す関数
 const stateInitializer =
   (initialColors: TodoColor[]) =>
-    ({ set }: MutableSnapshot) =>
-      set<TodoColor[]>(colorsFilterState, initialColors);
+  ({ set }: MutableSnapshot) =>
+    set<TodoColor[]>(colorsFilterState, initialColors);
 
 // テストコンポーネントに状態管理をセットするWrapper
 const ProviderWrapper = ({
-                           children,
-                           initialColors
-                         }: {
+  children,
+  initialColors,
+}: {
   children: ReactNode;
   initialColors: TodoColor[];
 }) => (
@@ -106,9 +110,9 @@ describe("checkboxの状態管理のテスト", () => {
   `(
     "選択状況が$isSelectedの$checkColorを選択したら選択状況が変わること",
     async ({
-             checkColor,
-             isSelected
-           }: {
+      checkColor,
+      isSelected,
+    }: {
       checkColor: TodoColor;
       isSelected: boolean;
     }) => {
@@ -129,7 +133,7 @@ describe("checkboxの状態管理のテスト", () => {
       expect(
         await screen.findByRole("checkbox", {
           name: checkColor,
-          checked: !isSelected
+          checked: !isSelected,
         })
       ).toBeInTheDocument();
     }

@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   List,
   ListItem,
-  Typography
+  Typography,
 } from "@mui/material";
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { colorsFilterState } from "../hooks/useTodos";
@@ -34,7 +34,7 @@ const ColorFilter = (): JSX.Element => {
                   <Checkbox
                     sx={{
                       color,
-                      "&.Mui-checked": { color }
+                      "&.Mui-checked": { color },
                     }}
                     name={color}
                     checked={colors.includes(color)}
