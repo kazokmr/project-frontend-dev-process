@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider, UseQueryResult } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  UseQueryResult,
+} from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import {
@@ -9,7 +13,7 @@ import {
   useMutationTodoChangedColor,
   useMutationTodoCompleted,
   useMutationTodoDeleted,
-  useQueryTodos
+  useQueryTodos,
 } from "../../../todo/hooks/useTodos";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
@@ -21,44 +25,44 @@ const testTodos: Todo[] = [
     id: "1",
     text: "No.1",
     isCompleted: true,
-    color: TODO_COLOR.Blue
+    color: TODO_COLOR.Blue,
   },
   {
     id: "2",
     text: "No.2",
     isCompleted: true,
-    color: TODO_COLOR.Red
+    color: TODO_COLOR.Red,
   },
   {
     id: "3",
     text: "No.3",
     isCompleted: false,
-    color: TODO_COLOR.Blue
+    color: TODO_COLOR.Blue,
   },
   {
     id: "4",
     text: "No.4",
     isCompleted: true,
-    color: TODO_COLOR.None
+    color: TODO_COLOR.None,
   },
   {
     id: "5",
     text: "No.5",
     isCompleted: false,
-    color: TODO_COLOR.Blue
+    color: TODO_COLOR.Blue,
   },
   {
     id: "6",
     text: "No.6",
     isCompleted: false,
-    color: TODO_COLOR.Green
+    color: TODO_COLOR.Green,
   },
   {
     id: "7",
     text: "No.7",
     isCompleted: false,
-    color: TODO_COLOR.Green
-  }
+    color: TODO_COLOR.Green,
+  },
 ];
 
 // QueryClientオブジェクトをテスト用の設定にして生成
@@ -67,9 +71,9 @@ const queryClient = new QueryClient({
     queries: {
       retry: false,
       cacheTime: Infinity,
-      staleTime: Infinity
-    }
-  }
+      staleTime: Infinity,
+    },
+  },
 });
 
 // テスト対象のカスタムHookでQueryClientを利用するためのカスタムWrapper

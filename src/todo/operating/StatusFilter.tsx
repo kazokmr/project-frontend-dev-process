@@ -5,7 +5,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  Typography
+  Typography,
 } from "@mui/material";
 import { ChangeEvent } from "react";
 import { statusFilterState } from "../hooks/useTodos";

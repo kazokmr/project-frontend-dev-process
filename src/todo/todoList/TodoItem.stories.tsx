@@ -11,17 +11,17 @@ const meta = {
       <QueryClientProvider client={new QueryClient()}>
         {story()}
       </QueryClientProvider>
-    )
+    ),
   ],
   parameters: {
     actions: {
-      handles: ["click button", "change input", "change select"]
-    }
-  }
+      handles: ["click button", "change input", "change select"],
+    },
+  },
 } satisfies Meta<typeof TodoItem>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   name: "標準",
@@ -30,9 +30,9 @@ export const Default: Story = {
       id: "dummy",
       text: "Storybookを学ぶ",
       isCompleted: false,
-      color: TODO_COLOR.None
-    }
-  }
+      color: TODO_COLOR.None,
+    },
+  },
 };
 
 export const CompletedTodo: Story = {
@@ -40,8 +40,8 @@ export const CompletedTodo: Story = {
   args: {
     todo: {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      ...Default.args.todo as Todo,
-      isCompleted: true
-    }
-  }
+      ...(Default.args.todo as Todo),
+      isCompleted: true,
+    },
+  },
 };

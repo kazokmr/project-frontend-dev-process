@@ -7,26 +7,26 @@ const meta = {
   component: NewTodo,
   parameters: {
     controls: {
-      hideNoControlsWarning: true
+      hideNoControlsWarning: true,
     },
     actions: {
-      handles: ["change"]
-    }
+      handles: ["change"],
+    },
   },
   decorators: [
     (story) => (
       <QueryClientProvider client={new QueryClient()}>
         {story()}
       </QueryClientProvider>
-    )
-  ]
+    ),
+  ],
 } satisfies Meta<typeof NewTodo>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  name: "標準"
+  name: "標準",
 };
 
 export const Interaction: Story = {
@@ -38,5 +38,5 @@ export const Interaction: Story = {
     await userEvent.click(textBox);
     await userEvent.keyboard("インタラクションテスト", { delay: 100 });
     setTimeout(() => userEvent.keyboard("{Enter}"), 1000);
-  }
+  },
 };

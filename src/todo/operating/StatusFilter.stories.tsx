@@ -12,8 +12,8 @@ const meta = {
           {story()}
         </QueryClientProvider>
       </RecoilRoot>
-    )
-  ]
+    ),
+  ],
 } satisfies Meta<typeof StatusFilter>;
 
 export default meta;

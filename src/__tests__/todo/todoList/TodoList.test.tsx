@@ -6,25 +6,28 @@ import TodoList from "../../../todo/todoList/TodoList";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import { colorsFilterState, statusFilterState } from "../../../todo/hooks/useTodos";
+import {
+  colorsFilterState,
+  statusFilterState,
+} from "../../../todo/hooks/useTodos";
 import { setMockedTodo } from "../../../mocks/handlers";
 
 const stateInitializer =
   (initState: TodoStatus = TODO_STATUS.ALL, initColors: TodoColor[] = []) =>
-    ({ set }: MutableSnapshot) => {
-      set<TodoStatus>(statusFilterState, initState);
-      set<TodoColor[]>(colorsFilterState, initColors);
-    };
+  ({ set }: MutableSnapshot) => {
+    set<TodoStatus>(statusFilterState, initState);
+    set<TodoColor[]>(colorsFilterState, initColors);
+  };
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: false, staleTime: Infinity } }
+  defaultOptions: { queries: { retry: false, staleTime: Infinity } },
 });
 
 const ProviderWrapper = ({
-                           children,
-                           initState,
-                           initColors
-                         }: {
+  children,
+  initState,
+  initColors,
+}: {
   children: ReactNode;
   initState: TodoStatus;
   initColors: TodoColor[];
@@ -41,7 +44,7 @@ describe("Todoの件数による表示テスト", () => {
   describe("表示されるTodo件数の検証", () => {
     const expectTexts: string[] = [
       "これは１つ目のTodoです",
-      "This is a text in the second row"
+      "This is a text in the second row",
     ];
     test.each`
       text
@@ -56,8 +59,8 @@ describe("Todoの件数による表示テスト", () => {
             id: "dummy",
             text,
             isCompleted: false,
-            color: TODO_COLOR.None
-          }
+            color: TODO_COLOR.None,
+          },
         ];
         setMockedTodo(todos);
 
@@ -85,14 +88,14 @@ describe("Todoの件数による表示テスト", () => {
           id: "dummy-1",
           text: expectTexts[0],
           isCompleted: false,
-          color: TODO_COLOR.None
+          color: TODO_COLOR.None,
         },
         {
           id: "dummy-2",
           text: expectTexts[1],
           isCompleted: false,
-          color: TODO_COLOR.None
-        }
+          color: TODO_COLOR.None,
+        },
       ];
       setMockedTodo(todos);
 
@@ -143,7 +146,7 @@ describe("Todoの件数による表示テスト", () => {
       { id: "6", text: "６件目", isCompleted: false, color: TODO_COLOR.Red },
       { id: "7", text: "７件目", isCompleted: true, color: TODO_COLOR.Green },
       { id: "8", text: "８件目", isCompleted: false, color: TODO_COLOR.Red },
-      { id: "9", text: "９件目", isCompleted: true, color: TODO_COLOR.None }
+      { id: "9", text: "９件目", isCompleted: true, color: TODO_COLOR.None },
     ];
     test.each`
       status                   | count
@@ -215,10 +218,10 @@ describe("Todoの件数による表示テスト", () => {
     `(
       "$statusと$colorsで絞るとTodoListは$count件になる",
       async ({
-               status,
-               colors,
-               count
-             }: {
+        status,
+        colors,
+        count,
+      }: {
         status: TodoStatus;
         colors: TodoColor[];
         count: number;

@@ -26,7 +26,7 @@ describe("Todoアプリ画面の初期レンダリング", () => {
       "Actions",
       "Remaining Todos",
       "Filter by Status",
-      "Filter by Color"
+      "Filter by Color",
     ];
     (await screen.findAllByRole("heading", { level: 6 })).forEach(
       (value, index) => {

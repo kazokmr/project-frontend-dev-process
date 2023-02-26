@@ -5,18 +5,18 @@ import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
 const meta = {
-  component: RemainingTodos
+  component: RemainingTodos,
 } satisfies Meta<typeof RemainingTodos>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity
-    }
-  }
+      staleTime: Infinity,
+    },
+  },
 });
 
 export const Default: Story = {
@@ -31,8 +31,8 @@ export const Default: Story = {
             id: "1",
             text: "hogehoge",
             isCompleted: false,
-            color: TODO_COLOR.None
-          }
+            color: TODO_COLOR.None,
+          },
         ]
       );
       return (
@@ -40,8 +40,8 @@ export const Default: Story = {
           {story()}
         </QueryClientProvider>
       );
-    }
-  ]
+    },
+  ],
 };
 
 export const NoActiveTodo: Story = {
@@ -55,8 +55,8 @@ export const NoActiveTodo: Story = {
           {story()}
         </QueryClientProvider>
       );
-    }
-  ]
+    },
+  ],
 };
 
 export const MultiActiveTodo: Story = {
@@ -71,14 +71,14 @@ export const MultiActiveTodo: Story = {
             id: "1",
             text: "hogehoge",
             isCompleted: false,
-            color: TODO_COLOR.None
+            color: TODO_COLOR.None,
           },
           {
             id: "2",
             text: "hogehoge",
             isCompleted: false,
-            color: TODO_COLOR.None
-          }
+            color: TODO_COLOR.None,
+          },
         ]
       );
       return (
@@ -86,6 +86,6 @@ export const MultiActiveTodo: Story = {
           {story()}
         </QueryClientProvider>
       );
-    }
-  ]
+    },
+  ],
 };

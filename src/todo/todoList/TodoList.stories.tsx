@@ -8,8 +8,8 @@ const meta = {
   component: TodoList,
   parameters: {
     actions: {
-      handles: ["click", "change"]
-    }
+      handles: ["click", "change"],
+    },
   },
   decorators: [
     (story) => {
@@ -17,9 +17,9 @@ const meta = {
       const queryClient = new QueryClient({
         defaultOptions: {
           queries: {
-            retry: false
-          }
-        }
+            retry: false,
+          },
+        },
       });
       return (
         <RecoilRoot>
@@ -28,19 +28,19 @@ const meta = {
           </QueryClientProvider>
         </RecoilRoot>
       );
-    }
-  ]
+    },
+  ],
 } satisfies Meta<typeof TodoList>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   parameters: {
-    storyshots: { disable: true }
+    storyshots: { disable: true },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await canvas.findAllByTestId("content-todo");
-  }
+  },
 };

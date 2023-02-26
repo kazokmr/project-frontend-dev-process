@@ -6,7 +6,7 @@ import { TODO_STATUS } from "../model/filter/TodoStatus";
 import { TODO_COLOR } from "../model/filter/TodoColors";
 
 const meta = {
-  component: OperatingTodos
+  component: OperatingTodos,
 } satisfies Meta<typeof OperatingTodos>;
 
 export default meta;
@@ -20,18 +20,18 @@ export const Default: Story = {
           {story()}
         </QueryClientProvider>
       </RecoilRoot>
-    )
+    ),
   ],
   args: {
-    numberOfTodos: 1
+    numberOfTodos: 1,
   },
   argTypes: {
     numberOfTodos: {
-      control: { type: "range", min: 0, max: 100, step: 1 }
+      control: { type: "range", min: 0, max: 100, step: 1 },
     },
     curStatus: {
       options: [TODO_STATUS.ALL, TODO_STATUS.ACTIVE, TODO_STATUS.COMPLETED],
-      control: { type: "inline-radio" }
+      control: { type: "inline-radio" },
     },
     curColors: {
       options: [
@@ -39,9 +39,9 @@ export const Default: Story = {
         TODO_COLOR.Blue,
         TODO_COLOR.Orange,
         TODO_COLOR.Purple,
-        TODO_COLOR.Red
+        TODO_COLOR.Red,
       ],
-      control: { type: "inline-check" }
-    }
-  }
+      control: { type: "inline-check" },
+    },
+  },
 };

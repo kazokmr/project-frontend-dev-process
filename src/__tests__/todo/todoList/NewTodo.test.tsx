@@ -2,19 +2,13 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NewTodo from "../../../todo/todoList/NewTodo";
 
-const typeTodo = async (
-  textBox: HTMLElement,
-  todoText: string
-) => {
+const typeTodo = async (textBox: HTMLElement, todoText: string) => {
   const user = userEvent.setup();
   await user.click(textBox);
   await user.keyboard(todoText);
 };
 
-const submitInputTodo = async (
-  textBox: HTMLElement,
-  todoText: string
-) => {
+const submitInputTodo = async (textBox: HTMLElement, todoText: string) => {
   const user = userEvent.setup();
   await user.click(textBox);
   await user.keyboard(todoText);
@@ -24,7 +18,7 @@ const submitInputTodo = async (
 // useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
 const mockedMutate: jest.Mock = jest.fn();
 jest.mock("../../../todo/hooks/useTodos", () => ({
-  useMutationTodoAdded: () => ({ mutate: mockedMutate })
+  useMutationTodoAdded: () => ({ mutate: mockedMutate }),
 }));
 
 // mockに格納されている情報をクリアする
