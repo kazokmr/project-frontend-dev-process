@@ -8,7 +8,7 @@ initialize();
 
 export const loaders = [mswLoader];
 
-const parameters = {
+export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {
@@ -23,5 +23,3 @@ const parameters = {
     }
   }
 };
-
-export default parameters;
