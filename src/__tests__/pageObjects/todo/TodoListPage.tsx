@@ -3,7 +3,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
-import { UserEvent } from "@testing-library/user-event/setup/setup";
 import TodoApp from "../../../todo/TodoApp";
 import { TodoColor, TodoColors } from "../../../todo/model/filter/TodoColors";
 import { Todo } from "../../../todo/model/todo/Todo";
@@ -11,7 +10,7 @@ import { createMockedTodos, setMockedTodo } from "../../../mocks/handlers";
 import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
 
 export class TodoListPage {
-  private readonly user: UserEvent;
+  private readonly user = userEvent.setup();
 
   private filteredStatus: TodoStatus;
 
@@ -32,7 +31,6 @@ export class TodoListPage {
         </QueryClientProvider>
       </RecoilRoot>
     );
-    this.user = userEvent.setup();
     this.filteredStatus = TODO_STATUS.ALL;
     this.filteredColors = [];
   }

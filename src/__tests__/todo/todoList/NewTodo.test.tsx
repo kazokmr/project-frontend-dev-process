@@ -1,22 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { UserEvent } from "@testing-library/user-event/setup/setup";
 import NewTodo from "../../../todo/todoList/NewTodo";
 
 const typeTodo = async (
-  user: UserEvent,
   textBox: HTMLElement,
   todoText: string
 ) => {
+  const user = userEvent.setup();
   await user.click(textBox);
   await user.keyboard(todoText);
 };
 
 const submitInputTodo = async (
-  user: UserEvent,
   textBox: HTMLElement,
   todoText: string
 ) => {
+  const user = userEvent.setup();
   await user.click(textBox);
   await user.keyboard(todoText);
   await user.keyboard("[Enter]");
@@ -38,11 +37,10 @@ test.each`
 `("TextBoxに $text が入力できる", async ({ text }: { text: string }) => {
   // Given
   render(<NewTodo />);
-  const user = userEvent.setup();
   const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
   // When
-  await typeTodo(user, textBox, text);
+  await typeTodo(textBox, text);
 
   // Then
   expect(textBox).toHaveValue(text);
@@ -58,11 +56,10 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
     async ({ text }: { text: string }) => {
       // Given: コンポーネントをレンダリングする
       render(<NewTodo />);
-      const user = userEvent.setup();
       const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
       // When：ユーザーがTodoを書いてエンターキーを押す
-      await submitInputTodo(user, textBox, text);
+      await submitInputTodo(textBox, text);
 
       // Then: useMutation.mutate()を呼び出すこと。
       expect(mockedMutate).toHaveBeenCalledTimes(1);
@@ -77,12 +74,11 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
   test("Enterを押さなければ関数は呼ばれずtextboxもクリアしない", async () => {
     // Given
     render(<NewTodo />);
-    const user = userEvent.setup();
     const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
     // When
     const text = "これはテストです。";
-    await typeTodo(user, textBox, text);
+    await typeTodo(textBox, text);
 
     // Then
     expect(mockedMutate).not.toHaveBeenCalled();
