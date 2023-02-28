@@ -5,7 +5,13 @@ const config: Config.InitialOptions = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  testMatch: ["<rootDir>/src/**/__tests__/**/*.test.[tj]s?(x)"],
+  testMatch: ["**/__tests__/**/*.test.[tj]s?(x)"],
+  coveragePathIgnorePatterns: [
+    ".+\\.stories\\..+",
+    "<rootDir>/.storybook/",
+    "<rootDir>/src/mocks/",
+    "<rootDir>/src/__tests__/",
+  ],
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
