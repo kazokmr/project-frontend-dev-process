@@ -17,12 +17,10 @@ export const colorsFilterState = atom<TodoColor[]>({
 
 const client: HttpClient = new RestClient();
 
-const fetchTodos = () => client.queryTodos();
-
 export const useQueryTodos = <R>(select?: (data: Todo[]) => R) =>
   useQuery<Todo[], Error, R>({
     queryKey: ["todos"],
-    queryFn: fetchTodos,
+    queryFn: client.queryTodos,
     staleTime: Infinity,
     select,
   });
