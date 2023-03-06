@@ -17,16 +17,13 @@ export const colorsFilterState = atom<TodoColor[]>({
 
 const client: HttpClient = new RestClient();
 
-const fetchTodos = () => client.queryTodos();
-
-export function useQueryTodos<T>(select?: (data: Todo[]) => T) {
-  return useQuery<Todo[], Error, T>({
+export const useQueryTodos = <R>(select?: (data: Todo[]) => R) =>
+  useQuery<Todo[], Error, R>({
     queryKey: ["todos"],
-    queryFn: fetchTodos,
+    queryFn: client.queryTodos,
     staleTime: Infinity,
     select,
   });
-}
 
 export const useFilteredTodos = () => {
   const status = useRecoilValue(statusFilterState);
@@ -61,9 +58,8 @@ export const useMutationTodoAdded = () => {
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
     },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData(["todos"], context?.oldTodos);
-    },
+    onError: (err, variables, context) =>
+      queryClient.setQueryData(["todos"], context?.oldTodos),
     onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
@@ -81,9 +77,8 @@ export const useMutationTodoCompleted = () => {
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
     },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData(["todos"], context?.oldTodos);
-    },
+    onError: (err, variables, context) =>
+      queryClient.setQueryData(["todos"], context?.oldTodos),
     onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
@@ -102,9 +97,8 @@ export const useMutationTodoChangedColor = () => {
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
     },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData(["todos"], context?.oldTodos);
-    },
+    onError: (err, variables, context) =>
+      queryClient.setQueryData(["todos"], context?.oldTodos),
     onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
@@ -125,9 +119,8 @@ export const useMutationTodoDeleted = () => {
       // Contextにスナップショットをセットする
       return { oldTodos };
     },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(["todos"], context?.oldTodos);
-    },
+    onError: (error, variables, context) =>
+      queryClient.setQueryData(["todos"], context?.oldTodos),
     onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
@@ -146,9 +139,8 @@ export const useMutationCompleteAllTodos = () => {
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
     },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(["todos"], context?.oldTodos);
-    },
+    onError: (error, variables, context) =>
+      queryClient.setQueryData(["todos"], context?.oldTodos),
     onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
@@ -164,9 +156,8 @@ export const useMutationDeleteCompletedTodos = () => {
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
     },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(["todos"], context?.oldTodos);
-    },
+    onError: (error, variables, context) =>
+      queryClient.setQueryData(["todos"], context?.oldTodos),
     onSettled: () => queryClient.invalidateQueries(["todos"]),
   });
 };
