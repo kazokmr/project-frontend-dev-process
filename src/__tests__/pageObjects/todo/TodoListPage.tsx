@@ -86,7 +86,9 @@ export class TodoListPage {
     const checkComplete = await TodoListPage.getCompletedOfTodoByIndex(
       numberOfRow - 1
     );
-    await this.user.click(checkComplete);
+    if (typeof checkComplete === "object") {
+      await this.user.click(checkComplete);
+    }
   };
 
   changeColor = async (
@@ -96,14 +98,18 @@ export class TodoListPage {
     const colorLabel = await TodoListPage.getColorOfTodoByIndex(
       numberOfRow - 1
     );
-    await this.user.selectOptions(colorLabel, color);
+    if (typeof colorLabel === "object") {
+      await this.user.selectOptions(colorLabel, color);
+    }
   };
 
   deleteTodo = async (numberOfRow: number): Promise<void> => {
     const deleteTodo = await TodoListPage.getDeleteOfTodoByIndex(
       numberOfRow - 1
     );
-    await this.user.click(deleteTodo);
+    if (typeof deleteTodo === "object") {
+      await this.user.click(deleteTodo);
+    }
   };
 
   extractTodosByStatus = async (status: TodoStatus) => {
@@ -147,16 +153,37 @@ export class TodoListPage {
     return data.childElementCount;
   };
 
-  static isCompletedTodoByRow = async (numberOfRow: number): Promise<boolean> =>
-    (await this.getCompletedOfTodoByIndex(numberOfRow - 1)).checked;
+  static isCompletedTodoByRow = async (
+    numberOfRow: number
+  ): Promise<boolean> => {
+    const color = await this.getCompletedOfTodoByIndex(numberOfRow - 1);
+    switch (typeof color) {
+      case "object":
+        return color.checked;
+      default:
+        return false;
+    }
+  };
 
   static getContentTodoByRow = async (
     numberOfRow: number
-  ): Promise<string | null> =>
-    (await this.getContentOfTodoByIndex(numberOfRow - 1)).textContent;
+  ): Promise<string | null> => {
+    const contentOfTodo = await this.getContentOfTodoByIndex(numberOfRow - 1);
+    if (typeof contentOfTodo === "object") {
+      return contentOfTodo.textContent;
+    }
+    return null;
+  };
 
-  static getColorOfTodoByRow = async (numberOfRow: number): Promise<string> =>
-    (await this.getColorOfTodoByIndex(numberOfRow - 1)).value;
+  static getColorOfTodoByRow = async (numberOfRow: number): Promise<string> => {
+    const colorOfTodo = await TodoListPage.getColorOfTodoByIndex(
+      numberOfRow - 1
+    );
+    if (typeof colorOfTodo === "object") {
+      return colorOfTodo.value;
+    }
+    return "";
+  };
 
   static isContentRemainingTodos = async (
     numOfUnCompleted: number
@@ -174,7 +201,7 @@ export class TodoListPage {
 
   private static getCompletedOfTodoByIndex = async (
     index: number
-  ): Promise<HTMLInputElement> => {
+  ): Promise<HTMLInputElement | undefined> => {
     const completedArray: HTMLInputElement[] = await screen.findAllByRole(
       "checkbox",
       {
@@ -186,7 +213,7 @@ export class TodoListPage {
 
   private static getContentOfTodoByIndex = async (
     index: number
-  ): Promise<HTMLInputElement> => {
+  ): Promise<HTMLInputElement | undefined> => {
     const contents: HTMLInputElement[] = await screen.findAllByTestId(
       "content-todo"
     );
@@ -195,7 +222,7 @@ export class TodoListPage {
 
   private static getColorOfTodoByIndex = async (
     index: number
-  ): Promise<HTMLSelectElement> => {
+  ): Promise<HTMLSelectElement | undefined> => {
     const colorListBoxes: HTMLSelectElement[] = await screen.findAllByRole(
       "combobox",
       { name: "select-todo-color" }
@@ -205,7 +232,7 @@ export class TodoListPage {
 
   private static getDeleteOfTodoByIndex = async (
     index: number
-  ): Promise<HTMLButtonElement> => {
+  ): Promise<HTMLButtonElement | undefined> => {
     const buttons: HTMLButtonElement[] = await screen.findAllByRole("button", {
       name: "delete-todo",
     });
