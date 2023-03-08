@@ -2173,18 +2173,6 @@
     rollup "^2.25.0 || ^3.3.0"
     slash "^3.0.0"
 
-"@storybook/channel-postmessage@7.0.0-beta.62":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-7.0.0-beta.62.tgz#4778dc9b35bde3e3c0a892b5cc3ca1c249870918"
-  integrity sha512-tqc2Zgpt0GK6bMx8GWSA+8OR33AK2Mnglh4WMhCVbvDwhooRxY2r6jcCYCsfLzHm3c3/NJ6x9RxORNusnqvZUw==
-  dependencies:
-    "@storybook/channels" "7.0.0-beta.62"
-    "@storybook/client-logger" "7.0.0-beta.62"
-    "@storybook/core-events" "7.0.0-beta.62"
-    "@storybook/global" "^5.0.0"
-    qs "^6.10.0"
-    telejson "^7.0.3"
-
 "@storybook/channel-postmessage@7.0.0-beta.63":
   version "7.0.0-beta.63"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-7.0.0-beta.63.tgz#d6f3c58190686c4f0d68b6e7163f61818716ac05"
@@ -2206,11 +2194,6 @@
     "@storybook/client-logger" "7.0.0-beta.63"
     "@storybook/global" "^5.0.0"
     telejson "^7.0.3"
-
-"@storybook/channels@7.0.0-beta.62":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-7.0.0-beta.62.tgz#e22558a066fbbd562d17e9fb1420b2c68bf148ab"
-  integrity sha512-WG0bH5EYIi2Eh7iRNq9ScvQlzuBZqtlg0CV8FdLdEeDp6LuYRgIabdjON0PDGagwpir0ozDAqF5sRMwYkhuVPg==
 
 "@storybook/channels@7.0.0-beta.63":
   version "7.0.0-beta.63"
@@ -2269,14 +2252,7 @@
     "@storybook/client-logger" "7.0.0-beta.63"
     "@storybook/preview-api" "7.0.0-beta.63"
 
-"@storybook/client-logger@7.0.0-beta.62", "@storybook/client-logger@next":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-7.0.0-beta.62.tgz#c39b84eba62cb880ca38500a52f80c8267aeddee"
-  integrity sha512-Frp6aqRgFbqyT5LzBSjuxx6rzZeGmDcGRJkIy8BSccmkRx+PQs0sJlkRfDk08u9pseaEpOJZPAvD1SuGUowO6g==
-  dependencies:
-    "@storybook/global" "^5.0.0"
-
-"@storybook/client-logger@7.0.0-beta.63":
+"@storybook/client-logger@7.0.0-beta.63", "@storybook/client-logger@next":
   version "7.0.0-beta.63"
   resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-7.0.0-beta.63.tgz#b9e2088882027e9df4b0435656db60ed00bb8da9"
   integrity sha512-pag7kYV2ABcJh2khd0KI2V4KT4MeBUG7Skr6TigFAYECXZC7FhaC2nEM32DCi9XYnO2cqzA8P2gU+RsEUC0mwg==
@@ -2349,11 +2325,6 @@
     resolve-from "^5.0.0"
     slash "^3.0.0"
     ts-dedent "^2.0.0"
-
-"@storybook/core-events@7.0.0-beta.62":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-7.0.0-beta.62.tgz#66806bb1aad633468382ca88cc2a912fd5c5cb19"
-  integrity sha512-/301tBWbUnhv4tTg5feTR3r1iZ+ep+drEX3ii61SfQNWLugeo9sLIldtxRuEElT6X3Xypw4nCnd+fc3IKDs/Xw==
 
 "@storybook/core-events@7.0.0-beta.63":
   version "7.0.0-beta.63"
@@ -2487,7 +2458,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/global/-/global-5.0.0.tgz#b793d34b94f572c1d7d9e0f44fac4e0dbc9572ed"
   integrity sha512-FcOqPAXACP0I3oJ/ws6/rrPT9WGhu915Cg8D02a9YxLo0DE9zI+a9A5gRGvmQ09fiWPukqI8ZAEoQEdWUKMQdQ==
 
-"@storybook/instrumenter@7.0.0-beta.63":
+"@storybook/instrumenter@7.0.0-beta.63", "@storybook/instrumenter@next":
   version "7.0.0-beta.63"
   resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-7.0.0-beta.63.tgz#ce308904ad40a62e87504355e2e8c55e3ffbbb4d"
   integrity sha512-qED2rr5beGxczttNpT51H3o6yBgTuqp9UTLnpZsvnMwDH5QLkdl1LOrGPre4AAUclWYgK4E5jx8ykM6/FqzCvA==
@@ -2497,17 +2468,6 @@
     "@storybook/core-events" "7.0.0-beta.63"
     "@storybook/global" "^5.0.0"
     "@storybook/preview-api" "7.0.0-beta.63"
-
-"@storybook/instrumenter@next":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-7.0.0-beta.62.tgz#e6c7d547aba2937b670f1e3ee2e5489238b9bd85"
-  integrity sha512-Dx7yuxNGmDaI5DvzBxDVVlx7DfiDLXpnR+dRd0NfEENVen6sZk2SgiWOaEwxWJFdMvxLs1knYLlxYry280dZ+g==
-  dependencies:
-    "@storybook/channels" "7.0.0-beta.62"
-    "@storybook/client-logger" "7.0.0-beta.62"
-    "@storybook/core-events" "7.0.0-beta.62"
-    "@storybook/global" "^5.0.0"
-    "@storybook/preview-api" "7.0.0-beta.62"
 
 "@storybook/jest@^0.0.11-next.0":
   version "0.0.11-next.0"
@@ -2564,28 +2524,6 @@
   version "7.0.0-beta.63"
   resolved "https://registry.yarnpkg.com/@storybook/postinstall/-/postinstall-7.0.0-beta.63.tgz#540f69df2062adb2a72baa1237c34eb421ccedc8"
   integrity sha512-A0ffC7NcH2FbNf/127VZdK5UyDLdrlYFPHjC5L8o4ezYDBz4jwCT+hOm99H9vaO34hxi2tpKH5ykLO9r3BwyFQ==
-
-"@storybook/preview-api@7.0.0-beta.62":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/preview-api/-/preview-api-7.0.0-beta.62.tgz#0e2ee8c020751310c79194552dd9e99733465b0d"
-  integrity sha512-i8zaFqGojcKxkIcztTvX+jnd7XF1LeaXZl6OLW+WORByA0ytIFQOhJfAES+tfdblTK1h7Xg6mC8uhb9B6aAjPw==
-  dependencies:
-    "@storybook/channel-postmessage" "7.0.0-beta.62"
-    "@storybook/channels" "7.0.0-beta.62"
-    "@storybook/client-logger" "7.0.0-beta.62"
-    "@storybook/core-events" "7.0.0-beta.62"
-    "@storybook/csf" next
-    "@storybook/global" "^5.0.0"
-    "@storybook/types" "7.0.0-beta.62"
-    "@types/qs" "^6.9.5"
-    dequal "^2.0.2"
-    lodash "^4.17.21"
-    memoizerific "^1.11.3"
-    qs "^6.10.0"
-    slash "^3.0.0"
-    synchronous-promise "^2.0.15"
-    ts-dedent "^2.0.0"
-    util-deprecate "^1.0.2"
 
 "@storybook/preview-api@7.0.0-beta.63":
   version "7.0.0-beta.63"
@@ -2712,16 +2650,6 @@
     "@storybook/global" "^5.0.0"
     memoizerific "^1.11.3"
 
-"@storybook/types@7.0.0-beta.62":
-  version "7.0.0-beta.62"
-  resolved "https://registry.yarnpkg.com/@storybook/types/-/types-7.0.0-beta.62.tgz#0001d709101cfbe043f9753798226404779c3635"
-  integrity sha512-TqZTTd5V75wW9fTTz4D8JVfbCxZ8wjfJ385M6czB/gCjpvFUq15VCySEvK1xzhTiXWeyHZ2IXI5kTrj9vH3S1w==
-  dependencies:
-    "@storybook/channels" "7.0.0-beta.62"
-    "@types/babel__core" "^7.0.0"
-    "@types/express" "^4.7.0"
-    file-system-cache "^2.0.0"
-
 "@storybook/types@7.0.0-beta.63":
   version "7.0.0-beta.63"
   resolved "https://registry.yarnpkg.com/@storybook/types/-/types-7.0.0-beta.63.tgz#654dd22db333e658b7189b532a4487ea71905d5f"
@@ -2787,10 +2715,10 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/dom@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-9.0.0.tgz#cc50e8df2a7dccff95555102beebbae60e95e95e"
-  integrity sha512-+/TLgKNFsYUshOY/zXsQOk+PlFQK+eyJ9T13IDVNJEi+M+Un7xlJK+FZKkbGSnf0+7E1G6PlDhkSYQ/GFiruBQ==
+"@testing-library/dom@^9.0.0", "@testing-library/dom@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-9.0.1.tgz#fb9e3837fe2a662965df1536988f0863f01dbf51"
+  integrity sha512-fTOVsMY9QLFCCXRHG3Ese6cMH5qIWwSbgxZsgeF5TNsy81HKaZ4kgehnSF8FsR3OF+numlIV2YcU79MzbnhSig==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"
@@ -2798,7 +2726,7 @@
     aria-query "^5.0.0"
     chalk "^4.1.0"
     dom-accessibility-api "^0.5.9"
-    lz-string "^1.4.4"
+    lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
 "@testing-library/jest-dom@^5.16.2", "@testing-library/jest-dom@^5.16.5":
@@ -4807,9 +4735,9 @@ ejs@^3.1.8:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.284:
-  version "1.4.323"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.323.tgz#5f91cb03e6b88c0a208ff66c0203a24c6e689506"
-  integrity sha512-+a0hMEQxE8u1F1vOHcE0M18kQ2+4AwOXdRrU4avZ1LeR/sa9WAallYE3uES/PNcEGt/wCFcOgWcArSLx5C+WNQ==
+  version "1.4.325"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.325.tgz#7b97238a61192d85d055d97f3149832b3617d37b"
+  integrity sha512-K1C03NT4I7BuzsRdCU5RWkgZxtswnKDYM6/eMhkEXqKu4e5T+ck610x3FPzu1y7HVFSiQKZqP16gnJzPpji1TQ==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -7299,7 +7227,7 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lz-string@^1.4.4:
+lz-string@^1.4.4, lz-string@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/lz-string/-/lz-string-1.5.0.tgz#c1ab50f77887b712621201ba9fd4e3a6ed099941"
   integrity sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==
