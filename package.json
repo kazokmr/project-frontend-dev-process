@@ -79,7 +79,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts",
-    "postbuild": "rm ./dist/mockServiceWorker.js"
+    "postbuild": "rm -f ./dist/mockServiceWorker.js"
   },
   "browserslist": {
     "production": [
