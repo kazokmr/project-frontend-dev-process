@@ -78,7 +78,8 @@
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts"
+    "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts",
+    "postbuild": "rm ./dist/mockServiceWorker.js"
   },
   "browserslist": {
     "production": [

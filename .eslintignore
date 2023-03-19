@@ -1,5 +1,5 @@
 !.storybook
-/build
+/dist
 /coverage
 /public
 /storybook-static
