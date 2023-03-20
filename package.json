@@ -22,16 +22,16 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^7.0.0-rc.4",
-    "@storybook/addon-actions": "^7.0.0-rc.4",
-    "@storybook/addon-essentials": "^7.0.0-rc.4",
-    "@storybook/addon-interactions": "^7.0.0-rc.4",
-    "@storybook/addon-links": "^7.0.0-rc.4",
-    "@storybook/addon-storyshots": "^7.0.0-rc.4",
+    "@storybook/addon-a11y": "^7.0.0-rc.5",
+    "@storybook/addon-actions": "^7.0.0-rc.5",
+    "@storybook/addon-essentials": "^7.0.0-rc.5",
+    "@storybook/addon-interactions": "^7.0.0-rc.5",
+    "@storybook/addon-links": "^7.0.0-rc.5",
+    "@storybook/addon-storyshots": "^7.0.0-rc.5",
     "@storybook/jest": "^0.0.11-next.0",
-    "@storybook/node-logger": "^7.0.0-rc.4",
-    "@storybook/react": "^7.0.0-rc.4",
-    "@storybook/react-vite": "^7.0.0-rc.4",
+    "@storybook/node-logger": "^7.0.0-rc.5",
+    "@storybook/react": "^7.0.0-rc.5",
+    "@storybook/react-vite": "^7.0.0-rc.5",
     "@storybook/testing-library": "^0.0.14-next.1",
     "@storybook/testing-react": "^2.0.0-next.0",
     "@tanstack/eslint-plugin-query": "^4.27.0",
@@ -64,7 +64,7 @@
     "msw-storybook-addon": "^1.8.0",
     "prettier": "^2.8.4",
     "react-test-renderer": "^18.2.0",
-    "storybook": "^7.0.0-rc.4",
+    "storybook": "^7.0.0-rc.5",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
@@ -78,8 +78,7 @@
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts",
-    "postbuild": "rm -f ./dist/mockServiceWorker.js"
+    "snapshot": "yarn test ./src/__tests__/Storyshots.test.ts"
   },
   "browserslist": {
     "production": [
