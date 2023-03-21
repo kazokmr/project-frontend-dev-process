@@ -10,11 +10,4 @@ export default defineConfig({
     minify: true,
     sourcemap: false,
   },
-  optimizeDeps: {
-    exclude: [
-      "**/__tests__/",
-      "**/mocks",
-      "**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)",
-    ],
-  },
 });
