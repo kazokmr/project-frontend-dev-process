@@ -17,13 +17,12 @@ export const colorsFilterState = atom<TodoColor[]>({
 
 const client: HttpClient = new RestClient();
 
-const useQueryTodos = <R>(select?: (data: Todo[]) => R, suspense = true) =>
+const useQueryTodos = <R>(select?: (data: Todo[]) => R) =>
   useQuery<Todo[], Error, R>({
     queryKey: ["todos"],
     queryFn: client.queryTodos,
     staleTime: Infinity,
     select,
-    suspense,
   });
 
 export const useFilteredTodos = () => {
@@ -45,8 +44,7 @@ export const useFilteredTodos = () => {
 
 export const useRemainingTodos = () =>
   useQueryTodos<number>(
-    (todos: Todo[]) => todos.filter((todo: Todo) => !todo.isCompleted).length,
-    false
+    (todos: Todo[]) => todos.filter((todo: Todo) => !todo.isCompleted).length
   );
 
 export const useMutationTodoAdded = () => {

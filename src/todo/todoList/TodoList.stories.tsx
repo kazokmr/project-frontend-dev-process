@@ -18,6 +18,7 @@ const meta = {
         defaultOptions: {
           queries: {
             retry: false,
+            suspense: false,
           },
         },
       });
