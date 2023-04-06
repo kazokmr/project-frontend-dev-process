@@ -14,13 +14,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   decorators: [
-    (story) => (
-      <RecoilRoot>
-        <QueryClientProvider client={new QueryClient()}>
-          {story()}
-        </QueryClientProvider>
-      </RecoilRoot>
-    ),
+    (story) => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            suspense: false,
+          },
+        },
+      });
+      return (
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
+            {story()}
+          </QueryClientProvider>
+        </RecoilRoot>
+      );
+    },
   ],
   args: {
     numberOfTodos: 1,

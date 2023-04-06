@@ -1,22 +1,18 @@
 import { Container } from "@mui/material";
+import { Suspense } from "react";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
-import { useQueryTodos } from "./hooks/useTodos";
 
-const TodoApp = (): JSX.Element => {
-  const { isLoading, isError, error } = useQueryTodos();
+const FallbackError = ({ error }: FallbackProps) => (
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  <p>Error!!:{error.message}</p>
+);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error!!:{error.message}</span>;
-  }
-
-  return (
-    <>
+const TodoApp = (): JSX.Element => (
+  <ErrorBoundary FallbackComponent={FallbackError}>
+    <Suspense fallback={<p>Loading...</p>}>
       <Container maxWidth="md" component="main">
         <NewTodo />
         <TodoList />
@@ -24,8 +20,8 @@ const TodoApp = (): JSX.Element => {
       <Container maxWidth="md" component="footer" sx={{ mt: 6 }}>
         <OperatingTodos />
       </Container>
-    </>
-  );
-};
+    </Suspense>
+  </ErrorBoundary>
+);
 
 export default TodoApp;
