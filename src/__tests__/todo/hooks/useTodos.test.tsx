@@ -7,13 +7,13 @@ import {
 import { renderHook, waitFor } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import {
+  useFilteredTodos,
   useMutationCompleteAllTodos,
   useMutationDeleteCompletedTodos,
   useMutationTodoAdded,
   useMutationTodoChangedColor,
   useMutationTodoCompleted,
   useMutationTodoDeleted,
-  useQueryTodos,
 } from "../../../todo/hooks/useTodos";
 import { Todo } from "../../../todo/model/todo/Todo";
 import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
@@ -95,7 +95,7 @@ describe("React QueryによるServerState管理", () => {
     test("バックエンドAPIを使いTodoリストが取得できること", async () => {
       // When: 全てのTodoを検索する
       const { result } = renderHook<UseQueryResult, unknown>(
-        () => useQueryTodos<Todo[]>(),
+        () => useFilteredTodos(),
         { wrapper }
       );
       await waitFor(() => expect(result.current.isSuccess).toBeTruthy());
@@ -110,7 +110,7 @@ describe("React QueryによるServerState管理", () => {
     test("Todoを追加するとTodoリストを再フェッチする", async () => {
       // Given: 検証用のuseQueryTodoカスタムフックを出力する
       const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-        () => useQueryTodos<Todo[]>(),
+        () => useFilteredTodos(),
         { wrapper }
       );
       await waitFor(() => expect(resultQuery.current.isSuccess).toBeTruthy());
@@ -144,7 +144,7 @@ describe("React QueryによるServerState管理", () => {
     test("指定したIDのTodoをCompletedにする", async () => {
       // Given: 検証用のuseQueryTodoカスタムフックを出力する
       const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-        () => useQueryTodos<Todo[]>(),
+        () => useFilteredTodos(),
         { wrapper }
       );
       // 最初は未完了であることを確認する
@@ -173,7 +173,7 @@ describe("React QueryによるServerState管理", () => {
   test("指定したIDのTodoのColorを変更する", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
     const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-      () => useQueryTodos<Todo[]>(),
+      () => useFilteredTodos(),
       { wrapper }
     );
     // 最初はRedであることを確認する
@@ -199,7 +199,7 @@ describe("React QueryによるServerState管理", () => {
   test("指定したIDのTodoをリストから削除する", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
     const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-      () => useQueryTodos<Todo[]>(),
+      () => useFilteredTodos(),
       { wrapper }
     );
     // 最初は７件取得できる
@@ -224,7 +224,7 @@ describe("React QueryによるServerState管理", () => {
   test("全てのTodoを完了済みにする", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
     const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-      () => useQueryTodos<Todo[]>(),
+      () => useFilteredTodos(),
       { wrapper }
     );
     // 最初は７件取得できる
@@ -248,7 +248,7 @@ describe("React QueryによるServerState管理", () => {
   test("完了済みのTodoをリストから削除する", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
     const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-      () => useQueryTodos<Todo[]>(),
+      () => useFilteredTodos(),
       { wrapper }
     );
     // 最初は７件取得できる
