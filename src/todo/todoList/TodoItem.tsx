@@ -1,3 +1,4 @@
+import { ChangeEvent, ReactElement } from "react";
 import {
   capitalize,
   Checkbox,
@@ -8,7 +9,6 @@ import {
   NativeSelect,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ChangeEvent } from "react";
 import { TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
 import {
@@ -21,12 +21,12 @@ interface TodoItemProps {
   todo: Todo;
 }
 
-const TodoItem = ({ todo }: TodoItemProps): JSX.Element => {
+const TodoItem = ({ todo }: TodoItemProps): ReactElement => {
   const mutateTodoCompleted = useMutationTodoCompleted();
   const mutateTodoChangedColor = useMutationTodoChangedColor();
   const mutateTodoDeleted = useMutationTodoDeleted();
 
-  const optionalColors: JSX.Element[] = TodoColors.map((color: TodoColor) => (
+  const optionalColors = TodoColors.map((color: TodoColor) => (
     <option key={color} value={color}>
       {capitalize(color)}
     </option>

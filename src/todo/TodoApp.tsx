@@ -1,5 +1,5 @@
+import { ReactElement, Suspense } from "react";
 import { Container } from "@mui/material";
-import { Suspense } from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
@@ -10,7 +10,7 @@ const FallbackError = ({ error }: FallbackProps) => (
   <p>Error!!:{error.message}</p>
 );
 
-const TodoApp = (): JSX.Element => (
+const TodoApp = (): ReactElement => (
   <ErrorBoundary FallbackComponent={FallbackError}>
     <Suspense fallback={<p>Loading...</p>}>
       <Container maxWidth="md" component="main">

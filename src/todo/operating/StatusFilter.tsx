@@ -1,3 +1,4 @@
+import { ChangeEvent, ReactElement } from "react";
 import { useRecoilState } from "recoil";
 import {
   Container,
@@ -7,11 +8,10 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { ChangeEvent } from "react";
 import { statusFilterState } from "../hooks/useTodos";
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 
-const StatusFilter = (): JSX.Element => {
+const StatusFilter = (): ReactElement => {
   const [status, setStatus] = useRecoilState<TodoStatus>(statusFilterState);
 
   return (

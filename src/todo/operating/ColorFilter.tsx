@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { useRecoilState } from "recoil";
 import {
   Checkbox,
@@ -10,7 +11,7 @@ import {
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { colorsFilterState } from "../hooks/useTodos";
 
-const ColorFilter = (): JSX.Element => {
+const ColorFilter = (): ReactElement => {
   const [colors, setColors] = useRecoilState<TodoColor[]>(colorsFilterState);
   const updateColors = (changedColor: TodoColor, isChecked: boolean) => {
     if (isChecked && !colors.includes(changedColor)) {
