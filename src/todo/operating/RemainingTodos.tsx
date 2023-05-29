@@ -1,7 +1,8 @@
+import { ReactElement } from "react";
 import { Container, Typography } from "@mui/material";
 import { useRemainingTodos } from "../hooks/useTodos";
 
-const RemainingTodos = (): JSX.Element => {
+const RemainingTodos = (): ReactElement => {
   const numOfTodo = useRemainingTodos().data ?? 0;
 
   return (

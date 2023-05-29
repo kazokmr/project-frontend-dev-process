@@ -1,9 +1,10 @@
+import { ReactElement } from "react";
 import { List } from "@mui/material";
 import TodoItem from "./TodoItem";
 import { useFilteredTodos } from "../hooks/useTodos";
 import { Todo } from "../model/todo/Todo";
 
-const TodoList = (): JSX.Element => {
+const TodoList = (): ReactElement => {
   const { data } = useFilteredTodos();
 
   return (

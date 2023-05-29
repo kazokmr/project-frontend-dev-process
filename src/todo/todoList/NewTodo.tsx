@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { TextField } from "@mui/material";
 import { useMutationTodoAdded } from "../hooks/useTodos";
 
-const NewTodo = (): JSX.Element => {
+const NewTodo = (): ReactElement => {
   const [textValue, setTextValue] = useState("");
   const [typingText, setTypingText] = useState(false);
   const mutation = useMutationTodoAdded();
