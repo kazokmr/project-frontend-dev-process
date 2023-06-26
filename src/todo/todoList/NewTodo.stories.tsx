@@ -34,9 +34,8 @@ export const Interaction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const textBox = canvas.getByRole("textbox", { name: "input-todo" });
-    // eslint-disable-next-line @typescript-eslint/await-thenable
     await userEvent.click(textBox);
     await userEvent.keyboard("インタラクションテスト", { delay: 100 });
-    setTimeout(() => userEvent.keyboard("{Enter}"), 1000);
+    await userEvent.keyboard("{Enter}", { delay: 1000 });
   },
 };
