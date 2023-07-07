@@ -10,7 +10,7 @@ exports[`Storyshots todo/operating/ActionsForTodos Default 1`] = `
     Actions
   </h6>
   <div
-    className="MuiStack-root css-1p5q5e5-MuiStack-root"
+    className="MuiStack-root css-pwj874-MuiStack-root"
   >
     <button
       className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1p22tvn-MuiButtonBase-root-MuiButton-root"
@@ -345,7 +345,7 @@ exports[`Storyshots todo/operating/OperatingTodos Default 1`] = `
         Actions
       </h6>
       <div
-        className="MuiStack-root css-1p5q5e5-MuiStack-root"
+        className="MuiStack-root css-pwj874-MuiStack-root"
       >
         <button
           className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1p22tvn-MuiButtonBase-root-MuiButton-root"
