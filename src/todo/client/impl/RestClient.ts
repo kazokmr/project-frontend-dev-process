@@ -21,7 +21,7 @@ export class RestClient implements HttpClient {
             errorMessage: string;
           };
           throw new Error(
-            `HTTPステータス: ${err.response.status}: ${errorMessage}`
+            `HTTPステータス: ${err.response.status}: ${errorMessage}`,
           );
         } else {
           throw new Error(`サーバーエラー: ${err.message}`);

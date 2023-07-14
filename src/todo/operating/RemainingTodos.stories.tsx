@@ -33,7 +33,7 @@ export const Default: Story = {
             isCompleted: false,
             color: TODO_COLOR.None,
           },
-        ]
+        ],
       );
       return (
         <QueryClientProvider client={queryClient}>
@@ -79,7 +79,7 @@ export const MultiActiveTodo: Story = {
             isCompleted: false,
             color: TODO_COLOR.None,
           },
-        ]
+        ],
       );
       return (
         <QueryClientProvider client={queryClient}>

@@ -60,8 +60,8 @@ export const Error: Story = {
           res(
             ctx.delay(0),
             ctx.status(400),
-            ctx.json({ errorMessage: "これはエラーです" })
-          )
+            ctx.json({ errorMessage: "これはエラーです" }),
+          ),
         ),
       },
     },

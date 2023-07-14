@@ -35,7 +35,7 @@ describe("カラーフィルターの初期値", () => {
     render(
       <ProviderWrapper initialColors={[]}>
         <ColorFilter />
-      </ProviderWrapper>
+      </ProviderWrapper>,
     );
 
     // When: フィルタ要素のname配列を取得する
@@ -47,7 +47,7 @@ describe("カラーフィルターの初期値", () => {
     expect(filterNames).not.toContain(TODO_COLOR.None);
     // 同じ条件でソートして配列が一致することを確認する
     expect(filterNames.sort()).toEqual(
-      TodoColors.filter((color) => color !== TODO_COLOR.None).sort()
+      TodoColors.filter((color) => color !== TODO_COLOR.None).sort(),
     );
   });
 
@@ -55,10 +55,10 @@ describe("カラーフィルターの初期値", () => {
     render(
       <ProviderWrapper initialColors={[]}>
         <ColorFilter />
-      </ProviderWrapper>
+      </ProviderWrapper>,
     );
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      TodoColors.length - 1
+      TodoColors.length - 1,
     );
   });
 
@@ -67,18 +67,18 @@ describe("カラーフィルターの初期値", () => {
     render(
       <ProviderWrapper initialColors={colors}>
         <ColorFilter />
-      </ProviderWrapper>
+      </ProviderWrapper>,
     );
 
     expect(
       screen
         .getAllByRole("checkbox", { checked: true })
-        .map((e) => e.getAttribute("name"))
+        .map((e) => e.getAttribute("name")),
     ).toEqual(["green", "purple"]);
     expect(
       screen
         .getAllByRole("checkbox", { checked: false })
-        .map((e) => e.getAttribute("name"))
+        .map((e) => e.getAttribute("name")),
     ).toEqual(["blue", "orange", "red"]);
   });
 
@@ -86,10 +86,10 @@ describe("カラーフィルターの初期値", () => {
     render(
       <ProviderWrapper initialColors={[]}>
         <ColorFilter />
-      </ProviderWrapper>
+      </ProviderWrapper>,
     );
     expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      TodoColors.length - 1
+      TodoColors.length - 1,
     );
   });
 });
@@ -121,7 +121,7 @@ describe("checkboxの状態管理のテスト", () => {
       render(
         <ProviderWrapper initialColors={colors}>
           <ColorFilter />
-        </ProviderWrapper>
+        </ProviderWrapper>,
       );
 
       // When: Colorチェックボックスを選択する
@@ -134,8 +134,8 @@ describe("checkboxの状態管理のテスト", () => {
         await screen.findByRole("checkbox", {
           name: checkColor,
           checked: !isSelected,
-        })
+        }),
       ).toBeInTheDocument();
-    }
+    },
   );
 });
