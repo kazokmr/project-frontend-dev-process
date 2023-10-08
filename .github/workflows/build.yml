@@ -31,7 +31,7 @@ jobs:
         run: pnpm run eslint
 
       - name: Run Jest
-        run: pnpm run test --silent
+        run: pnpm run test
 
       - name: Run Chromatic
         uses: chromaui/action@v1
