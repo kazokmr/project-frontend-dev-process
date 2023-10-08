@@ -62,7 +62,7 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
       expect(mockedMutate.mock.calls[0][0]).toStrictEqual({ text });
       // Enterキーを押したらTextBoxの値はクリアされる
       expect(textBox).toHaveValue("");
-    }
+    },
   );
 
   test("Enterを押さなければ関数は呼ばれずtextboxもクリアしない", async () => {

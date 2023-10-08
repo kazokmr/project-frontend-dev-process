@@ -68,17 +68,17 @@ describe("Todoの件数による表示テスト", () => {
         render(
           <ProviderWrapper initColors={[]} initState={TODO_STATUS.ALL}>
             <TodoList />
-          </ProviderWrapper>
+          </ProviderWrapper>,
         );
         expect(
-          await screen.findByRole("list", { name: "list-todo" })
+          await screen.findByRole("list", { name: "list-todo" }),
         ).toBeInTheDocument();
 
         // Then: 表示されるtodosを検証する
         const todoTexts = await screen.findAllByTestId("content-todo");
         expect(todoTexts).toHaveLength(1);
         expect(todoTexts[0].textContent).toBe(text);
-      }
+      },
     );
 
     test("Todoが2件の場合の表示", async () => {
@@ -103,10 +103,10 @@ describe("Todoの件数による表示テスト", () => {
       render(
         <ProviderWrapper initColors={[]} initState={TODO_STATUS.ALL}>
           <TodoList />
-        </ProviderWrapper>
+        </ProviderWrapper>,
       );
       expect(
-        await screen.findByRole("list", { name: "list-todo" })
+        await screen.findByRole("list", { name: "list-todo" }),
       ).toBeInTheDocument();
 
       // Then: 表示されるtodosを検証する
@@ -125,10 +125,10 @@ describe("Todoの件数による表示テスト", () => {
       render(
         <ProviderWrapper initColors={[]} initState={TODO_STATUS.ALL}>
           <TodoList />
-        </ProviderWrapper>
+        </ProviderWrapper>,
       );
       expect(
-        await screen.findByRole("list", { name: "list-todo" })
+        await screen.findByRole("list", { name: "list-todo" }),
       ).toBeInTheDocument();
 
       // Then: Todosが１件も表示されないこと
@@ -163,17 +163,17 @@ describe("Todoの件数による表示テスト", () => {
         render(
           <ProviderWrapper initState={status} initColors={[]}>
             <TodoList />
-          </ProviderWrapper>
+          </ProviderWrapper>,
         );
 
         expect(
-          await screen.findByRole("list", { name: "list-todo" })
+          await screen.findByRole("list", { name: "list-todo" }),
         ).toBeInTheDocument();
 
         // Then: 表示されるtodosを検証する
         const todoItems = await screen.findAllByTestId("content-todo");
         expect(todoItems).toHaveLength(count);
-      }
+      },
     );
 
     test.each`
@@ -193,17 +193,17 @@ describe("Todoの件数による表示テスト", () => {
         render(
           <ProviderWrapper initState={TODO_STATUS.ALL} initColors={colors}>
             <TodoList />
-          </ProviderWrapper>
+          </ProviderWrapper>,
         );
 
         expect(
-          await screen.findByRole("list", { name: "list-todo" })
+          await screen.findByRole("list", { name: "list-todo" }),
         ).toBeInTheDocument();
 
         // Then: 表示されるtodosを検証する
         const todoItems = await screen.findAllByTestId("content-todo");
         expect(todoItems).toHaveLength(count);
-      }
+      },
     );
 
     test.each`
@@ -233,18 +233,18 @@ describe("Todoの件数による表示テスト", () => {
         render(
           <ProviderWrapper initState={status} initColors={colors}>
             <TodoList />
-          </ProviderWrapper>
+          </ProviderWrapper>,
         );
 
         expect(
-          await screen.findByRole("list", { name: "list-todo" })
+          await screen.findByRole("list", { name: "list-todo" }),
         ).toBeInTheDocument();
 
         // Then: 表示されるtodosを検証する。
         expect(await screen.findAllByTestId("content-todo")).toHaveLength(
-          count
+          count,
         );
-      }
+      },
     );
 
     test("active と green で絞るとTodoListは0件になる", async () => {
@@ -258,11 +258,11 @@ describe("Todoの件数による表示テスト", () => {
           initColors={[TODO_COLOR.Green]}
         >
           <TodoList />
-        </ProviderWrapper>
+        </ProviderWrapper>,
       );
 
       expect(
-        await screen.findByRole("list", { name: "list-todo" })
+        await screen.findByRole("list", { name: "list-todo" }),
       ).toBeInTheDocument();
 
       // Then: 表示されるtodosを検証する。

@@ -12,9 +12,9 @@ TypeScript + React + Jest + Storybook
 
 ### 実践にあたり参考にしたページ
 
-* [Reactの流儀](https://ja.reactjs.org/docs/thinking-in-react.html)
-* [Redux Foundation](https://redux.js.org/tutorials/fundamentals/part-1-overview) このTodoアプリのデザインを参考に作成
-* [Reactアプリをテスト](https://jestjs.io/ja/docs/tutorial-react)
+- [Reactの流儀](https://ja.reactjs.org/docs/thinking-in-react.html)
+- [Redux Foundation](https://redux.js.org/tutorials/fundamentals/part-1-overview) このTodoアプリのデザインを参考に作成
+- [Reactアプリをテスト](https://jestjs.io/ja/docs/tutorial-react)
 
 ## Available Scripts
 

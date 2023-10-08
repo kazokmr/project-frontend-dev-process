@@ -8,8 +8,11 @@ describe("エラーハンドリングの検証", () => {
     // Given: GET /todos リクエストを受けたらエラーステータスを返す
     server.use(
       rest.get(`${baseUrl}/todos`, (req, res, ctx) =>
-        res(ctx.status(500), ctx.json({ errorMessage: "エラーが発生しました" }))
-      )
+        res(
+          ctx.status(500),
+          ctx.json({ errorMessage: "エラーが発生しました" }),
+        ),
+      ),
     );
 
     // When: GET /todos リクエストを送信する
@@ -17,7 +20,7 @@ describe("エラーハンドリングの検証", () => {
 
     // Then: 例外が返ること
     await expect(client.queryTodos()).rejects.toThrow(
-      new Error("HTTPステータス: 500: エラーが発生しました")
+      new Error("HTTPステータス: 500: エラーが発生しました"),
     );
   });
 });

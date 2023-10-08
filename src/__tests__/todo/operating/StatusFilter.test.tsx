@@ -34,7 +34,7 @@ describe("Radioボタンの初期状態をテストする", () => {
       render(
         <RecoilRoot initializeState={stateInitializer(status)}>
           <StatusFilter />
-        </RecoilRoot>
+        </RecoilRoot>,
       );
 
       // When: Buttonを検索する
@@ -55,7 +55,7 @@ describe("Radioボタンの初期状態をテストする", () => {
       expect(buttonAll).toBeInTheDocument();
       expect(buttonActive).toBeInTheDocument();
       expect(buttonCompleted).toBeInTheDocument();
-    }
+    },
   );
 });
 
@@ -78,7 +78,7 @@ describe("ボタンを押した時の動作を確認する", () => {
       render(
         <RecoilRoot initializeState={stateInitializer(status)}>
           <StatusFilter />
-        </RecoilRoot>
+        </RecoilRoot>,
       );
 
       // When: ボタンを押す
@@ -88,8 +88,8 @@ describe("ボタンを押した時の動作を確認する", () => {
 
       // Then: ボタンが押され、ステータスがセットされること
       expect(
-        await screen.findByRole("radio", { name: filterName, checked: true })
+        await screen.findByRole("radio", { name: filterName, checked: true }),
       ).toBeInTheDocument();
-    }
+    },
   );
 });

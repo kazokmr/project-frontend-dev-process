@@ -54,11 +54,11 @@ describe("未完了のTodo件数を表示する", () => {
       render(
         <QueryClientProvider client={queryClient}>
           <RemainingTodos />
-        </QueryClientProvider>
+        </QueryClientProvider>,
       );
 
       // Then: メッセージが出力されること
       expect(screen.getByText(message)).toBeInTheDocument();
-    }
+    },
   );
 });

@@ -39,11 +39,11 @@ describe("初期選択状態のテスト", () => {
             isCompleted,
             color: TODO_COLOR.None,
           }}
-        />
+        />,
       );
       const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
       expect(checkbox).toBeInTheDocument();
-    }
+    },
   );
 
   test.each`
@@ -72,11 +72,11 @@ describe("初期選択状態のテスト", () => {
             isCompleted: false,
             color: todoColor,
           }}
-        />
+        />,
       );
       const selectBox = screen.getByRole("option", { selected: true });
       expect(selectBox.textContent).toBe(displayValue);
-    }
+    },
   );
 
   test.each`
@@ -96,7 +96,7 @@ describe("初期選択状態のテスト", () => {
           isCompleted: false,
           color: TODO_COLOR.None,
         }}
-      />
+      />,
     );
     // getByTextだとスペースと空文字が特定できないのでtext表示エリアを指定してtextContentで比較する
     const textBox = screen.getByTestId("content-todo");
@@ -123,7 +123,7 @@ describe("Todoのイベントハンドラのテスト", () => {
               isCompleted,
               color: TODO_COLOR.None,
             }}
-          />
+          />,
         );
 
         // When: Todoの完了状況を変更する
@@ -138,7 +138,7 @@ describe("Todoのイベントハンドラのテスト", () => {
           id,
         });
         expect(mockedMutateTodoCompleted).toHaveBeenCalledTimes(1);
-      }
+      },
     );
   });
   describe("TodoのColorタグの変更イベントのテスト", () => {
@@ -174,7 +174,7 @@ describe("Todoのイベントハンドラのテスト", () => {
           color: changingColor,
         });
         expect(mockedMutateTodoChangedColor).toHaveBeenCalledTimes(1);
-      }
+      },
     );
   });
 

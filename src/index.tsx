@@ -32,5 +32,5 @@ root.render(
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </RecoilRoot>
-  </StrictMode>
+  </StrictMode>,
 );

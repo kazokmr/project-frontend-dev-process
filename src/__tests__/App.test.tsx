@@ -11,15 +11,15 @@ describe("Todoアプリ画面の初期レンダリング", () => {
         <QueryClientProvider client={new QueryClient()}>
           <App />
         </QueryClientProvider>
-      </RecoilRoot>
+      </RecoilRoot>,
     );
     // やることの追加フォームの表示
     expect(
-      await screen.findByRole("textbox", { name: "input-todo" })
+      await screen.findByRole("textbox", { name: "input-todo" }),
     ).toBeInTheDocument();
     // やることリストの表示
     expect(
-      await screen.findByRole("list", { name: "list-todo" })
+      await screen.findByRole("list", { name: "list-todo" }),
     ).toBeInTheDocument();
     // やることリストの操作エリアの表示
     const operationTitles = [
@@ -31,7 +31,7 @@ describe("Todoアプリ画面の初期レンダリング", () => {
     (await screen.findAllByRole("heading", { level: 6 })).forEach(
       (value, index) => {
         expect(value.textContent).toBe(operationTitles[index]);
-      }
+      },
     );
   });
 });

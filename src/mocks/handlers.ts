@@ -43,7 +43,7 @@ export const handlers = [
   rest.get<DefaultBodyType, PathParams, Todo[]>(
     `${baseUrl}/todos`,
     (req, res, ctx) =>
-      res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos))
+      res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos)),
   ),
   rest.post<{ text: string }, PathParams, Todo>(
     `${baseUrl}/todo`,
@@ -52,18 +52,18 @@ export const handlers = [
       const todo = new Todo(text);
       mockedTodos = [...mockedTodos, todo];
       return res(ctx.delay(300), ctx.status(200), ctx.json(todo));
-    }
+    },
   ),
   rest.put<DefaultBodyType, { id: string }, Todo>(
     `${baseUrl}/todo/:id/complete`,
     (req, res, ctx) => {
       const { id } = req.params;
       mockedTodos = mockedTodos.map((todo: Todo) =>
-        todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted }
+        todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted },
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
       return res(ctx.delay(300), ctx.status(200));
-    }
+    },
   ),
   rest.put<{ color: TodoColor }, { id: string }, Todo>(
     `${baseUrl}/todo/:id/changeColor`,
@@ -71,11 +71,11 @@ export const handlers = [
       const { id } = req.params;
       const { color }: { color: TodoColor } = await req.json();
       mockedTodos = mockedTodos.map((todo: Todo) =>
-        todo.id !== id ? todo : { ...todo, color }
+        todo.id !== id ? todo : { ...todo, color },
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
       return res(ctx.delay(300), ctx.status(200));
-    }
+    },
   ),
   rest.delete<DefaultBodyType, { id: string }>(
     `${baseUrl}/todo/:id`,
@@ -83,7 +83,7 @@ export const handlers = [
       const { id } = req.params;
       mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
       return res(ctx.delay(300), ctx.status(204));
-    }
+    },
   ),
   rest.put(`${baseUrl}/todo/completeAll`, (req, res, ctx) => {
     mockedTodos = mockedTodos.map((todo: Todo) => ({
@@ -105,7 +105,7 @@ export function setMockedTodo(todos: Todo[]) {
 export const createMockedTodos = (
   numberOfTodos: number,
   isInitCompleted = false,
-  isInitColorTag = false
+  isInitColorTag = false,
 ): Todo[] => {
   let todos: Todo[] = [];
   for (let number = 1; number <= numberOfTodos; number += 1) {

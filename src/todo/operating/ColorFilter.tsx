@@ -48,7 +48,7 @@ const ColorFilter = (): ReactElement => {
                 sx={{ textTransform: "capitalize", color }}
               />
             </ListItem>
-          )
+          ),
         )}
       </List>
     </Container>

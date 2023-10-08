@@ -34,17 +34,17 @@ export const useFilteredTodos = () => {
         (todo: Todo) =>
           status === TODO_STATUS.ALL ||
           (status === TODO_STATUS.COMPLETED && todo.isCompleted) ||
-          (status === TODO_STATUS.ACTIVE && !todo.isCompleted)
+          (status === TODO_STATUS.ACTIVE && !todo.isCompleted),
       )
       .filter(
-        (todo: Todo) => colors.length === 0 || colors.includes(todo.color)
-      )
+        (todo: Todo) => colors.length === 0 || colors.includes(todo.color),
+      ),
   );
 };
 
 export const useRemainingTodos = () =>
   useQueryTodos<number>(
-    (todos: Todo[]) => todos.filter((todo: Todo) => !todo.isCompleted).length
+    (todos: Todo[]) => todos.filter((todo: Todo) => !todo.isCompleted).length,
   );
 
 export const useMutationTodoAdded = () => {
@@ -72,7 +72,7 @@ export const useMutationTodoCompleted = () => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.map((todo: Todo) =>
-        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo,
       );
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };
@@ -92,7 +92,7 @@ export const useMutationTodoChangedColor = () => {
       await queryClient.cancelQueries(["todos"]);
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.map((todo: Todo) =>
-        todo.id === id ? { ...todo, color } : todo
+        todo.id === id ? { ...todo, color } : todo,
       );
       queryClient.setQueryData(["todos"], updater);
       return { oldTodos };

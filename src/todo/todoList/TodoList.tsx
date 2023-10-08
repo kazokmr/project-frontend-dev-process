@@ -9,9 +9,7 @@ const TodoList = (): ReactElement => {
 
   return (
     <List aria-label="list-todo" dense>
-      {data?.map((todo: Todo) => (
-        <TodoItem key={todo.id} todo={todo} />
-      ))}
+      {data?.map((todo: Todo) => <TodoItem key={todo.id} todo={todo} />)}
     </List>
   );
 };
