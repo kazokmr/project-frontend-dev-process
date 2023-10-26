@@ -1,4 +1,4 @@
-import { DefaultBodyType, PathParams, rest } from "msw";
+import { DefaultBodyType, delay, http, HttpResponse, PathParams } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
 import {
   TODO_COLOR,
@@ -40,61 +40,63 @@ let mockedTodos: Todo[] = [
   },
 ];
 export const handlers = [
-  rest.get<DefaultBodyType, PathParams, Todo[]>(
+  http.get<PathParams, DefaultBodyType, Todo[]>(
     `${baseUrl}/todos`,
-    (req, res, ctx) =>
-      res(ctx.delay(300), ctx.status(200), ctx.json(mockedTodos)),
+    async () => {
+      await delay(300);
+      return HttpResponse.json(mockedTodos, { status: 200 });
+    },
   ),
-  rest.post<{ text: string }, PathParams, Todo>(
+  http.post<PathParams, { text: string }, Todo>(
     `${baseUrl}/todo`,
-    async (req, res, ctx) => {
-      const { text }: { text: string } = await req.json();
+    async ({ request }) => {
+      const { text }: { text: string } = await request.json();
       const todo = new Todo(text);
       mockedTodos = [...mockedTodos, todo];
-      return res(ctx.delay(300), ctx.status(200), ctx.json(todo));
+      await delay(300);
+      return HttpResponse.json(todo, { status: 200 });
     },
   ),
-  rest.put<DefaultBodyType, { id: string }, Todo>(
-    `${baseUrl}/todo/:id/complete`,
-    (req, res, ctx) => {
-      const { id } = req.params;
-      mockedTodos = mockedTodos.map((todo: Todo) =>
-        todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted },
-      );
-      // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
-      return res(ctx.delay(300), ctx.status(200));
-    },
-  ),
-  rest.put<{ color: TodoColor }, { id: string }, Todo>(
+  http.put(`${baseUrl}/todo/:id/complete`, async ({ params }) => {
+    const { id } = params;
+    mockedTodos = mockedTodos.map((todo: Todo) =>
+      todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted },
+    );
+    // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
+    await delay(300);
+    return HttpResponse.json("", { status: 200 });
+  }),
+  http.put<PathParams, { color: TodoColor }>(
     `${baseUrl}/todo/:id/changeColor`,
-    async (req, res, ctx) => {
-      const { id } = req.params;
-      const { color }: { color: TodoColor } = await req.json();
+    async ({ request, params }) => {
+      const { id } = params;
+      const { color }: { color: TodoColor } = await request.json();
       mockedTodos = mockedTodos.map((todo: Todo) =>
         todo.id !== id ? todo : { ...todo, color },
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
-      return res(ctx.delay(300), ctx.status(200));
+      await delay(300);
+      return HttpResponse.json("", { status: 200 });
     },
   ),
-  rest.delete<DefaultBodyType, { id: string }>(
-    `${baseUrl}/todo/:id`,
-    (req, res, ctx) => {
-      const { id } = req.params;
-      mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
-      return res(ctx.delay(300), ctx.status(204));
-    },
-  ),
-  rest.put(`${baseUrl}/todo/completeAll`, (req, res, ctx) => {
+  http.delete(`${baseUrl}/todo/:id`, async ({ params }) => {
+    const { id } = params;
+    mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
+    await delay(300);
+    return HttpResponse.json("", { status: 204 });
+  }),
+  http.put(`${baseUrl}/todo/completeAll`, async () => {
     mockedTodos = mockedTodos.map((todo: Todo) => ({
       ...todo,
       isCompleted: true,
     }));
-    return res(ctx.delay(300), ctx.status(200));
+    await delay(300);
+    return HttpResponse.json("", { status: 200 });
   }),
-  rest.put(`${baseUrl}/todo/deleteCompleted`, (req, res, ctx) => {
+  http.put(`${baseUrl}/todo/deleteCompleted`, async () => {
     mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
-    return res(ctx.delay(300), ctx.status(200));
+    await delay(300);
+    return HttpResponse.json("", { status: 200 });
   }),
 ];
 

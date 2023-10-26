@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
 import { RecoilRoot } from "recoil";
@@ -55,12 +55,10 @@ export const Error: Story = {
   parameters: {
     msw: {
       handlers: {
-        todos: rest.get(`${baseUrl}/todos`, (req, res, ctx) =>
-          // return:BAD_REQUEST,
-          res(
-            ctx.delay(0),
-            ctx.status(400),
-            ctx.json({ errorMessage: "これはエラーです" }),
+        todos: http.get(`${baseUrl}/todos`, () =>
+          HttpResponse.json(
+            { errorMessage: "これはエラーです" },
+            { status: 400 },
           ),
         ),
       },
