@@ -64,7 +64,7 @@ export const handlers = [
     );
     // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
     await delay(300);
-    return HttpResponse.json("", { status: 200 });
+    return HttpResponse.json(null, { status: 200 });
   }),
   http.put<PathParams, { color: TodoColor }>(
     `${baseUrl}/todo/:id/changeColor`,
@@ -76,14 +76,14 @@ export const handlers = [
       );
       // const todo = mockedTodos.find((todo: Todo) => todo.id === id);
       await delay(300);
-      return HttpResponse.json("", { status: 200 });
+      return HttpResponse.json(null, { status: 200 });
     },
   ),
   http.delete(`${baseUrl}/todo/:id`, async ({ params }) => {
     const { id } = params;
     mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
     await delay(300);
-    return HttpResponse.json("", { status: 204 });
+    return HttpResponse.json(null, { status: 204 });
   }),
   http.put(`${baseUrl}/todo/completeAll`, async () => {
     mockedTodos = mockedTodos.map((todo: Todo) => ({
@@ -91,12 +91,12 @@ export const handlers = [
       isCompleted: true,
     }));
     await delay(300);
-    return HttpResponse.json("", { status: 200 });
+    return HttpResponse.json(null, { status: 200 });
   }),
   http.put(`${baseUrl}/todo/deleteCompleted`, async () => {
     mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
     await delay(300);
-    return HttpResponse.json("", { status: 200 });
+    return HttpResponse.json(null, { status: 200 });
   }),
 ];
 
