@@ -3,3 +3,4 @@
 /coverage
 /public
 /storybook-static
+jest.polyfills.js

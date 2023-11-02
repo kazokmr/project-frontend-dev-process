@@ -3,10 +3,11 @@ import type { Config } from "jest";
 const config: Config = {
   verbose: true,
   preset: "ts-jest",
-  // testEnvironment: "jsdom",
+  testEnvironment: "jsdom",
   testEnvironmentOptions: {
     customExportConditions: [""],
   },
+  setupFiles: ["./jest.polyfills.js"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testMatch: ["**/__tests__/**/*.test.[tj]s?(x)"],
   coveragePathIgnorePatterns: [

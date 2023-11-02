@@ -83,7 +83,8 @@ export const handlers = [
     const { id } = params;
     mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
     await delay(300);
-    return HttpResponse.json(null, { status: 204 });
+    // Http Status 204 No Content の場合、response body に jsonオブジェクトをセットするとエラーになる
+    return HttpResponse.text(null, { status: 204 });
   }),
   http.put(`${baseUrl}/todo/completeAll`, async () => {
     mockedTodos = mockedTodos.map((todo: Todo) => ({
