@@ -27,4 +27,16 @@ describe("エラーハンドリングの検証", () => {
       new Error("HTTPステータス: 500: エラーが発生しました"),
     );
   });
+  test("ネットワークエラーが発生した場合", async () => {
+    // Given: MSWでネットワークエラーを発生させる
+    server.use(http.get(`${baseUrl}/todos`, () => HttpResponse.error()));
+
+    // When
+    const client: HttpClient = new RestClient();
+
+    // Then
+    await expect(client.queryTodos()).rejects.toThrow(
+      new Error("サーバーエラー: Network Error"),
+    );
+  });
 });
