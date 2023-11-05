@@ -42,9 +42,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  parameters: {
-    storyshots: { disable: true },
-  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await canvas.findByRole("list", { name: "list-todo" });
@@ -63,7 +60,6 @@ export const Error: Story = {
         ),
       },
     },
-    storyshots: { disable: true },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

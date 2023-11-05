@@ -213,9 +213,8 @@ export class TodoListPage {
   private static getContentOfTodoByIndex = async (
     index: number,
   ): Promise<HTMLInputElement | undefined> => {
-    const contents: HTMLInputElement[] = await screen.findAllByTestId(
-      "content-todo",
-    );
+    const contents: HTMLInputElement[] =
+      await screen.findAllByTestId("content-todo");
     return contents[index];
   };
 

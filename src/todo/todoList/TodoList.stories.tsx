@@ -37,9 +37,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  parameters: {
-    storyshots: { disable: true },
-  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await canvas.findAllByTestId("content-todo");

@@ -283,9 +283,8 @@ describe("Todoリストの操作テスト", () => {
       "Todoを追加するとRemaining Todos が$initialCountから１件増えること",
       async ({ initialCount }: { initialCount: number }) => {
         // Given: コンポーネントを出力しTodoを追加する
-        const page: TodoListPage = await TodoListPage.printWithDefaultTodos(
-          initialCount,
-        );
+        const page: TodoListPage =
+          await TodoListPage.printWithDefaultTodos(initialCount);
 
         // When: Todoを追加する
         await page.writeTodo("Remaining Todos が１件増えることを確認する");
@@ -308,9 +307,8 @@ describe("Todoリストの操作テスト", () => {
       "未完了のTodoを削除するとRemaining Todos が$initialCountから１件減ること",
       async ({ initialCount }: { initialCount: number }) => {
         // Given: コンポーネントを出力しTodoを追加する
-        const page: TodoListPage = await TodoListPage.printWithDefaultTodos(
-          initialCount,
-        );
+        const page: TodoListPage =
+          await TodoListPage.printWithDefaultTodos(initialCount);
 
         // When: １番目のTodoを削除する
         await page.deleteTodo(1);
@@ -328,9 +326,8 @@ describe("Todoリストの操作テスト", () => {
       test("Todoを完了するとRemaining Todosの表示件数から除かれること", async () => {
         // Given: コンポーネントを出力しTodoを追加する
         const initialCount = 3;
-        const page: TodoListPage = await TodoListPage.printWithDefaultTodos(
-          initialCount,
-        );
+        const page: TodoListPage =
+          await TodoListPage.printWithDefaultTodos(initialCount);
 
         // When: １番目のTodoを完了済みにする
         await page.completeTodo(1);

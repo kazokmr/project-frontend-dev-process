@@ -6,10 +6,7 @@ import TodoList from "./TodoList";
 import { Todo } from "../model/todo/Todo";
 import { TODO_COLOR, TodoColor } from "../model/filter/TodoColors";
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
-import {
-  colorsFilterState,
-  statusFilterState,
-} from "../hooks/useTodos";
+import { colorsFilterState, statusFilterState } from "../hooks/useTodos";
 import { setMockedTodo } from "../../mocks/handlers";
 
 const stateInitializer =

@@ -2,11 +2,7 @@ import { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
-import {
-  TODO_COLOR,
-  TodoColor,
-  TodoColors,
-} from "../model/filter/TodoColors";
+import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import ColorFilter from "./ColorFilter";
 import { colorsFilterState } from "../hooks/useTodos";
 
