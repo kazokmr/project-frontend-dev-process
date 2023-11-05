@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { server } from "../../../mocks/server";
-import { baseUrl, RestClient } from "../../../todo/client/impl/RestClient";
-import { HttpClient } from "../../../todo/client/HttpClient";
+import { baseUrl, RestClient } from "./RestClient";
+import { HttpClient } from "../HttpClient";
 
 describe("エラーハンドリングの検証", () => {
   test("GETリクエストを送信したらエラーが返って来た場合", async () => {

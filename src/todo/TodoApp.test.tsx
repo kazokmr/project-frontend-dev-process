@@ -1,7 +1,7 @@
-import { TodoListPage } from "../pageObjects/todo/TodoListPage";
-import { Todo } from "../../todo/model/todo/Todo";
-import { TODO_COLOR, TodoColor } from "../../todo/model/filter/TodoColors";
-import { TODO_STATUS, TodoStatus } from "../../todo/model/filter/TodoStatus";
+import { TodoListPage } from "../__tests__/pageObjects/todo/TodoListPage";
+import { Todo } from "./model/todo/Todo";
+import { TODO_COLOR, TodoColor } from "./model/filter/TodoColors";
+import { TODO_STATUS, TodoStatus } from "./model/filter/TodoStatus";
 
 describe("TodoリストにTodoを追加するテスト", () => {
   test.each`

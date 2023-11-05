@@ -1,12 +1,13 @@
+import { vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
-import ActionsForTodos from "../../../todo/operating/ActionsForTodos";
+import ActionsForTodos from "./ActionsForTodos";
 
 // useTodoをMock化し、useMutation().mutateをモック関数で返す
-const mockedMutateCompleteAllTodos: jest.Mock = jest.fn();
-const mockedMutateDeleteCompletedTodos: jest.Mock = jest.fn();
+const mockedMutateCompleteAllTodos = vi.fn();
+const mockedMutateDeleteCompletedTodos = vi.fn();
 
-jest.mock("../../../todo/hooks/useTodos", () => ({
+vi.mock("../hooks/useTodos", () => ({
   useMutationCompleteAllTodos: () => ({
     mutate: mockedMutateCompleteAllTodos,
   }),

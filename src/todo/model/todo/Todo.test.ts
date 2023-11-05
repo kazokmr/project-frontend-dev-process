@@ -1,5 +1,5 @@
-import { Todo } from "../../../../todo/model/todo/Todo";
-import { TODO_COLOR } from "../../../../todo/model/filter/TodoColors";
+import { Todo } from "./Todo";
+import { TODO_COLOR } from "../filter/TodoColors";
 
 describe("Todoの作成テスト", () => {
   test("TodoTextを渡すとIDにULIDをセットしてTodoオブジェクトを作成する", () => {

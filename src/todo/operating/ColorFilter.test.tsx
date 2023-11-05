@@ -6,9 +6,9 @@ import {
   TODO_COLOR,
   TodoColor,
   TodoColors,
-} from "../../../todo/model/filter/TodoColors";
-import ColorFilter from "../../../todo/operating/ColorFilter";
-import { colorsFilterState } from "../../../todo/hooks/useTodos";
+} from "../model/filter/TodoColors";
+import ColorFilter from "./ColorFilter";
+import { colorsFilterState } from "../hooks/useTodos";
 
 // Recoilの初期Stateを渡す関数
 const stateInitializer =

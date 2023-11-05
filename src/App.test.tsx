@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
-import App from "../App";
+import App from "./App";
 
 describe("Todoアプリ画面の初期レンダリング", () => {
   test("Todoアプリ画面を表示する", async () => {

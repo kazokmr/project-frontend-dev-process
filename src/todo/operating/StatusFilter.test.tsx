@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
-import StatusFilter from "../../../todo/operating/StatusFilter";
-import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import { statusFilterState } from "../../../todo/hooks/useTodos";
+import StatusFilter from "./StatusFilter";
+import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
+import { statusFilterState } from "../hooks/useTodos";
 
 const stateInitializer =
   (initialState: TodoStatus = TODO_STATUS.ALL) =>
