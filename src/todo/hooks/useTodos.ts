@@ -1,4 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { atom, useRecoilValue } from "recoil";
 import { Todo } from "../model/todo/Todo";
 import { TodoColor } from "../model/filter/TodoColors";
@@ -18,7 +22,7 @@ export const colorsFilterState = atom<TodoColor[]>({
 const client: HttpClient = new RestClient();
 
 const useQueryTodos = <R>(select?: (data: Todo[]) => R) =>
-  useQuery<Todo[], Error, R>({
+  useSuspenseQuery<Todo[], Error, R>({
     queryKey: ["todos"],
     queryFn: client.queryTodos,
     staleTime: Infinity,
