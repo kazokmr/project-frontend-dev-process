@@ -30,7 +30,7 @@ jobs:
       - name: Run ESLint
         run: pnpm run eslint
 
-      - name: Run Jest
+      - name: Run vitest
         run: pnpm run test
 
       - name: Run Chromatic

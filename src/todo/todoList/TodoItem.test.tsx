@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import TodoItem from "../../../todo/todoList/TodoItem";
-import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
-import { capitalize } from "../../../todo/model/filter/StringCapitalization";
-import { Todo } from "../../../todo/model/todo/Todo";
+import TodoItem from "./TodoItem";
+import { TODO_COLOR, TodoColor } from "../model/filter/TodoColors";
+import { capitalize } from "../model/filter/StringCapitalization";
+import { Todo } from "../model/todo/Todo";
 
 // useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
-const mockedMutateTodoCompleted: jest.Mock = jest.fn();
-const mockedMutateTodoChangedColor: jest.Mock = jest.fn();
-const mockedMutateTodoDeleted: jest.Mock = jest.fn();
-jest.mock("../../../todo/hooks/useTodos", () => ({
+const mockedMutateTodoCompleted = vi.fn();
+const mockedMutateTodoChangedColor = vi.fn();
+const mockedMutateTodoDeleted = vi.fn();
+vi.mock("../hooks/useTodos", () => ({
   useMutationTodoCompleted: () => ({ mutate: mockedMutateTodoCompleted }),
   useMutationTodoChangedColor: () => ({ mutate: mockedMutateTodoChangedColor }),
   useMutationTodoDeleted: () => ({ mutate: mockedMutateTodoDeleted }),

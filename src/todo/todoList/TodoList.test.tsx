@@ -2,15 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MutableSnapshot, RecoilRoot } from "recoil";
 import { ReactNode } from "react";
-import TodoList from "../../../todo/todoList/TodoList";
-import { Todo } from "../../../todo/model/todo/Todo";
-import { TODO_COLOR, TodoColor } from "../../../todo/model/filter/TodoColors";
-import { TODO_STATUS, TodoStatus } from "../../../todo/model/filter/TodoStatus";
-import {
-  colorsFilterState,
-  statusFilterState,
-} from "../../../todo/hooks/useTodos";
-import { setMockedTodo } from "../../../mocks/handlers";
+import TodoList from "./TodoList";
+import { Todo } from "../model/todo/Todo";
+import { TODO_COLOR, TodoColor } from "../model/filter/TodoColors";
+import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
+import { colorsFilterState, statusFilterState } from "../hooks/useTodos";
+import { setMockedTodo } from "../../mocks/handlers";
 
 const stateInitializer =
   (initState: TodoStatus = TODO_STATUS.ALL, initColors: TodoColor[] = []) =>

@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-import-module-exports
-
+// eslint-disable-next-line
 import { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {

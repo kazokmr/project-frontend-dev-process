@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import RemainingTodos from "../../../todo/operating/RemainingTodos";
-import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
-import { Todo } from "../../../todo/model/todo/Todo";
+import RemainingTodos from "./RemainingTodos";
+import { TODO_COLOR } from "../model/filter/TodoColors";
+import { Todo } from "../model/todo/Todo";
 
 const activeTodo1: Todo = {
   id: "1",

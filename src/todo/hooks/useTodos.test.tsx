@@ -14,10 +14,10 @@ import {
   useMutationTodoChangedColor,
   useMutationTodoCompleted,
   useMutationTodoDeleted,
-} from "../../../todo/hooks/useTodos";
-import { Todo } from "../../../todo/model/todo/Todo";
-import { TODO_COLOR } from "../../../todo/model/filter/TodoColors";
-import { setMockedTodo } from "../../../mocks/handlers";
+} from "./useTodos";
+import { Todo } from "../model/todo/Todo";
+import { TODO_COLOR } from "../model/filter/TodoColors";
+import { setMockedTodo } from "../../mocks/handlers";
 
 // Testデータ
 const testTodos: Todo[] = [

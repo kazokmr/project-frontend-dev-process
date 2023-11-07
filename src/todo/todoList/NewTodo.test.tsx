@@ -1,6 +1,7 @@
+import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import NewTodo from "../../../todo/todoList/NewTodo";
+import NewTodo from "./NewTodo";
 
 const typeTodo = async (textBox: HTMLElement, todoText: string) => {
   const user = userEvent.setup();
@@ -16,8 +17,8 @@ const submitInputTodo = async (textBox: HTMLElement, todoText: string) => {
 };
 
 // useTodoをMock化し、useMutationTodoAdded().mutateをモック関数で返す
-const mockedMutate: jest.Mock = jest.fn();
-jest.mock("../../../todo/hooks/useTodos", () => ({
+const mockedMutate = vi.fn();
+vi.mock("../hooks/useTodos", () => ({
   useMutationTodoAdded: () => ({ mutate: mockedMutate }),
 }));
 

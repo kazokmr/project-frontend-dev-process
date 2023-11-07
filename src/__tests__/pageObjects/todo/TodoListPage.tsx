@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-standalone-expect */
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -214,9 +213,8 @@ export class TodoListPage {
   private static getContentOfTodoByIndex = async (
     index: number,
   ): Promise<HTMLInputElement | undefined> => {
-    const contents: HTMLInputElement[] = await screen.findAllByTestId(
-      "content-todo",
-    );
+    const contents: HTMLInputElement[] =
+      await screen.findAllByTestId("content-todo");
     return contents[index];
   };
 
