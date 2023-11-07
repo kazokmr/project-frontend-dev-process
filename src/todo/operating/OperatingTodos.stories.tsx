@@ -15,13 +15,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (story) => {
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            suspense: false,
-          },
-        },
-      });
+      const queryClient = new QueryClient();
       return (
         <RecoilRoot>
           <QueryClientProvider client={queryClient}>
