@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import {
   QueryClient,
   QueryClientProvider,
-  UseQueryResult,
+  UseSuspenseQueryResult,
 } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
@@ -70,7 +70,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      cacheTime: Infinity,
+      gcTime: Infinity,
       staleTime: Infinity,
     },
   },
@@ -94,7 +94,7 @@ describe("React QueryによるServerState管理", () => {
   describe("useTodoQueryのテスト", () => {
     test("バックエンドAPIを使いTodoリストが取得できること", async () => {
       // When: 全てのTodoを検索する
-      const { result } = renderHook<UseQueryResult, unknown>(
+      const { result } = renderHook<UseSuspenseQueryResult, unknown>(
         () => useFilteredTodos(),
         { wrapper },
       );
@@ -109,10 +109,10 @@ describe("React QueryによるServerState管理", () => {
   describe("useMutationTodoのテスト", () => {
     test("Todoを追加するとTodoリストを再フェッチする", async () => {
       // Given: 検証用のuseQueryTodoカスタムフックを出力する
-      const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-        () => useFilteredTodos(),
-        { wrapper },
-      );
+      const { result: resultQuery } = renderHook<
+        UseSuspenseQueryResult,
+        unknown
+      >(() => useFilteredTodos(), { wrapper });
       await waitFor(() => expect(resultQuery.current.isSuccess).toBeTruthy());
       expect(resultQuery.current.data).toHaveLength(7);
 
@@ -143,10 +143,10 @@ describe("React QueryによるServerState管理", () => {
 
     test("指定したIDのTodoをCompletedにする", async () => {
       // Given: 検証用のuseQueryTodoカスタムフックを出力する
-      const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
-        () => useFilteredTodos(),
-        { wrapper },
-      );
+      const { result: resultQuery } = renderHook<
+        UseSuspenseQueryResult,
+        unknown
+      >(() => useFilteredTodos(), { wrapper });
       // 最初は未完了であることを確認する
       await waitFor(() => expect(resultQuery.current.isSuccess).toBeTruthy());
       const before: Todo[] = resultQuery.current.data as Todo[];
@@ -172,7 +172,7 @@ describe("React QueryによるServerState管理", () => {
 
   test("指定したIDのTodoのColorを変更する", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
-    const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
+    const { result: resultQuery } = renderHook<UseSuspenseQueryResult, unknown>(
       () => useFilteredTodos(),
       { wrapper },
     );
@@ -198,7 +198,7 @@ describe("React QueryによるServerState管理", () => {
 
   test("指定したIDのTodoをリストから削除する", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
-    const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
+    const { result: resultQuery } = renderHook<UseSuspenseQueryResult, unknown>(
       () => useFilteredTodos(),
       { wrapper },
     );
@@ -223,7 +223,7 @@ describe("React QueryによるServerState管理", () => {
 
   test("全てのTodoを完了済みにする", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
-    const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
+    const { result: resultQuery } = renderHook<UseSuspenseQueryResult, unknown>(
       () => useFilteredTodos(),
       { wrapper },
     );
@@ -247,7 +247,7 @@ describe("React QueryによるServerState管理", () => {
 
   test("完了済みのTodoをリストから削除する", async () => {
     // Given: 検証用のuseQueryTodoカスタムフックを出力する
-    const { result: resultQuery } = renderHook<UseQueryResult, unknown>(
+    const { result: resultQuery } = renderHook<UseSuspenseQueryResult, unknown>(
       () => useFilteredTodos(),
       { wrapper },
     );

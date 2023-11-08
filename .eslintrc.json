@@ -24,7 +24,11 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "@tanstack/query"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint"
+  ],
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
@@ -45,12 +49,17 @@
       }
     ],
     "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/prefer-query-object-syntax": "error"
+    "@tanstack/query/no-rest-destructuring": "warn",
+    "@tanstack/query/stable-query-client": "error"
   },
   "overrides": [
     {
-      "files": ["**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
-      "extends": ["plugin:storybook/recommended"],
+      "files": [
+        "**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)"
+      ],
+      "extends": [
+        "plugin:storybook/recommended"
+      ],
       "rules": {
         "storybook/hierarchy-separator": "error",
         "storybook/default-exports": "off"

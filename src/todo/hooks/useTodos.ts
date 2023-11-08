@@ -1,4 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { atom, useRecoilValue } from "recoil";
 import { Todo } from "../model/todo/Todo";
 import { TodoColor } from "../model/filter/TodoColors";
@@ -18,7 +22,7 @@ export const colorsFilterState = atom<TodoColor[]>({
 const client: HttpClient = new RestClient();
 
 const useQueryTodos = <R>(select?: (data: Todo[]) => R) =>
-  useQuery<Todo[], Error, R>({
+  useSuspenseQuery<Todo[], Error, R>({
     queryKey: ["todos"],
     queryFn: client.queryTodos,
     staleTime: Infinity,
@@ -52,7 +56,7 @@ export const useMutationTodoAdded = () => {
   return useMutation({
     mutationFn: ({ text }: { text: string }) => client.addTodo(text),
     onMutate: async ({ text }: { text: string }) => {
-      await queryClient.cancelQueries(["todos"]);
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = [...oldTodos, new Todo(text)];
       queryClient.setQueryData(["todos"], updater);
@@ -60,7 +64,7 @@ export const useMutationTodoAdded = () => {
     },
     onError: (err, variables, context) =>
       queryClient.setQueryData(["todos"], context?.oldTodos),
-    onSettled: () => queryClient.invalidateQueries(["todos"]),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 };
 
@@ -69,7 +73,7 @@ export const useMutationTodoCompleted = () => {
   return useMutation({
     mutationFn: ({ id }: { id: string }) => client.completeTodo(id),
     onMutate: async ({ id }: { id: string }) => {
-      await queryClient.cancelQueries(["todos"]);
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.map((todo: Todo) =>
         todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo,
@@ -79,7 +83,7 @@ export const useMutationTodoCompleted = () => {
     },
     onError: (err, variables, context) =>
       queryClient.setQueryData(["todos"], context?.oldTodos),
-    onSettled: () => queryClient.invalidateQueries(["todos"]),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 };
 
@@ -89,7 +93,7 @@ export const useMutationTodoChangedColor = () => {
     mutationFn: ({ id, color }: { id: string; color: TodoColor }) =>
       client.changeColor(id, color),
     onMutate: async ({ id, color }: { id: string; color: TodoColor }) => {
-      await queryClient.cancelQueries(["todos"]);
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.map((todo: Todo) =>
         todo.id === id ? { ...todo, color } : todo,
@@ -99,7 +103,7 @@ export const useMutationTodoChangedColor = () => {
     },
     onError: (err, variables, context) =>
       queryClient.setQueryData(["todos"], context?.oldTodos),
-    onSettled: () => queryClient.invalidateQueries(["todos"]),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 };
 
@@ -110,18 +114,18 @@ export const useMutationTodoDeleted = () => {
     mutationFn: ({ id }: { id: string }) => client.deleteTodo(id),
     onMutate: async ({ id }: { id: string }) => {
       // invalidateQueriesからのreFetchで上書きされないようにキャンセルする
-      await queryClient.cancelQueries(["todos"]);
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
       // 更新前データのスナップショットをバックアップする
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       // 期待する結果にClient Cacheを更新する(楽観的アップデート)
       const updater = oldTodos.filter((todo: Todo) => todo.id !== id);
-      queryClient.setQueriesData(["todos"], updater);
+      queryClient.setQueriesData({ queryKey: ["todos"] }, updater);
       // Contextにスナップショットをセットする
       return { oldTodos };
     },
     onError: (error, variables, context) =>
       queryClient.setQueryData(["todos"], context?.oldTodos),
-    onSettled: () => queryClient.invalidateQueries(["todos"]),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 };
 
@@ -130,7 +134,7 @@ export const useMutationCompleteAllTodos = () => {
   return useMutation({
     mutationFn: () => client.completeAllTodos(),
     onMutate: async () => {
-      await queryClient.cancelQueries(["todos"]);
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.map((todo: Todo) => ({
         ...todo,
@@ -141,7 +145,7 @@ export const useMutationCompleteAllTodos = () => {
     },
     onError: (error, variables, context) =>
       queryClient.setQueryData(["todos"], context?.oldTodos),
-    onSettled: () => queryClient.invalidateQueries(["todos"]),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 };
 
@@ -150,7 +154,7 @@ export const useMutationDeleteCompletedTodos = () => {
   return useMutation({
     mutationFn: () => client.deleteCompletedTodos(),
     onMutate: async () => {
-      await queryClient.cancelQueries(["todos"]);
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
       const oldTodos = queryClient.getQueryData<Todo[]>(["todos"]) ?? [];
       const updater = oldTodos.filter((todo: Todo) => !todo.isCompleted);
       queryClient.setQueryData(["todos"], updater);
@@ -158,6 +162,6 @@ export const useMutationDeleteCompletedTodos = () => {
     },
     onError: (error, variables, context) =>
       queryClient.setQueryData(["todos"], context?.oldTodos),
-    onSettled: () => queryClient.invalidateQueries(["todos"]),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 };

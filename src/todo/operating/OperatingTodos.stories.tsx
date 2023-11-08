@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import OperatingTodos from "./OperatingTodos";
 import { TODO_STATUS } from "../model/filter/TodoStatus";
@@ -14,22 +15,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   decorators: [
-    (story) => {
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            suspense: false,
-          },
-        },
-      });
-      return (
-        <RecoilRoot>
-          <QueryClientProvider client={queryClient}>
-            {story()}
-          </QueryClientProvider>
-        </RecoilRoot>
-      );
-    },
+    (story) => (
+      <RecoilRoot>
+        <QueryClientProvider client={new QueryClient()}>
+          <Suspense>{story()}</Suspense>
+        </QueryClientProvider>
+      </RecoilRoot>
+    ),
   ],
   args: {
     numberOfTodos: 1,

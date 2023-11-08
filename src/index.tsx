@@ -12,13 +12,7 @@ if (import.meta.env.DEV) {
   await worker.start();
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true,
-    },
-  },
-});
+const queryClient = new QueryClient();
 const component = document.getElementById("root");
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(component!);

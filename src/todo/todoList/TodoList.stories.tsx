@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
+import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import TodoList from "./TodoList";
 
@@ -12,24 +13,13 @@ const meta = {
     },
   },
   decorators: [
-    (story) => {
-      // useQueryのリトライを無効にする(デフォルトが３回なので）
-      const queryClient = new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            suspense: false,
-          },
-        },
-      });
-      return (
-        <RecoilRoot>
-          <QueryClientProvider client={queryClient}>
-            {story()}
-          </QueryClientProvider>
-        </RecoilRoot>
-      );
-    },
+    (story) => (
+      <RecoilRoot>
+        <QueryClientProvider client={new QueryClient()}>
+          <Suspense>{story()}</Suspense>
+        </QueryClientProvider>
+      </RecoilRoot>
+    ),
   ],
 } satisfies Meta<typeof TodoList>;
 
