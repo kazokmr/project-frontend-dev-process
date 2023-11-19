@@ -1,11 +1,11 @@
 import { StrictMode } from "react";
-import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
 import { CssBaseline } from "@mui/material";
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import "../public/styles/global.css";
 
 if (import.meta.env.DEV) {
   const { worker } = await import("./mocks/browser");

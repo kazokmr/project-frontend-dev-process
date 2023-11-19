@@ -4,6 +4,7 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import NewTodo from "./todoList/NewTodo";
 import TodoList from "./todoList/TodoList";
 import OperatingTodos from "./operating/OperatingTodos";
+import "./TodoApp.module.css";
 
 const FallbackError = ({ error }: FallbackProps) => (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

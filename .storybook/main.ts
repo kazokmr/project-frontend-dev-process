@@ -3,6 +3,11 @@ import { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  previewHead: (head) =>
+    `
+    ${head}
+    <link rel="stylesheet" href="/styles/global.css" />
+    `,
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
