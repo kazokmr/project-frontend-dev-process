@@ -18,6 +18,7 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "html"],
       reportsDirectory: "./coverage",
+      include: ["**/src/**/!(*.stories)*.[jt]s?(x)"],
     },
     setupFiles: ["./vitest.setup.ts"],
   },
