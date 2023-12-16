@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
 import { TODO_COLOR, TodoColor, TodoColors } from "../model/filter/TodoColors";
 import ColorFilter from "./ColorFilter";
@@ -13,16 +13,8 @@ const stateInitializer =
     set<TodoColor[]>(colorsFilterState, initialColors);
 
 // テストコンポーネントに状態管理をセットするWrapper
-const ProviderWrapper = ({
-  children,
-  initialColors,
-}: {
-  children: ReactNode;
-  initialColors: TodoColor[];
-}) => (
-  <RecoilRoot initializeState={stateInitializer(initialColors)}>
-    {children}
-  </RecoilRoot>
+const ProviderWrapper = ({ children, initialColors }: { children: ReactNode; initialColors: TodoColor[] }) => (
+  <RecoilRoot initializeState={stateInitializer(initialColors)}>{children}</RecoilRoot>
 );
 
 describe("カラーフィルターの初期値", () => {
@@ -35,16 +27,12 @@ describe("カラーフィルターの初期値", () => {
     );
 
     // When: フィルタ要素のname配列を取得する
-    const filterNames = screen
-      .getAllByRole("checkbox")
-      .map((e) => e.getAttribute("name"));
+    const filterNames = screen.getAllByRole("checkbox").map((e) => e.getAttribute("name"));
 
     // Then: Noneを除く全ての色が取得できること
     expect(filterNames).not.toContain(TODO_COLOR.None);
     // 同じ条件でソートして配列が一致することを確認する
-    expect(filterNames.sort()).toEqual(
-      TodoColors.filter((color) => color !== TODO_COLOR.None).sort(),
-    );
+    expect(filterNames.sort()).toEqual(TodoColors.filter((color) => color !== TODO_COLOR.None).sort());
   });
 
   test("Noneを除く全てが未選択であること", () => {
@@ -53,9 +41,7 @@ describe("カラーフィルターの初期値", () => {
         <ColorFilter />
       </ProviderWrapper>,
     );
-    expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      TodoColors.length - 1,
-    );
+    expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(TodoColors.length - 1);
   });
 
   test("Stateにセットされている色が初期選択されること", () => {
@@ -66,16 +52,15 @@ describe("カラーフィルターの初期値", () => {
       </ProviderWrapper>,
     );
 
-    expect(
-      screen
-        .getAllByRole("checkbox", { checked: true })
-        .map((e) => e.getAttribute("name")),
-    ).toEqual(["green", "purple"]);
-    expect(
-      screen
-        .getAllByRole("checkbox", { checked: false })
-        .map((e) => e.getAttribute("name")),
-    ).toEqual(["blue", "orange", "red"]);
+    expect(screen.getAllByRole("checkbox", { checked: true }).map((e) => e.getAttribute("name"))).toEqual([
+      "green",
+      "purple",
+    ]);
+    expect(screen.getAllByRole("checkbox", { checked: false }).map((e) => e.getAttribute("name"))).toEqual([
+      "blue",
+      "orange",
+      "red",
+    ]);
   });
 
   test("Stateが未設定ならNoneを除く全てが未選択であること", () => {
@@ -84,9 +69,7 @@ describe("カラーフィルターの初期値", () => {
         <ColorFilter />
       </ProviderWrapper>,
     );
-    expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(
-      TodoColors.length - 1,
-    );
+    expect(screen.getAllByRole("checkbox", { checked: false })).toHaveLength(TodoColors.length - 1);
   });
 });
 
@@ -105,13 +88,7 @@ describe("checkboxの状態管理のテスト", () => {
     ${TODO_COLOR.Red}    | ${true}
   `(
     "選択状況が$isSelectedの$checkColorを選択したら選択状況が変わること",
-    async ({
-      checkColor,
-      isSelected,
-    }: {
-      checkColor: TodoColor;
-      isSelected: boolean;
-    }) => {
+    async ({ checkColor, isSelected }: { checkColor: TodoColor; isSelected: boolean }) => {
       // Given: ColorFilterの初期状態を設定する
       const colors: TodoColor[] = isSelected ? [checkColor] : [];
       render(

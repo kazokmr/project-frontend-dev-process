@@ -18,9 +18,7 @@ export class RestClient implements HttpClient {
           const { errorMessage } = error.response.data as {
             errorMessage: string;
           };
-          throw new Error(
-            `HTTPステータス: ${error.response.status}: ${errorMessage}`,
-          );
+          throw new Error(`HTTPステータス: ${error.response.status}: ${errorMessage}`);
         }
         // Requestを送信したがResponseが返ってこない -> Networkエラー
         if (error.request) {
@@ -35,16 +33,13 @@ export class RestClient implements HttpClient {
     return response.data as Todo;
   };
 
-  completeTodo = (id: string): Promise<void> =>
-    axios.put(`/todo/${id}/complete`);
+  completeTodo = (id: string): Promise<void> => axios.put(`/todo/${id}/complete`);
 
-  changeColor = (id: string, color: TodoColor): Promise<void> =>
-    axios.put(`/todo/${id}/changeColor`, { color });
+  changeColor = (id: string, color: TodoColor): Promise<void> => axios.put(`/todo/${id}/changeColor`, { color });
 
   deleteTodo = (id: string): Promise<void> => axios.delete(`/todo/${id}`);
 
   completeAllTodos = (): Promise<void> => axios.put("/todo/completeAll");
 
-  deleteCompletedTodos = (): Promise<void> =>
-    axios.put("/todo/deleteCompleted");
+  deleteCompletedTodos = (): Promise<void> => axios.put("/todo/deleteCompleted");
 }

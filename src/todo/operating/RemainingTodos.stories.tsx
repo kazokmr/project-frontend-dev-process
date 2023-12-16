@@ -35,11 +35,7 @@ export const Default: Story = {
           },
         ],
       );
-      return (
-        <QueryClientProvider client={queryClient}>
-          {story()}
-        </QueryClientProvider>
-      );
+      return <QueryClientProvider client={queryClient}>{story()}</QueryClientProvider>;
     },
   ],
 };
@@ -50,11 +46,7 @@ export const NoActiveTodo: Story = {
     (story) => {
       queryClient.clear();
       queryClient.setQueryData<Todo[]>(["todos"], []);
-      return (
-        <QueryClientProvider client={queryClient}>
-          {story()}
-        </QueryClientProvider>
-      );
+      return <QueryClientProvider client={queryClient}>{story()}</QueryClientProvider>;
     },
   ],
 };
@@ -81,11 +73,7 @@ export const MultiActiveTodo: Story = {
           },
         ],
       );
-      return (
-        <QueryClientProvider client={queryClient}>
-          {story()}
-        </QueryClientProvider>
-      );
+      return <QueryClientProvider client={queryClient}>{story()}</QueryClientProvider>;
     },
   ],
 };

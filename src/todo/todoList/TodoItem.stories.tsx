@@ -6,13 +6,7 @@ import { Todo } from "../model/todo/Todo";
 
 const meta = {
   component: TodoItem,
-  decorators: [
-    (story) => (
-      <QueryClientProvider client={new QueryClient()}>
-        {story()}
-      </QueryClientProvider>
-    ),
-  ],
+  decorators: [(story) => <QueryClientProvider client={new QueryClient()}>{story()}</QueryClientProvider>],
   parameters: {
     actions: {
       handles: ["click button", "change input", "change select"],

@@ -28,9 +28,7 @@ const meta = {
       });
       return (
         <RecoilRoot>
-          <QueryClientProvider client={queryClient}>
-            {story()}
-          </QueryClientProvider>
+          <QueryClientProvider client={queryClient}>{story()}</QueryClientProvider>
         </RecoilRoot>
       );
     },
@@ -52,10 +50,7 @@ export const Error: Story = {
     msw: {
       handlers: {
         todos: http.get(`${baseUrl}/todos`, () =>
-          HttpResponse.json(
-            { errorMessage: "これはエラーです" },
-            { status: 400 },
-          ),
+          HttpResponse.json({ errorMessage: "これはエラーです" }, { status: 400 }),
         ),
       },
     },

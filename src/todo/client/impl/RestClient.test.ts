@@ -23,9 +23,7 @@ describe("エラーハンドリングの検証", () => {
     const client: HttpClient = new RestClient();
 
     // Then: 例外が返ること
-    await expect(client.queryTodos()).rejects.toThrow(
-      new Error("HTTPステータス: 500: エラーが発生しました"),
-    );
+    await expect(client.queryTodos()).rejects.toThrow(new Error("HTTPステータス: 500: エラーが発生しました"));
   });
   test("ネットワークエラーが発生した場合", async () => {
     // Given: MSWでネットワークエラーを発生させる
@@ -35,8 +33,6 @@ describe("エラーハンドリングの検証", () => {
     const client: HttpClient = new RestClient();
 
     // Then
-    await expect(client.queryTodos()).rejects.toThrow(
-      new Error("サーバーエラー: Network Error"),
-    );
+    await expect(client.queryTodos()).rejects.toThrow(new Error("サーバーエラー: Network Error"));
   });
 });

@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import NewTodo from "./NewTodo";
 
 const typeTodo = async (textBox: HTMLElement, todoText: string) => {
@@ -46,25 +46,22 @@ describe("TextBoxに入力した文字列をTodoにセットする", () => {
     text
     ${"Create Todo"}
     ${"Todo　作成"}
-  `(
-    "Enterキーを押すとTextBoxに入力した $text を引数に関数を呼ぶ",
-    async ({ text }: { text: string }) => {
-      // Given: コンポーネントをレンダリングする
-      render(<NewTodo />);
-      const textBox = screen.getByRole("textbox", { name: "input-todo" });
+  `("Enterキーを押すとTextBoxに入力した $text を引数に関数を呼ぶ", async ({ text }: { text: string }) => {
+    // Given: コンポーネントをレンダリングする
+    render(<NewTodo />);
+    const textBox = screen.getByRole("textbox", { name: "input-todo" });
 
-      // When：ユーザーがTodoを書いてエンターキーを押す
-      await submitInputTodo(textBox, text);
+    // When：ユーザーがTodoを書いてエンターキーを押す
+    await submitInputTodo(textBox, text);
 
-      // Then: useMutation.mutate()を呼び出すこと。
-      expect(mockedMutate).toHaveBeenCalledTimes(1);
-      // useMutation.mutate()のパラメータに入力したテキストオブジェクトが渡される
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(mockedMutate.mock.calls[0][0]).toStrictEqual({ text });
-      // Enterキーを押したらTextBoxの値はクリアされる
-      expect(textBox).toHaveValue("");
-    },
-  );
+    // Then: useMutation.mutate()を呼び出すこと。
+    expect(mockedMutate).toHaveBeenCalledTimes(1);
+    // useMutation.mutate()のパラメータに入力したテキストオブジェクトが渡される
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockedMutate.mock.calls[0][0]).toStrictEqual({ text });
+    // Enterキーを押したらTextBoxの値はクリアされる
+    expect(textBox).toHaveValue("");
+  });
 
   test("Enterを押さなければ関数は呼ばれずtextboxもクリアしない", async () => {
     // Given

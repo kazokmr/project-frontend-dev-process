@@ -8,9 +8,7 @@ const meta = {
   decorators: [
     (story) => (
       <RecoilRoot>
-        <QueryClientProvider client={new QueryClient()}>
-          {story()}
-        </QueryClientProvider>
+        <QueryClientProvider client={new QueryClient()}>{story()}</QueryClientProvider>
       </RecoilRoot>
     ),
   ],

@@ -35,13 +35,7 @@ export const Default: Story = {
       control: { type: "inline-radio" },
     },
     curColors: {
-      options: [
-        TODO_COLOR.Green,
-        TODO_COLOR.Blue,
-        TODO_COLOR.Orange,
-        TODO_COLOR.Purple,
-        TODO_COLOR.Red,
-      ],
+      options: [TODO_COLOR.Green, TODO_COLOR.Blue, TODO_COLOR.Orange, TODO_COLOR.Purple, TODO_COLOR.Red],
       control: { type: "inline-check" },
     },
   },

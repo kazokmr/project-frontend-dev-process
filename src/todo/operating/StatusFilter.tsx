@@ -1,13 +1,6 @@
 import { ChangeEvent, ReactElement } from "react";
 import { useRecoilState } from "recoil";
-import {
-  Container,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography,
-} from "@mui/material";
+import { Container, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { statusFilterState } from "../hooks/useTodos";
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
 
@@ -22,25 +15,11 @@ const StatusFilter = (): ReactElement => {
         </Typography>
         <RadioGroup
           value={status}
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setStatus(event.target.value as TodoStatus)
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setStatus(event.target.value as TodoStatus)}
         >
-          <FormControlLabel
-            control={<Radio />}
-            value={TODO_STATUS.ALL}
-            label={TODO_STATUS.ALL}
-          />
-          <FormControlLabel
-            control={<Radio />}
-            value={TODO_STATUS.ACTIVE}
-            label={TODO_STATUS.ACTIVE}
-          />
-          <FormControlLabel
-            control={<Radio />}
-            value={TODO_STATUS.COMPLETED}
-            label={TODO_STATUS.COMPLETED}
-          />
+          <FormControlLabel control={<Radio />} value={TODO_STATUS.ALL} label={TODO_STATUS.ALL} />
+          <FormControlLabel control={<Radio />} value={TODO_STATUS.ACTIVE} label={TODO_STATUS.ACTIVE} />
+          <FormControlLabel control={<Radio />} value={TODO_STATUS.COMPLETED} label={TODO_STATUS.COMPLETED} />
         </RadioGroup>
       </FormControl>
     </Container>

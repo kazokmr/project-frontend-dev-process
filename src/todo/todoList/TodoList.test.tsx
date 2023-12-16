@@ -39,44 +39,36 @@ beforeEach(() => queryClient.clear());
 
 describe("Todoの件数による表示テスト", () => {
   describe("表示されるTodo件数の検証", () => {
-    const expectTexts: string[] = [
-      "これは１つ目のTodoです",
-      "This is a text in the second row",
-    ];
+    const expectTexts: string[] = ["これは１つ目のTodoです", "This is a text in the second row"];
     test.each`
       text
       ${expectTexts[0]}
       ${expectTexts[1]}
-    `(
-      "Todoが１件で $text を表示すること",
-      async ({ text }: { text: string }) => {
-        // Given: todosをセットする
-        const todos: Todo[] = [
-          {
-            id: "dummy",
-            text,
-            isCompleted: false,
-            color: TODO_COLOR.None,
-          },
-        ];
-        setMockedTodo(todos);
+    `("Todoが１件で $text を表示すること", async ({ text }: { text: string }) => {
+      // Given: todosをセットする
+      const todos: Todo[] = [
+        {
+          id: "dummy",
+          text,
+          isCompleted: false,
+          color: TODO_COLOR.None,
+        },
+      ];
+      setMockedTodo(todos);
 
-        // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
-        render(
-          <ProviderWrapper initColors={[]} initState={TODO_STATUS.ALL}>
-            <TodoList />
-          </ProviderWrapper>,
-        );
-        expect(
-          await screen.findByRole("list", { name: "list-todo" }),
-        ).toBeInTheDocument();
+      // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
+      render(
+        <ProviderWrapper initColors={[]} initState={TODO_STATUS.ALL}>
+          <TodoList />
+        </ProviderWrapper>,
+      );
+      expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
-        // Then: 表示されるtodosを検証する
-        const todoTexts = await screen.findAllByTestId("content-todo");
-        expect(todoTexts).toHaveLength(1);
-        expect(todoTexts[0].textContent).toBe(text);
-      },
-    );
+      // Then: 表示されるtodosを検証する
+      const todoTexts = await screen.findAllByTestId("content-todo");
+      expect(todoTexts).toHaveLength(1);
+      expect(todoTexts[0].textContent).toBe(text);
+    });
 
     test("Todoが2件の場合の表示", async () => {
       // Given: todosをセットする
@@ -102,9 +94,7 @@ describe("Todoの件数による表示テスト", () => {
           <TodoList />
         </ProviderWrapper>,
       );
-      expect(
-        await screen.findByRole("list", { name: "list-todo" }),
-      ).toBeInTheDocument();
+      expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
       // Then: 表示されるtodosを検証する
       const todoTexts = await screen.findAllByTestId("content-todo");
@@ -124,9 +114,7 @@ describe("Todoの件数による表示テスト", () => {
           <TodoList />
         </ProviderWrapper>,
       );
-      expect(
-        await screen.findByRole("list", { name: "list-todo" }),
-      ).toBeInTheDocument();
+      expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
       // Then: Todosが１件も表示されないこと
       const todoTexts = screen.queryAllByTestId("content-todo");
@@ -150,28 +138,23 @@ describe("Todoの件数による表示テスト", () => {
       ${TODO_STATUS.ALL}       | ${9}
       ${TODO_STATUS.ACTIVE}    | ${5}
       ${TODO_STATUS.COMPLETED} | ${4}
-    `(
-      "$statusで絞るとTodoListは$count件になる",
-      async ({ status, count }: { status: TodoStatus; count: number }) => {
-        // Given: todosをセット
-        setMockedTodo(todos);
+    `("$statusで絞るとTodoListは$count件になる", async ({ status, count }: { status: TodoStatus; count: number }) => {
+      // Given: todosをセット
+      setMockedTodo(todos);
 
-        // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
-        render(
-          <ProviderWrapper initState={status} initColors={[]}>
-            <TodoList />
-          </ProviderWrapper>,
-        );
+      // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
+      render(
+        <ProviderWrapper initState={status} initColors={[]}>
+          <TodoList />
+        </ProviderWrapper>,
+      );
 
-        expect(
-          await screen.findByRole("list", { name: "list-todo" }),
-        ).toBeInTheDocument();
+      expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
-        // Then: 表示されるtodosを検証する
-        const todoItems = await screen.findAllByTestId("content-todo");
-        expect(todoItems).toHaveLength(count);
-      },
-    );
+      // Then: 表示されるtodosを検証する
+      const todoItems = await screen.findAllByTestId("content-todo");
+      expect(todoItems).toHaveLength(count);
+    });
 
     test.each`
       colors                                                                                       | count
@@ -180,28 +163,23 @@ describe("Todoの件数による表示テスト", () => {
       ${[TODO_COLOR.Blue]}                                                                         | ${2}
       ${[TODO_COLOR.Green, TODO_COLOR.Blue]}                                                       | ${3}
       ${[TODO_COLOR.Blue, TODO_COLOR.Green, TODO_COLOR.Orange, TODO_COLOR.Purple, TODO_COLOR.Red]} | ${7}
-    `(
-      "$colorsで絞るとTodoListは$count件になる",
-      async ({ colors, count }: { colors: TodoColor[]; count: number }) => {
-        // Given: Todoをセット
-        setMockedTodo(todos);
+    `("$colorsで絞るとTodoListは$count件になる", async ({ colors, count }: { colors: TodoColor[]; count: number }) => {
+      // Given: Todoをセット
+      setMockedTodo(todos);
 
-        // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
-        render(
-          <ProviderWrapper initState={TODO_STATUS.ALL} initColors={colors}>
-            <TodoList />
-          </ProviderWrapper>,
-        );
+      // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
+      render(
+        <ProviderWrapper initState={TODO_STATUS.ALL} initColors={colors}>
+          <TodoList />
+        </ProviderWrapper>,
+      );
 
-        expect(
-          await screen.findByRole("list", { name: "list-todo" }),
-        ).toBeInTheDocument();
+      expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
-        // Then: 表示されるtodosを検証する
-        const todoItems = await screen.findAllByTestId("content-todo");
-        expect(todoItems).toHaveLength(count);
-      },
-    );
+      // Then: 表示されるtodosを検証する
+      const todoItems = await screen.findAllByTestId("content-todo");
+      expect(todoItems).toHaveLength(count);
+    });
 
     test.each`
       status                   | colors                                                                                       | count
@@ -214,15 +192,7 @@ describe("Todoの件数による表示テスト", () => {
       ${TODO_STATUS.COMPLETED} | ${[TODO_COLOR.Blue, TODO_COLOR.Green, TODO_COLOR.Orange, TODO_COLOR.Purple, TODO_COLOR.Red]} | ${3}
     `(
       "$statusと$colorsで絞るとTodoListは$count件になる",
-      async ({
-        status,
-        colors,
-        count,
-      }: {
-        status: TodoStatus;
-        colors: TodoColor[];
-        count: number;
-      }) => {
+      async ({ status, colors, count }: { status: TodoStatus; colors: TodoColor[]; count: number }) => {
         // Given: todosをセット
         setMockedTodo(todos);
 
@@ -233,14 +203,10 @@ describe("Todoの件数による表示テスト", () => {
           </ProviderWrapper>,
         );
 
-        expect(
-          await screen.findByRole("list", { name: "list-todo" }),
-        ).toBeInTheDocument();
+        expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
         // Then: 表示されるtodosを検証する。
-        expect(await screen.findAllByTestId("content-todo")).toHaveLength(
-          count,
-        );
+        expect(await screen.findAllByTestId("content-todo")).toHaveLength(count);
       },
     );
 
@@ -250,17 +216,12 @@ describe("Todoの件数による表示テスト", () => {
 
       // When: コンポーネントを出力し、リストエリアが表示されるまで待つ
       render(
-        <ProviderWrapper
-          initState={TODO_STATUS.ACTIVE}
-          initColors={[TODO_COLOR.Green]}
-        >
+        <ProviderWrapper initState={TODO_STATUS.ACTIVE} initColors={[TODO_COLOR.Green]}>
           <TodoList />
         </ProviderWrapper>,
       );
 
-      expect(
-        await screen.findByRole("list", { name: "list-todo" }),
-      ).toBeInTheDocument();
+      expect(await screen.findByRole("list", { name: "list-todo" })).toBeInTheDocument();
 
       // Then: 表示されるtodosを検証する。
       expect(screen.queryAllByTestId("content-todo")).toHaveLength(0);

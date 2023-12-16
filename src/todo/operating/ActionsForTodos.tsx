@@ -1,9 +1,6 @@
 import { ReactElement } from "react";
 import { Button, Container, Stack, Typography } from "@mui/material";
-import {
-  useMutationCompleteAllTodos,
-  useMutationDeleteCompletedTodos,
-} from "../hooks/useTodos";
+import { useMutationCompleteAllTodos, useMutationDeleteCompletedTodos } from "../hooks/useTodos";
 
 const ActionsForTodos = (): ReactElement => {
   const completeAllTodos = useMutationCompleteAllTodos();

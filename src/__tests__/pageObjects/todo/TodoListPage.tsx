@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import TodoApp from "../../../todo/TodoApp";
@@ -35,17 +35,13 @@ export class TodoListPage {
   }
 
   // コンストラクタを複数設定できないのでStaticイニシャライザを使う
-  static printWithRandomTodos = async (
-    numOfTodos: number,
-  ): Promise<TodoListPage> => {
+  static printWithRandomTodos = async (numOfTodos: number): Promise<TodoListPage> => {
     const todos = createMockedTodos(numOfTodos);
     setMockedTodo(todos);
     return TodoListPage.createPage(todos);
   };
 
-  static printWithDefaultTodos = async (
-    numOfTodos: number,
-  ): Promise<TodoListPage> => {
+  static printWithDefaultTodos = async (numOfTodos: number): Promise<TodoListPage> => {
     const todos = createMockedTodos(numOfTodos, true, true);
     setMockedTodo(todos);
     return TodoListPage.createPage(todos);
@@ -59,17 +55,13 @@ export class TodoListPage {
   private static createPage = async (todos: Todo[]): Promise<TodoListPage> => {
     const page = new TodoListPage();
     await TodoListPage.waitPrintTodos(todos.length);
-    await waitFor(async () =>
-      expect(await TodoListPage.countTodos()).toBe(todos.length),
-    );
+    await waitFor(async () => expect(await TodoListPage.countTodos()).toBe(todos.length));
     return page;
   };
 
   static waitPrintTodos = async (numOfTodos: number) => {
     if (numOfTodos === 0) return;
-    expect(await screen.findAllByTestId("content-todo")).toHaveLength(
-      numOfTodos,
-    );
+    expect(await screen.findAllByTestId("content-todo")).toHaveLength(numOfTodos);
   };
 
   writeTodo = async (inputText: string): Promise<void> => {
@@ -82,30 +74,21 @@ export class TodoListPage {
   };
 
   completeTodo = async (numberOfRow: number): Promise<void> => {
-    const checkComplete = await TodoListPage.getCompletedOfTodoByIndex(
-      numberOfRow - 1,
-    );
+    const checkComplete = await TodoListPage.getCompletedOfTodoByIndex(numberOfRow - 1);
     if (typeof checkComplete === "object") {
       await this.user.click(checkComplete);
     }
   };
 
-  changeColor = async (
-    numberOfRow: number,
-    color: TodoColor,
-  ): Promise<void> => {
-    const colorLabel = await TodoListPage.getColorOfTodoByIndex(
-      numberOfRow - 1,
-    );
+  changeColor = async (numberOfRow: number, color: TodoColor): Promise<void> => {
+    const colorLabel = await TodoListPage.getColorOfTodoByIndex(numberOfRow - 1);
     if (typeof colorLabel === "object") {
       await this.user.selectOptions(colorLabel, color);
     }
   };
 
   deleteTodo = async (numberOfRow: number): Promise<void> => {
-    const deleteTodo = await TodoListPage.getDeleteOfTodoByIndex(
-      numberOfRow - 1,
-    );
+    const deleteTodo = await TodoListPage.getDeleteOfTodoByIndex(numberOfRow - 1);
     if (typeof deleteTodo === "object") {
       await this.user.click(deleteTodo);
     }
@@ -126,25 +109,18 @@ export class TodoListPage {
 
     // Colorフィルタの操作
     const promises: Promise<void>[] = [];
-    colors.forEach((color) =>
-      promises.push(TodoListPage.clickColorFilter(color)),
-    );
+    colors.forEach((color) => promises.push(TodoListPage.clickColorFilter(color)));
     await Promise.all(promises);
   };
 
-  unExtractTodosByColors = async (colors: TodoColor[]) =>
-    this.extractTodosByColors(colors);
+  unExtractTodosByColors = async (colors: TodoColor[]) => this.extractTodosByColors(colors);
 
   markAllCompleted = async () => {
-    await this.user.click(
-      await screen.findByRole("button", { name: "Mark All Completed" }),
-    );
+    await this.user.click(await screen.findByRole("button", { name: "Mark All Completed" }));
   };
 
   clearCompleted = async () => {
-    await this.user.click(
-      await screen.findByRole("button", { name: "Clear Completed" }),
-    );
+    await this.user.click(await screen.findByRole("button", { name: "Clear Completed" }));
   };
 
   static countTodos = async (): Promise<number> => {
@@ -152,9 +128,7 @@ export class TodoListPage {
     return data.childElementCount;
   };
 
-  static isCompletedTodoByRow = async (
-    numberOfRow: number,
-  ): Promise<boolean> => {
+  static isCompletedTodoByRow = async (numberOfRow: number): Promise<boolean> => {
     const color = await this.getCompletedOfTodoByIndex(numberOfRow - 1);
     switch (typeof color) {
       case "object":
@@ -164,9 +138,7 @@ export class TodoListPage {
     }
   };
 
-  static getContentTodoByRow = async (
-    numberOfRow: number,
-  ): Promise<string | null> => {
+  static getContentTodoByRow = async (numberOfRow: number): Promise<string | null> => {
     const contentOfTodo = await this.getContentOfTodoByIndex(numberOfRow - 1);
     if (typeof contentOfTodo === "object") {
       return contentOfTodo.textContent;
@@ -175,18 +147,14 @@ export class TodoListPage {
   };
 
   static getColorOfTodoByRow = async (numberOfRow: number): Promise<string> => {
-    const colorOfTodo = await TodoListPage.getColorOfTodoByIndex(
-      numberOfRow - 1,
-    );
+    const colorOfTodo = await TodoListPage.getColorOfTodoByIndex(numberOfRow - 1);
     if (typeof colorOfTodo === "object") {
       return colorOfTodo.value;
     }
     return "";
   };
 
-  static isContentRemainingTodos = async (
-    numOfUnCompleted: number,
-  ): Promise<boolean> => {
+  static isContentRemainingTodos = async (numOfUnCompleted: number): Promise<boolean> => {
     const suffix = numOfUnCompleted > 1 ? "s" : "";
     const contentText = `${numOfUnCompleted} item${suffix} left`;
     const remainingTodo = await screen.findByTestId("remaining-todos");
@@ -198,48 +166,31 @@ export class TodoListPage {
     return element.checked;
   };
 
-  private static getCompletedOfTodoByIndex = async (
-    index: number,
-  ): Promise<HTMLInputElement | undefined> => {
-    const completedArray: HTMLInputElement[] = await screen.findAllByRole(
-      "checkbox",
-      {
-        name: "todo-isCompleted",
-      },
-    );
+  private static getCompletedOfTodoByIndex = async (index: number): Promise<HTMLInputElement | undefined> => {
+    const completedArray: HTMLInputElement[] = await screen.findAllByRole("checkbox", {
+      name: "todo-isCompleted",
+    });
     return completedArray[index];
   };
 
-  private static getContentOfTodoByIndex = async (
-    index: number,
-  ): Promise<HTMLInputElement | undefined> => {
-    const contents: HTMLInputElement[] =
-      await screen.findAllByTestId("content-todo");
+  private static getContentOfTodoByIndex = async (index: number): Promise<HTMLInputElement | undefined> => {
+    const contents: HTMLInputElement[] = await screen.findAllByTestId("content-todo");
     return contents[index];
   };
 
-  private static getColorOfTodoByIndex = async (
-    index: number,
-  ): Promise<HTMLSelectElement | undefined> => {
-    const colorListBoxes: HTMLSelectElement[] = await screen.findAllByRole(
-      "combobox",
-      { name: "select-todo-color" },
-    );
+  private static getColorOfTodoByIndex = async (index: number): Promise<HTMLSelectElement | undefined> => {
+    const colorListBoxes: HTMLSelectElement[] = await screen.findAllByRole("combobox", { name: "select-todo-color" });
     return colorListBoxes[index];
   };
 
-  private static getDeleteOfTodoByIndex = async (
-    index: number,
-  ): Promise<HTMLButtonElement | undefined> => {
+  private static getDeleteOfTodoByIndex = async (index: number): Promise<HTMLButtonElement | undefined> => {
     const buttons: HTMLButtonElement[] = await screen.findAllByRole("button", {
       name: "delete-todo",
     });
     return buttons[index];
   };
 
-  private static getStatusFilter = async (
-    todoStatus: TodoStatus,
-  ): Promise<HTMLInputElement> =>
+  private static getStatusFilter = async (todoStatus: TodoStatus): Promise<HTMLInputElement> =>
     screen.findByRole("radio", {
       name: new RegExp(`^${todoStatus}$`, "i"),
     });
@@ -251,14 +202,10 @@ export class TodoListPage {
 
   /// 今回の操作で選択状態となるColorフィルターをセットする
   private setFilteredColors = (operatedColors: TodoColor[]) => {
-    this.filteredColors = TodoColors.filter(
-      (color: TodoColor) => color !== "",
-    ).filter(
+    this.filteredColors = TodoColors.filter((color: TodoColor) => color !== "").filter(
       (color: TodoColor) =>
-        (this.filteredColors.includes(color) &&
-          !operatedColors.includes(color)) ||
-        (!this.filteredColors.includes(color) &&
-          operatedColors.includes(color)),
+        (this.filteredColors.includes(color) && !operatedColors.includes(color)) ||
+        (!this.filteredColors.includes(color) && operatedColors.includes(color)),
     );
   };
 }

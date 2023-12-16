@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "engines": {
     "node": "20"
   },
@@ -67,6 +68,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage.enabled",
+    "format": "prettier . --write",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

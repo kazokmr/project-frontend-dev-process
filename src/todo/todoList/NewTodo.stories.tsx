@@ -13,13 +13,7 @@ const meta = {
       handles: ["change"],
     },
   },
-  decorators: [
-    (story) => (
-      <QueryClientProvider client={new QueryClient()}>
-        {story()}
-      </QueryClientProvider>
-    ),
-  ],
+  decorators: [(story) => <QueryClientProvider client={new QueryClient()}>{story()}</QueryClientProvider>],
 } satisfies Meta<typeof NewTodo>;
 
 export default meta;
