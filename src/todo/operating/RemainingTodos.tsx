@@ -10,11 +10,7 @@ const RemainingTodos = (): ReactElement => {
       <Typography variant="subtitle1" gutterBottom>
         Remaining Todos
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontWeight: "bold" }}
-        data-testid="remaining-todos"
-      >
+      <Typography variant="body1" sx={{ fontWeight: "bold" }} data-testid="remaining-todos">
         {`${numOfTodo} item${numOfTodo > 1 ? "s" : ""} left`}
       </Typography>
     </Container>

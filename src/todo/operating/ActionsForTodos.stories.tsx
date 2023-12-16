@@ -4,13 +4,7 @@ import ActionsForTodos from "./ActionsForTodos";
 
 const meta = {
   component: ActionsForTodos,
-  decorators: [
-    (story) => (
-      <QueryClientProvider client={new QueryClient()}>
-        {story()}
-      </QueryClientProvider>
-    ),
-  ],
+  decorators: [(story) => <QueryClientProvider client={new QueryClient()}>{story()}</QueryClientProvider>],
   parameters: {
     controls: {
       hideNoControlsWarning: true,

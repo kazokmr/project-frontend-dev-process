@@ -44,21 +44,18 @@ describe("未完了のTodo件数を表示する", () => {
     ${[activeTodo1, activeTodo2]}               | ${"2 items left"}
     ${[activeTodo1, completeTodo]}              | ${"1 item left"}
     ${[completeTodo]}                           | ${"0 item left"}
-  `(
-    "$todos から件数を' $message 'と出力する",
-    ({ todos, message }: { todos: Todo[]; message: string }) => {
-      // Given: TodoListの状態をqueryClientでキャッシュする
-      queryClient.setQueryData<Todo[]>(["todos"], todos);
+  `("$todos から件数を' $message 'と出力する", ({ todos, message }: { todos: Todo[]; message: string }) => {
+    // Given: TodoListの状態をqueryClientでキャッシュする
+    queryClient.setQueryData<Todo[]>(["todos"], todos);
 
-      // When: コンポーネントを出力する
-      render(
-        <QueryClientProvider client={queryClient}>
-          <RemainingTodos />
-        </QueryClientProvider>,
-      );
+    // When: コンポーネントを出力する
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RemainingTodos />
+      </QueryClientProvider>,
+    );
 
-      // Then: メッセージが出力されること
-      expect(screen.getByText(message)).toBeInTheDocument();
-    },
-  );
+    // Then: メッセージが出力されること
+    expect(screen.getByText(message)).toBeInTheDocument();
+  });
 });

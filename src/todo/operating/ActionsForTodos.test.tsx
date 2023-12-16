@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import ActionsForTodos from "./ActionsForTodos";
 

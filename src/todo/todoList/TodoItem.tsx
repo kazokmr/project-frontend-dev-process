@@ -1,21 +1,9 @@
 import { ChangeEvent, ReactElement } from "react";
-import {
-  capitalize,
-  Checkbox,
-  IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  NativeSelect,
-} from "@mui/material";
+import { capitalize, Checkbox, IconButton, ListItem, ListItemIcon, ListItemText, NativeSelect } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TodoColor, TodoColors } from "../model/filter/TodoColors";
 import { Todo } from "../model/todo/Todo";
-import {
-  useMutationTodoChangedColor,
-  useMutationTodoCompleted,
-  useMutationTodoDeleted,
-} from "../hooks/useTodos";
+import { useMutationTodoChangedColor, useMutationTodoCompleted, useMutationTodoDeleted } from "../hooks/useTodos";
 
 interface TodoItemProps {
   todo: Todo;
@@ -36,11 +24,7 @@ const TodoItem = ({ todo }: TodoItemProps): ReactElement => {
     <ListItem
       key={todo.id}
       secondaryAction={
-        <IconButton
-          edge="end"
-          aria-label="delete-todo"
-          onClick={() => mutateTodoDeleted.mutate({ id: todo.id })}
-        >
+        <IconButton edge="end" aria-label="delete-todo" onClick={() => mutateTodoDeleted.mutate({ id: todo.id })}>
           <DeleteIcon />
         </IconButton>
       }

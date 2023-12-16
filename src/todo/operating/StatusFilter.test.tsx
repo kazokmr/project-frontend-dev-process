@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import { MutableSnapshot, RecoilRoot } from "recoil";
 import StatusFilter from "./StatusFilter";
 import { TODO_STATUS, TodoStatus } from "../model/filter/TodoStatus";
@@ -67,13 +67,7 @@ describe("ボタンを押した時の動作を確認する", () => {
     ${TODO_STATUS.COMPLETED} | ${TODO_STATUS.COMPLETED}
   `(
     "$filterNameボタンを押したら Statusの状態が $statusとなること",
-    async ({
-      filterName,
-      status,
-    }: {
-      filterName: string;
-      status: TodoStatus;
-    }) => {
+    async ({ filterName, status }: { filterName: string; status: TodoStatus }) => {
       // Given: Statusに初期状態を渡す
       render(
         <RecoilRoot initializeState={stateInitializer(status)}>
@@ -87,9 +81,7 @@ describe("ボタンを押した時の動作を確認する", () => {
       await user.click(filter);
 
       // Then: ボタンが押され、ステータスがセットされること
-      expect(
-        await screen.findByRole("radio", { name: filterName, checked: true }),
-      ).toBeInTheDocument();
+      expect(await screen.findByRole("radio", { name: filterName, checked: true })).toBeInTheDocument();
     },
   );
 });

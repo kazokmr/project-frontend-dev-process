@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import TodoItem from "./TodoItem";
 import { TODO_COLOR, TodoColor } from "../model/filter/TodoColors";
 import { capitalize } from "../model/filter/StringCapitalization";
@@ -29,23 +29,20 @@ describe("初期選択状態のテスト", () => {
     isCompleted
     ${false}
     ${true}
-  `(
-    "Todoのcompletedが $isCompleted であること",
-    ({ isCompleted }: { isCompleted: boolean }) => {
-      render(
-        <TodoItem
-          todo={{
-            id: "dummy-id",
-            text: "Test whether todo is checked or not",
-            isCompleted,
-            color: TODO_COLOR.None,
-          }}
-        />,
-      );
-      const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
-      expect(checkbox).toBeInTheDocument();
-    },
-  );
+  `("Todoのcompletedが $isCompleted であること", ({ isCompleted }: { isCompleted: boolean }) => {
+    render(
+      <TodoItem
+        todo={{
+          id: "dummy-id",
+          text: "Test whether todo is checked or not",
+          isCompleted,
+          color: TODO_COLOR.None,
+        }}
+      />,
+    );
+    const checkbox = screen.getByRole("checkbox", { checked: isCompleted });
+    expect(checkbox).toBeInTheDocument();
+  });
 
   test.each`
     todoColor            | displayValue
@@ -58,13 +55,7 @@ describe("初期選択状態のテスト", () => {
     ${undefined}         | ${""}
   `(
     "TodoColorが $todoColor なら SelectBoxは $displayValue が選択される",
-    ({
-      todoColor,
-      displayValue,
-    }: {
-      todoColor: TodoColor;
-      displayValue: string;
-    }) => {
+    ({ todoColor, displayValue }: { todoColor: TodoColor; displayValue: string }) => {
       render(
         <TodoItem
           todo={{
