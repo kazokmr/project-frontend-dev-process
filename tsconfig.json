@@ -7,7 +7,7 @@
     "noUncheckedIndexedAccess": false,
     "strict": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "noEmit": true,
     "allowJs": true,
