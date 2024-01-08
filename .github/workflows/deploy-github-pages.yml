@@ -46,7 +46,7 @@ jobs:
         run: pnpm install
 
       - name: Run ESLint
-        run: pnpm run eslint
+        run: pnpm run lint
 
       - name: Run UnitTest
         run: pnpm run test
