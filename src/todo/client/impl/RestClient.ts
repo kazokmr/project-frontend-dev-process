@@ -4,8 +4,8 @@ import { HttpClient } from "../HttpClient";
 import { Todo } from "../../model/todo/Todo";
 import { TodoColor } from "../../model/filter/TodoColors";
 
-export const baseUrl = "https://example.com";
-axios.defaults.baseURL = baseUrl;
+export const origin = "https://example.com";
+axios.defaults.baseURL = origin;
 
 export class RestClient implements HttpClient {
   queryTodos = async (): Promise<Todo[]> =>

@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { within } from "@storybook/testing-library";
 import { RecoilRoot } from "recoil";
 import TodoApp from "./TodoApp";
-import { baseUrl } from "./client/impl/RestClient";
+import { origin } from "./client/impl/RestClient";
 
 const meta = {
   component: TodoApp,
@@ -49,7 +49,7 @@ export const Error: Story = {
   parameters: {
     msw: {
       handlers: {
-        todos: http.get(`${baseUrl}/todos`, () =>
+        todos: http.get(`${origin}/todos`, () =>
           HttpResponse.json({ errorMessage: "これはエラーです" }, { status: 400 }),
         ),
       },

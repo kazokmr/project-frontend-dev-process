@@ -1,7 +1,7 @@
 import { DefaultBodyType, delay, http, HttpResponse, PathParams } from "msw";
 import { Todo } from "../todo/model/todo/Todo";
 import { TODO_COLOR, TodoColor, TodoColors } from "../todo/model/filter/TodoColors";
-import { baseUrl } from "../todo/client/impl/RestClient";
+import { origin } from "../todo/client/impl/RestClient";
 
 let mockedTodos: Todo[] = [
   {
@@ -36,18 +36,18 @@ let mockedTodos: Todo[] = [
   },
 ];
 export const handlers = [
-  http.get<PathParams, DefaultBodyType, Todo[]>(`${baseUrl}/todos`, async () => {
+  http.get<PathParams, DefaultBodyType, Todo[]>(`${origin}/todos`, async () => {
     await delay(300);
     return HttpResponse.json(mockedTodos, { status: 200 });
   }),
-  http.post<PathParams, { text: string }, Todo>(`${baseUrl}/todo`, async ({ request }) => {
+  http.post<PathParams, { text: string }, Todo>(`${origin}/todo`, async ({ request }) => {
     const { text }: { text: string } = await request.json();
     const todo = new Todo(text);
     mockedTodos = [...mockedTodos, todo];
     await delay(300);
     return HttpResponse.json(todo, { status: 200 });
   }),
-  http.put(`${baseUrl}/todo/:id/complete`, async ({ params }) => {
+  http.put(`${origin}/todo/:id/complete`, async ({ params }) => {
     const { id } = params;
     mockedTodos = mockedTodos.map((todo: Todo) =>
       todo.id !== id ? todo : { ...todo, isCompleted: !todo.isCompleted },
@@ -55,21 +55,21 @@ export const handlers = [
     await delay(300);
     return new HttpResponse(null, { status: 200 });
   }),
-  http.put<PathParams, { color: TodoColor }>(`${baseUrl}/todo/:id/changeColor`, async ({ request, params }) => {
+  http.put<PathParams, { color: TodoColor }>(`${origin}/todo/:id/changeColor`, async ({ request, params }) => {
     const { id } = params;
     const { color }: { color: TodoColor } = await request.json();
     mockedTodos = mockedTodos.map((todo: Todo) => (todo.id !== id ? todo : { ...todo, color }));
     await delay(300);
     return new HttpResponse(null, { status: 200 });
   }),
-  http.delete(`${baseUrl}/todo/:id`, async ({ params }) => {
+  http.delete(`${origin}/todo/:id`, async ({ params }) => {
     const { id } = params;
     mockedTodos = mockedTodos.filter((todo: Todo) => todo.id !== id);
     await delay(300);
     // Http Status 204 No Content の場合、response body に jsonオブジェクトをセットするとエラーになる
     return new HttpResponse(null, { status: 204 });
   }),
-  http.put(`${baseUrl}/todo/completeAll`, async () => {
+  http.put(`${origin}/todo/completeAll`, async () => {
     mockedTodos = mockedTodos.map((todo: Todo) => ({
       ...todo,
       isCompleted: true,
@@ -77,7 +77,7 @@ export const handlers = [
     await delay(300);
     return new HttpResponse(null, { status: 200 });
   }),
-  http.put(`${baseUrl}/todo/deleteCompleted`, async () => {
+  http.put(`${origin}/todo/deleteCompleted`, async () => {
     mockedTodos = mockedTodos.filter((todo: Todo) => !todo.isCompleted);
     await delay(300);
     return new HttpResponse(null, { status: 200 });
