@@ -3,13 +3,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [react()],
-  build: {
-    target: "esnext",
-    outDir: "dist",
-    assetsDir: "static",
-    minify: true,
-    sourcemap: false,
-  },
+  build: {},
   test: {
     globals: true,
     environment: "jsdom",
