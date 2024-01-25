@@ -19,32 +19,8 @@ export const parameters = {
 
 export const loaders = [mswLoader];
 
-let options = {};
-
-switch (location.host) {
-  // Production (assetsをGithubPagesから提供）
-  case "kazokmr.github.io":
-    options = {
-      serviceWorker: {
-        url: "/project-frontend-dev-process/mockServiceWorker.js",
-      },
-    };
-    break;
-  // Preview (assetsをローカルのIntelliJ組み込みWebサーバーから提供)
-  case "localhost:63342":
-    options = {
-      serviceWorker: {
-        url: "/project-frontend-dev-process/storybook-static/mockServiceWorker.js",
-      },
-    };
-    break;
-  // Dev (storybook dev で起動)
-  default:
-    options = {
-      serviceWorker: {
-        url: "./mockServiceWorker.js",
-      },
-    };
-}
-
-initialize(options);
+initialize({
+  serviceWorker: {
+    url: "./mockServiceWorker.js",
+  },
+});
