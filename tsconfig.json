@@ -19,12 +19,12 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "target": "ESNext",
     "skipLibCheck": true,
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals"]
   },
   "include": ["./*.ts", "./src/**/*.ts", "./src/**/*.tsx", ".storybook/*.ts"],
   "references": [
     {
-      "path": "./tsconfig.node.json",
-    },
-  ],
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
