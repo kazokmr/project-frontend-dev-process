@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { http, HttpResponse } from "msw";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { within } from "@storybook/testing-library";
+import { within } from "@storybook/test";
 import { RecoilRoot } from "recoil";
 import TodoApp from "./TodoApp";
 import { origin } from "./client/impl/RestClient";
