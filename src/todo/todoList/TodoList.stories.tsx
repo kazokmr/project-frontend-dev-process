@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { within } from "@storybook/testing-library";
+import { within } from "@storybook/test";
 import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import TodoList from "./TodoList";
