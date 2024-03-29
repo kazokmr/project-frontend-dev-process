@@ -64,6 +64,10 @@
         "storybook/hierarchy-separator": "error",
         "storybook/default-exports": "off"
       }
+    },
+    {
+      "extends": ["plugin:@typescript-eslint/disable-type-checked"],
+      "files": ["./vite.config.ts", "./vitest.setup.ts"]
     }
   ]
 }
