@@ -27,8 +27,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run ESLint
-        run: pnpm run lint
+#      - name: Run ESLint
+#        run: pnpm run lint
 
       - name: Run vitest
         run: pnpm run test

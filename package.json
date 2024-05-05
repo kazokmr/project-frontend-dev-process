@@ -24,6 +24,7 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.2.0",
     "@storybook/addon-a11y": "^8.0.9",
     "@storybook/addon-actions": "^8.0.9",
     "@storybook/addon-essentials": "^8.0.9",
@@ -53,12 +54,14 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-testing-library": "^6.2.0",
+    "globals": "^15.1.0",
     "jsdom": "^24.0.0",
     "msw": "^2.2.13",
     "msw-storybook-addon": "^2.0.1",
     "prettier": "^3.2.5",
     "storybook": "^8.0.9",
     "typescript": "^5.4.3",
+    "typescript-eslint": "^7.8.0",
     "vite": "^5.2.11",
     "vitest": "1.6.0"
   },
@@ -69,7 +72,7 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "format": "prettier . --write",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
