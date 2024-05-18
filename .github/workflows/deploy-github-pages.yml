@@ -45,8 +45,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-#      - name: Run ESLint
-#        run: pnpm run lint
+      #      - name: Run ESLint
+      #        run: pnpm run lint
 
       - name: Run UnitTest
         run: pnpm run test
